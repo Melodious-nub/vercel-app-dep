@@ -52,7 +52,7 @@ import { DataService } from 'src/app/services/data.service';
 ]
 })
 export class CompanyComponent implements OnInit {
-  employeesList = [];
+  employeesList:any = [];
 
   // links: Link[] = [
   //   {
@@ -110,14 +110,119 @@ export class CompanyComponent implements OnInit {
   toppingList: string[] = ['Java team', 'Management team', 'Angular team', 'SQA team', 'Marketing team', 'DevOps team'];
 
   fetchAllEmployee() {
-    this.api.getAllEmployee().subscribe({
-      next: (response) => {
-        this.employeesList = response;
-        // console.log('employee list called', this.employeesList);
+    // this.api.getAllEmployee().subscribe({
+    //   next: (response) => {
+    //     this.employeesList = response;
+    //     // console.log('employee list called', this.employeesList);
+    //   },
+    //   error: (error) => {
+    //     console.log(error, 'error log');
+    //   }
+    // });
+    this.employeesList = [
+      {
+          "id": "1",
+          "name": "Shawon",
+          "phone": "01717876545",
+          "designation": "Software Developer",
+          "email": "shawon@gmail.com",
+          "startDate": "2024-10-10"
       },
-      error: (error) => {
-        console.log(error, 'error log');
-      }
-    });
+      {
+          "id": "2",
+          "name": "Shawon",
+          "phone": "01717876545",
+          "designation": "Software Developer",
+          "email": "shawon@gmail.com",
+          "startDate": "2024-10-10"
+      },
+      {
+          "id": "3",
+          "name": "string",
+          "phone": "string",
+          "designation": "string",
+          "email": "string",
+          "startDate": "2024-11-29"
+      },
+      {
+          "id": "4",
+          "name": "Hudai",
+          "phone": "01717876545",
+          "designation": "Ui",
+          "email": "shawon@gmail.com",
+          "startDate": "2024-10-10"
+      },
+      {
+          "id": "5",
+          "name": "Hudai",
+          "phone": "01717876545",
+          "designation": "Ui",
+          "email": "shawon@gmail.com",
+          "startDate": "2024-10-10"
+      },
+      {
+          "id": "6",
+          "name": "Dummy account 1",
+          "phone": "018364634573",
+          "designation": "None",
+          "email": "string@string.com",
+          "startDate": "2024-10-10"
+      },
+      {
+          "id": "7",
+          "name": "Test 10",
+          "phone": "82636455346",
+          "designation": "Test de",
+          "email": "test@test.com",
+          "startDate": "2024-11-30"
+      },
+      {
+          "id": "8",
+          "name": "Test 11",
+          "phone": "82636455346",
+          "designation": "Test de",
+          "email": "test@test.com",
+          "startDate": "2024-11-30"
+      },
+      {
+          "id": "9",
+          "name": "Test 12",
+          "phone": "12534235126",
+          "designation": "Test de",
+          "email": "test@test.com",
+          "startDate": "2024-12-02"
+      },
+      {
+          "id": "10",
+          "name": "Kashem Talukder",
+          "phone": "01686346809",
+          "designation": "Engineer",
+          "email": "shawon@sumations.com",
+          "startDate": "2024-12-02"
+      },
+      {
+          "id": "11",
+          "name": "Kashem Talukder 4",
+          "phone": "87435482794",
+          "designation": "Engineer",
+          "email": "shawon@sumations.com",
+          "startDate": "2024-12-01"
+      },
+      {
+          "id": "12",
+          "name": "Test 2.0",
+          "phone": "864634245526",
+          "designation": "Engineer",
+          "email": "shawon@sumations.com",
+          "startDate": "2024-11-30"
+      },
+      {
+          "id": "13",
+          "name": "Kashem Talukder 8",
+          "phone": "8654368736",
+          "designation": "Engineer",
+          "email": "shawon@sumations.com",
+          "startDate": "2024-11-30"
+      }];
   }
 }

@@ -169,42 +169,43 @@ export class CreateEmployeeComponent {
 
   onEmployeeCreate(stepper: MatStepper) {
     if (this.firstFormGroup.valid) {
+      stepper.next();
       // Get form data
-      const employeeData = this.firstFormGroup.value;
+    //   const employeeData = this.firstFormGroup.value;
   
-      // Format startDate
-      if (employeeData.startDate) {
-        employeeData.startDate = new Date(employeeData.startDate).toISOString().split('T')[0]; // Format as YYYY-MM-DD
-      }
+    //   // Format startDate
+    //   if (employeeData.startDate) {
+    //     employeeData.startDate = new Date(employeeData.startDate).toISOString().split('T')[0]; // Format as YYYY-MM-DD
+    //   }
   
-      // console.log(employeeData);
+    //   // console.log(employeeData);
   
-      // Simulate API call for employee creation
-      this.api.createEmployee(employeeData).subscribe({
-        next: (response) => {
-          this.creadtedAcoountId = response.id;
-          // console.log(this.creadtedAcoountId, 'created id');
+    //   // Simulate API call for employee creation
+    //   this.api.createEmployee(employeeData).subscribe({
+    //     next: (response) => {
+    //       this.creadtedAcoountId = response.id;
+    //       // console.log(this.creadtedAcoountId, 'created id');
   
-          // Show success message
-          this.snackbar.open('Employee created successfully!', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
+    //       // Show success message
+    //       this.snackbar.open('Employee created successfully!', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
 
-          // Call the parent's fetchAllEmployee method
-          if (this.data?.refreshEmployees) {
-            this.data.refreshEmployees();
-          }
+    //       // Call the parent's fetchAllEmployee method
+    //       if (this.data?.refreshEmployees) {
+    //         this.data.refreshEmployees();
+    //       }
   
-          // Go to the next step
-          stepper.next();
-        },
-        error: (error) => {
-          // Show error message
-          this.snackbar.open('Failed to create employee. Please try again.', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
-        },
-      });
-    } else {
-      // Mark all fields as touched to show validation errors
-      this.firstFormGroup.markAllAsTouched();
-      this.snackbar.open('Please fill in all required fields.', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
+    //       // Go to the next step
+    //       stepper.next();
+    //     },
+    //     error: (error) => {
+    //       // Show error message
+    //       this.snackbar.open('Failed to create employee. Please try again.', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
+    //     },
+    //   });
+    // } else {
+    //   // Mark all fields as touched to show validation errors
+    //   this.firstFormGroup.markAllAsTouched();
+    //   this.snackbar.open('Please fill in all required fields.', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
     }
   }  
 
@@ -233,18 +234,19 @@ export class CreateEmployeeComponent {
       const employeeId = this.creadtedAcoountId;
       // console.log(employeeAccountSettingData, employeeId, "employeeAccountSettingData");
 
-      this.api.createdEmployeeAcoountSetting(employeeAccountSettingData, employeeId).subscribe({
-        next: (response) => {
-          // Show success message
-          this.snackbar.open('Employee setting added successfully!', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
-          // console.log(response, 'final res');
-          this.close();
-        }, error: (error) => {
-          // Show error message
-          this.snackbar.open('Server error!', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
-          this.close();
-        }
-      })
+      // this.api.createdEmployeeAcoountSetting(employeeAccountSettingData, employeeId).subscribe({
+      //   next: (response) => {
+      //     // Show success message
+      //     this.snackbar.open('Employee setting added successfully!', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
+      //     // console.log(response, 'final res');
+      //     this.close();
+      //   }, error: (error) => {
+      //     // Show error message
+      //     this.snackbar.open('Server error!', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
+      //     this.close();
+      //   }
+      // })
     }
+    this.close();
   }
 }
