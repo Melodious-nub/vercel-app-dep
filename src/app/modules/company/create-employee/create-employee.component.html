@@ -1,0 +1,190 @@
+<mat-stepper linear #stepper>
+    <ng-template matStepperIcon="edit">
+        <mat-icon svgIcon="mat:done_all"></mat-icon>
+        </ng-template>
+
+        <ng-template matStepperIcon="done">
+        <mat-icon svgIcon="mat:done_all"></mat-icon>
+    </ng-template>
+    <!-- First Step -->
+    <mat-step [stepControl]="firstFormGroup" [editable]="true">
+      <mat-dialog-content class="mat-typography">
+      <form [formGroup]="firstFormGroup" class="row">
+        <ng-template matStepLabel>Add new employee</ng-template>
+  
+        <!-- Image Upload -->
+        <div class="profile-container mb-2">
+          <div class="profile-picture" [style.background-image]="profilePic ? 'url(' + profilePic + ')' : null">
+            <button type="button" mat-icon-button class="upload-btn" (click)="fileInput.click()">
+              <mat-icon svgIcon="mat:add_a_photo"></mat-icon>
+            </button>
+            <input type="file" (change)="onFileSelected($event)" hidden #fileInput accept="image/*" />
+          </div>
+        </div>
+  
+        <!-- Name -->
+        <mat-form-field appearance="outline" class="col-md-6">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" placeholder="Full name" required>
+        </mat-form-field>
+  
+        <!-- Phone -->
+        <mat-form-field appearance="outline" class="col-md-6">
+          <mat-label>Phone</mat-label>
+          <input matInput formControlName="phone" placeholder="Phone number" required>
+        </mat-form-field>
+  
+        <!-- Designation -->
+        <mat-form-field appearance="outline" class="col-md-6">
+          <mat-label>Designation</mat-label>
+          <input matInput formControlName="designation" placeholder="Designation" required>
+        </mat-form-field>
+  
+        <!-- Email -->
+        <mat-form-field appearance="outline" class="col-md-6">
+          <mat-label>Work email</mat-label>
+          <input matInput formControlName="email" placeholder="Email" required type="email">
+          <mat-error *ngIf="firstFormGroup.get('email')?.hasError('email')">
+            Please enter a valid email.
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Date Picker -->
+        <mat-form-field appearance="outline" class="col-md-12">
+            <mat-label>Employee start date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="startDate" required>
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="firstFormGroup.get('startDate')?.hasError('required') && firstFormGroup.get('startDate')?.touched">Date is required.</mat-error>
+        </mat-form-field>
+  
+        <!-- Buttons -->
+        <div class="actions flex items-center justify-end gap-2">
+          <!-- Close Button -->
+          <button mat-raised-button color="warn" (click)="close()">Close</button>
+          <!-- Next Button -->
+          <button mat-raised-button (click)="onEmployeeCreate(stepper)">Create & next</button>
+        </div>
+      </form>
+    </mat-dialog-content>
+    </mat-step>
+  
+<!-- Second Step -->
+<mat-step [stepControl]="secondFormGroup" [editable]="true">
+  <mat-dialog-content class="mat-typography">
+    <form [formGroup]="secondFormGroup" class="row">
+      <ng-template matStepLabel>Account setting</ng-template>
+  
+      <div @fadeInUp class="flex-auto">
+        <div class="flex flex-col">
+          <p class="mt-0" style="font-weight: 500;">
+            Select which policies employee is entitled to
+          </p>
+  
+          <div class="flex flex-col">
+            <mat-checkbox formControlName="isHoliday" color="primary">Holiday</mat-checkbox>
+            <mat-checkbox formControlName="isSickDay" color="primary">Sickday</mat-checkbox>
+            <mat-checkbox formControlName="isBusinessTrip" color="primary">Business trip</mat-checkbox>
+            <mat-checkbox formControlName="isConference" color="primary">Conference</mat-checkbox>
+            <mat-checkbox formControlName="isWorkFromHome" color="primary">Work from home</mat-checkbox>
+          </div>
+        </div>
+      </div>
+  
+      <!-- New Select for Position -->
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Position</mat-label>
+        <mat-select formControlName="position" required>
+          <mat-option *ngFor="let pos of positions" [value]="pos">{{ pos }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <!-- New Input for Onboarding Mentor -->
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Onboarding Mentor</mat-label>
+        <input matInput formControlName="onboardingMentor" placeholder="Mentor name" required>
+      </mat-form-field>
+  
+      <!-- New Input for Direct Manager -->
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Direct Manager</mat-label>
+        <input matInput formControlName="directManager" placeholder="Manager name" required>
+      </mat-form-field>
+  
+      <!-- New Select for Team -->
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Team</mat-label>
+        <mat-select formControlName="team" required>
+          <mat-option *ngFor="let team of teams" [value]="team">{{ team }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <!-- New Select for Location -->
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Location</mat-label>
+        <mat-select formControlName="location" required>
+          <mat-option *ngFor="let location of locations" [value]="location">{{ location }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <!-- Checkbox for Approvers -->
+      <div class="flex flex-col mt-2">
+        <p class="mt-0" style="font-weight: 500;">
+          Select which employee will be approving time off request for this employee:
+        </p>
+        <mat-checkbox formControlName="isAdministrator" color="primary">Administrator</mat-checkbox>
+        <mat-checkbox formControlName="isDirectManager" color="primary">Direct manager</mat-checkbox>
+        <mat-checkbox formControlName="isTeamManager" color="primary">Team manager</mat-checkbox>
+      </div>
+  
+      <!-- Individual Approvers as Chips -->
+      <mat-form-field appearance="outline" class="col-md-12 example-chip-list">
+        <mat-label>Individual Approvers</mat-label>
+        <mat-chip-grid #chipGrid aria-label="Enter approvers">
+          <mat-chip-row *ngFor="let approver of individualApprovers"
+                        (removed)="remove(approver)"
+                        [editable]="true"
+                        (edited)="edit(approver, $event)"
+                        [aria-description]="'press enter to edit ' + approver">
+            {{approver}}
+            <button matChipRemove [attr.aria-label]="'remove ' + approver">
+                <i class="bi bi-x-circle"></i>
+            </button>
+          </mat-chip-row>
+          <input placeholder="New approver..."
+                 [matChipInputFor]="chipGrid"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="addOnBlur"
+                 (matChipInputTokenEnd)="add($event)"/>
+        </mat-chip-grid>
+        <!-- Hint text -->
+        <mat-hint>Press Enter or use a comma to add a new approver</mat-hint>
+      </mat-form-field>      
+  
+      <!-- New Select for Public Holiday Group -->
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Public Holiday Group</mat-label>
+        <mat-select formControlName="publicHolidayGroup" required>
+          <mat-option *ngFor="let group of publicHolidayGroups" [value]="group">{{ group }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <!-- New Select for Working Pattern -->
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Working Pattern</mat-label>
+        <mat-select formControlName="workingPattern" required>
+          <mat-option *ngFor="let pattern of workingPatterns" [value]="pattern">{{ pattern }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <!-- Buttons -->
+      <div class="actions flex items-center justify-end gap-2">
+        <button mat-raised-button matStepperPrevious>Back</button>
+        <!-- Reset Button -->
+        <button mat-raised-button color="primary" type="button" (click)="employeeCreatedAcoountSettings()">Save</button>
+      </div>
+    </form>
+  </mat-dialog-content>
+  </mat-step>
+</mat-stepper>

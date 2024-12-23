@@ -1,0 +1,71 @@
+<div class="px-6 pb-4">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-bold">General Information</h3>
+      <button mat-icon-button (click)="toggleEdit()">
+        <mat-icon svgIcon="mat:{{ isEditing ? 'close' : 'edit' }}"></mat-icon>
+      </button>
+    </div>
+  
+    <!-- Display Mode -->
+    <div class="card p-4 mb-4" *ngIf="!isEditing">
+      <div class="space-y-4">
+        <div class="flex justify-between">
+          <span class="font-semibold">Full Name:</span>
+          <span>{{ user.fullName }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="font-semibold">Email:</span>
+          <span>{{ user.email }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="font-semibold">Phone Number:</span>
+          <span>{{ user.phoneNumber }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="font-semibold">Company Name:</span>
+          <span>{{ user.companyName }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="font-semibold">Designation:</span>
+          <span>{{ user.designation }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="font-semibold">Work Hours:</span>
+          <span>{{ user.workHours }}</span>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Edit Mode -->
+    <form *ngIf="isEditing" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-label>Full Name</mat-label>
+        <input matInput [(ngModel)]="user.fullName" name="fullName" />
+      </mat-form-field>
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput [(ngModel)]="user.email" name="email" />
+      </mat-form-field>
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-label>Phone Number</mat-label>
+        <input matInput [(ngModel)]="user.phoneNumber" name="phoneNumber" />
+      </mat-form-field>
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-label>Company Name</mat-label>
+        <input matInput [(ngModel)]="user.companyName" name="companyName" />
+      </mat-form-field>
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-label>Designation</mat-label>
+        <input matInput [(ngModel)]="user.designation" name="designation" />
+      </mat-form-field>
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-label>Work Hours</mat-label>
+        <input matInput [(ngModel)]="user.workHours" name="workHours" />
+      </mat-form-field>
+      <div class="col-span-full flex justify-end space-x-2">
+        <button mat-raised-button color="warn" (click)="cancelEdit()">Cancel</button>
+        <button mat-raised-button color="primary" (click)="saveChanges()">Save</button>
+      </div>
+    </form>
+</div>
+  

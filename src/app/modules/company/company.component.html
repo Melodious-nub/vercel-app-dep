@@ -1,0 +1,142 @@
+<div class="h-full flex flex-col">
+    <div class="p-6 pb-0 bg-foreground shadow-b flex-none border-b">
+      <div class="container px-0">
+        <!-- <h1 class="display-1 font-bold mt-0 mb-4 flex items-center">
+          <span
+            @scaleIn
+            class="w-12 h-12 rounded-full text-primary-600 ltr:mr-4 rtl:ml-4 flex items-center justify-center bg-primary-600/10">
+            <mat-icon svgIcon="mat:employeesList"></mat-icon>
+          </span>
+          <span @fadeInRight class="block">employeesList</span>
+        </h1> -->
+  
+        <div class="flex items-center">
+          <div class="border-0 flex-auto mt-4">
+            <mat-form-field appearance="outline" class="flex-1 ltr:mr-2 rtl:ml-2">
+              <mat-label>All teams</mat-label>
+              <mat-select [formControl]="toppings" multiple>
+                <mat-select-trigger>
+                  {{toppings.value?.[0] || ''}}
+                  <span *ngIf="(toppings.value?.length || 0) > 1" class="example-additional-selection">
+                    (+{{(toppings.value?.length || 0) - 1}} {{toppings.value?.length === 2 ? 'other' : 'others'}})
+                  </span>
+                </mat-select-trigger>
+                <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+              </mat-select>
+            </mat-form-field>      
+            
+            <mat-form-field appearance="outline" class="flex-1 ltr:mr-2 rtl:ml-2">
+              <mat-label>All location</mat-label>
+              <mat-select>
+                <mat-option value="location1">Dhaka</mat-option>
+                <mat-option value="location2">London</mat-option>
+                <mat-option value="location3">New York</mat-option>
+                <mat-option value="location4">Amsterdam</mat-option>
+              </mat-select>
+            </mat-form-field>
+    
+            <mat-form-field appearance="outline" class="flex-1 ltr:mr-2 rtl:ml-2">
+              <mat-label>All employment statuses</mat-label>
+              <mat-select>
+                <mat-option value="fullTime">Full-time</mat-option>
+                <mat-option value="partTime">Part-time</mat-option>
+                <mat-option value="partTime">Contactual</mat-option>
+              </mat-select>
+            </mat-form-field>
+    
+            <mat-form-field appearance="outline" class="flex-1 ltr:mr-2 rtl:ml-2">
+              <mat-label>Active status</mat-label>
+              <mat-select>
+                <!-- <mat-option value="">Everyone</mat-option> -->
+                <mat-option value="active">At work</mat-option>
+                <mat-option value="inactive">Away</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- <nav [tabPanel]="tabPanel" class="border-0 flex-auto" mat-tab-nav-bar>
+            <a
+              #rla="routerLinkActive"
+              *ngFor="let link of links"
+              [active]="rla.isActive"
+              [disabled]="link.disabled"
+              [routerLink]="link.route"
+              mat-tab-link
+              routerLinkActive="">
+              {{ link.label }}
+            </a>
+          </nav>
+          <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel> -->
+  
+          <!-- <button
+            class="flex-none hidden sm:inline-block"
+            color="primary"
+            mat-icon-button
+            matTooltip="Search employeesList"
+            type="button">
+            <mat-icon svgIcon="mat:search"></mat-icon>
+          </button>
+  
+          <button
+            class="ltr:ml-1 rtl:mr-1 flex-none hidden sm:inline-block"
+            color="primary"
+            mat-icon-button
+            matTooltip="Export employeesList"
+            type="button">
+            <mat-icon svgIcon="mat:cloud_download"></mat-icon>
+          </button> -->
+  
+          <!-- <button
+            class="ltr:ml-1 rtl:mr-1 flex-none"
+            color="primary"
+            mat-icon-button
+            matTooltip="Filter Employee"
+            type="button">
+            <mat-icon svgIcon="mat:filter_list"></mat-icon>
+          </button> -->
+  
+          <!-- <button #openDialogButton
+            (click)="openContact()"
+            class="ltr:ml-1 rtl:mr-1 flex-none sm:hidden"
+            color="primary"
+            mat-mini-fab
+            matTooltip="Add Contact"
+            type="button">
+            <mat-icon svgIcon="mat:person_add"></mat-icon>
+          </button> -->
+  
+          <button
+            (click)="openContact()"
+            class="ltr:ml-4 rtl:mr-4 flex-none sm:inline-block"
+            color="primary"
+            mat-flat-button
+            type="button">
+            <mat-icon
+              class="ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 icon-sm"
+              svgIcon="mat:add"></mat-icon>
+            <span>Add Employee</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <div
+      *ngIf="employeesList.length !== 0"
+      @stagger
+      class="overflow-y-auto flex-auto">
+      <div
+        class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 container">
+        <vex-employee-card
+          *ngFor="let contact of employeesList.slice().reverse(); trackBy: trackById"
+          @fadeInUp
+          [contact]="contact"></vex-employee-card>
+      </div>
+    </div>
+  
+    <div
+      *ngIf="employeesList.length == 0"
+      @scaleFadeIn
+      class="flex-auto flex flex-col items-center justify-center">
+      <img class="m-12 h-64" src="assets/img/illustrations/idea.svg" />
+      <h2 class="headline m-0 text-center">No employees matching your filters</h2>
+    </div>
+</div>  

@@ -1,0 +1,75 @@
+<h2 mat-dialog-title>Add document</h2>
+
+<mat-dialog-content @fadeInUp class="pt-4 border-b">
+  <form>
+    <!-- Add Attachment -->
+    <div class="mb-4 flex items-center">
+        <input type="file" 
+            #fileInput 
+            accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
+            style="display: none;" 
+            (change)="onFileSelected($event)">
+        
+        <button mat-raised-button 
+                color="primary" 
+                (click)="fileInput.click()" 
+                class="mr-3">
+        <mat-icon svgIcon="mat:attach_file"></mat-icon>
+        Add document
+        </button>
+    
+        <!-- Attachment Info -->
+        <div *ngIf="attachmentName" class="flex items-center overflow-hidden">
+            <span class="text-sm mr-2 truncate max-w-xs">{{ attachmentName }}</span>
+            <button mat-icon-button color="warn" (click)="removeAttachment()">
+                <mat-icon svgIcon="mat:delete"></mat-icon>
+            </button>
+        </div>
+
+        <div *ngIf="!attachmentName" class="flex items-center overflow-hidden">
+            <span class="text-sm mr-2 truncate max-w-xs">(Max file size: 25mb)</span>
+        </div>
+    </div>
+
+    <!-- description -->
+    <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
+        <mat-label>Description (optional)</mat-label>
+        <textarea matInput name="description" rows="3" placeholder="Type description here"></textarea>
+    </mat-form-field>
+
+    <!-- Category -->
+    <mat-form-field appearance="outline" style="width: 100%;" class="mb-2" color="primary">
+        <mat-label>Category</mat-label>
+        <mat-select [(ngModel)]="category" name="category">
+          <mat-option value="General">General</mat-option>
+          <mat-option value="Onboarding">Onboarding</mat-option>
+          <mat-option value="Offboarding">Offboarding</mat-option>
+        </mat-select>
+    </mat-form-field> 
+
+    <!-- Share Document -->
+    <label class="block mb-1 text-sm font-bold">Who would you like to share this document with?</label>
+    <mat-radio-group class="mb-2" [(ngModel)]="shareDocumentWith" name="shareDocumentWith" color="primary">
+      <mat-radio-button value="current_user" class="block mb-1">Current User</mat-radio-button>
+      <mat-radio-button value="everyone" class="block mb-1">Everyone</mat-radio-button>
+      <mat-radio-button value="selected_users" class="block mb-1">Selected Users Only</mat-radio-button>
+    </mat-radio-group>
+
+    <!-- Inline Checkbox: Require employee to accept documents -->
+    <div class="flex items-center mb-2">
+        <mat-checkbox [(ngModel)]="requireAccept" name="requireAccept" class="mr-2 text-sm" color="primary"><span class="font-bold text-sm" style="color: rgba(0, 0, 0, 0.6);">Require employee to accept documents</span></mat-checkbox>
+        <mat-icon svgIcon="mat:help_outline" matTooltip="Send a task asking review & accept this document. If set, then the deadline date will also be displayed in the task message."></mat-icon>
+    </div>
+
+    <!-- Inline Checkbox: Send Email Notification -->
+    <div class="flex items-center">
+        <mat-checkbox [(ngModel)]="sendEmailNotification" name="sendEmailNotification" class="mr-2" color="primary"><span class="font-bold text-sm" style="color: rgba(0, 0, 0, 0.6);">Send email notification</span></mat-checkbox>
+    </div>
+  
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+</mat-dialog-actions>

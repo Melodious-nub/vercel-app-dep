@@ -1,0 +1,61 @@
+@import "~simplebar/dist/simplebar.css";
+@import "~highlight.js/styles/androidstudio.css";
+// Vex Core
+@import "./@vex/styles/core";
+
+/*
+  You can override any CSS Variable or style here
+  Example:
+
+  :root {
+   --vex-sidenav-background: #333333;
+  }
+
+  All possible variables can be found in @vex/styles/core or by simply inspecting the element you want to change
+  in Chrome/Firefox DevTools
+*/
+
+/**
+  Uncomment the below code and adjust the values to fit your colors, the application will automatically adjust
+ */
+// html {
+//   --vex-color-primary: blue;
+//   --vex-color-primary-contrast: white;
+
+//   --vex-color-accent: yellow;
+//   --vex-color-accent-contrast: black;
+
+//   --vex-color-warn: yellow;
+//   --vex-color-warn-contrast: black;
+// }
+
+/* Custom Font Override */
+@font-face {
+  font-family: "Inter var";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/fonts/Inter-roman-var.woff2?v=3.19") format("woff2");
+  font-named-instance: "Regular";
+}
+
+@font-face {
+  font-family: "Inter var";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/fonts/Inter-italic-var.woff2?v=3.19") format("woff2");
+  font-named-instance: "Italic";
+}
+
+/* Override Bootstrap font settings */
+body, h1, h2, h3, h4, h5, h6, p, label, button, input {
+  font-family: "Inter var", sans-serif !important;
+  font-weight: 400; /* Adjust this based on your preferred weight */
+}
+
+// for preventing line break on table cell
+td,
+th {
+  white-space: nowrap;
+}

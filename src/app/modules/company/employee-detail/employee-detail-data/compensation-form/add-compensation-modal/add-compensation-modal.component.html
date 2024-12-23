@@ -1,0 +1,90 @@
+<h2 mat-dialog-title>Add compensation</h2>
+
+<mat-dialog-content @fadeInUp class="pt-4 border-b">
+  <form>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <!-- Payment date or Start date based on Type -->
+      <mat-form-field appearance="outline" class="w-full mb-2">
+        <mat-label *ngIf="typeControl.value !== 'salary'">Payment date</mat-label>
+        <mat-label *ngIf="typeControl.value === 'salary'">Start date</mat-label>
+        <input matInput [matDatepicker]="datePicker" placeholder="Select a date" name="date" />
+        <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+        <mat-datepicker #datePicker></mat-datepicker>
+      </mat-form-field>
+
+      <!-- Type Selection -->
+      <mat-form-field appearance="outline" class="w-full mb-2">
+        <mat-label>Type</mat-label>
+        <mat-select name="type" [formControl]="typeControl">
+          <mat-option value="bonus">Bonus</mat-option>
+          <mat-option value="Once">Once</mat-option>
+          <mat-option value="salary">Salary</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <!-- Amount -->
+      <mat-form-field appearance="outline" class="w-full mb-2">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" name="amount" placeholder="Enter amount" />
+      </mat-form-field>
+
+      <!-- Currency -->
+      <mat-form-field appearance="outline" class="w-full mb-2">
+        <mat-label>Currency</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="Choose a currency"
+          aria-label="Currency"
+          [formControl]="currencyControl"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option *ngFor="let currency of filteredCurrencies | async" [value]="currency">
+            {{ currency }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+    <!-- Additional Fields for Salary Type -->
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2" *ngIf="typeControl.value === 'salary'">
+      <!-- Pay Period -->
+      <mat-form-field appearance="outline" class="w-full mb-2">
+        <mat-label>Pay period</mat-label>
+        <mat-select name="payPeriod" [formControl]="payPeriodControl">
+          <mat-option value="Hourly">Hourly</mat-option>
+          <mat-option value="Weekly">Weekly</mat-option>
+          <mat-option value="Bi-Weekly">Bi-Weekly</mat-option>
+          <mat-option value="Monthly">Monthly</mat-option>
+          <mat-option value="Yearly">Yearly</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Reason -->
+      <mat-form-field appearance="outline" class="w-full mb-2">
+        <mat-label>Reason</mat-label>
+        <mat-select name="reason" [formControl]="reasonControl">
+          <mat-option value="Annual salary increase">Annual salary increase</mat-option>
+          <mat-option value="Promotion">Promotion</mat-option>
+          <mat-option value="Salary after probation period">Salary after probation period</mat-option>
+          <mat-option value="Salary decrease">Salary decrease</mat-option>
+          <mat-option value="Starting salary">Starting salary</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Comments -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Comments</mat-label>
+      <textarea matInput name="comments" rows="2" placeholder="Enter comments"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+</mat-dialog-actions>

@@ -1,0 +1,183 @@
+<h2 mat-dialog-title>New training</h2>
+
+<mat-dialog-content @fadeInUp class="pt-4 border-b">
+  <form>
+    <!-- Share Document -->
+    <label class="block mb-1 text-sm font-bold">Assign task to:</label>
+    <mat-radio-group class="mb-2" [(ngModel)]="assignTo" name="assignTo" color="primary">
+        <mat-radio-button value="specific" class="block mb-1">Specific employee</mat-radio-button>
+        <mat-radio-button value="multiple" class="block mb-1">Multiple employees</mat-radio-button>
+    </mat-radio-group>
+
+    <!-- Assigned to single value for employee -->
+    <mat-form-field *ngIf="assignTo == 'specific'" appearance="outline" style="width: 100%;" class="mt-3 mb-2">
+        <mat-label>Assigned to (specific)</mat-label>
+        <mat-select [(ngModel)]="selectedValue" name="selectedValue">
+            <mat-option *ngFor="let emp of employees" [value]="emp">
+                {{emp}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- Assigned to multiple employees -->
+    <mat-form-field *ngIf="assignTo == 'multiple'" appearance="outline" style="width: 100%;" class="mt-3 mb-2">
+        <mat-label>Assigned to (multiple)</mat-label>
+        <mat-select [formControl]="selectedValueMultiple" multiple>
+          <mat-option *ngFor="let emp of employees" [value]="emp">{{emp}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- Training course name -->
+    <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
+        <mat-label>Training course name</mat-label>
+        <input matInput name="trainingCourseName" placeholder="Enter training course name" required>
+    </mat-form-field>
+
+    <!-- Training details (optional) -->
+    <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
+        <mat-label>Training details (optional)</mat-label>
+        <textarea matInput name="trainingDetails" rows="3" placeholder="Type training details"></textarea>
+    </mat-form-field>
+
+    <!-- Training format -->
+    <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
+        <mat-label>Training format</mat-label>
+        <mat-select [(ngModel)]="trainingFormat" name="trainingFormat">
+            <mat-option value="handbook">Employee handbook</mat-option>
+            <mat-option value="mentoring">Mentoring</mat-option>
+            <mat-option value="online">Online course</mat-option>
+            <mat-option value="onsite">On-site training</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- Payment type -->
+    <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
+        <mat-label>Payment type</mat-label>
+        <mat-select [(ngModel)]="paymentType" name="paymentType">
+            <mat-option value="free">Free</mat-option>
+            <mat-option value="one-time">One-time payment</mat-option>
+            <mat-option value="subscription">Subscription</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- Cost -->
+    <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
+        <mat-label>Cost</mat-label>
+        <input matInput type="number" name="cost" placeholder="Enter cost" prefix="$">
+        <mat-icon matSuffix svgIcon="mat:attach_money"></mat-icon>
+    </mat-form-field>
+
+    <!-- Training date -->
+    <label class="block mb-1 text-sm font-bold">Training date:</label>
+    <mat-radio-group class="mb-2" [(ngModel)]="trainingDateType" name="trainingDateType" color="primary">
+        <mat-radio-button value="single" class="block mb-1">Single date</mat-radio-button>
+        <mat-radio-button value="multiple" class="block mb-1">Multiple dates</mat-radio-button>
+    </mat-radio-group>
+
+    <!-- Training due date (Single date option) -->
+    <mat-form-field *ngIf="trainingDateType == 'single'" appearance="outline" class="w-full mt-2">
+        <mat-label>Training due date</mat-label>
+        <input matInput [matDatepicker]="dueDatePicker" placeholder="Select a date" name="dueDate">
+        <mat-datepicker-toggle matSuffix [for]="dueDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #dueDatePicker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- Training from and to dates (Multiple dates option) -->
+    <mat-form-field *ngIf="trainingDateType == 'multiple'" appearance="outline" class="w-full mt-2">
+        <mat-label>From and to</mat-label>
+        <mat-date-range-input [rangePicker]="rangePicker">
+            <input matStartDate placeholder="Start date">
+            <input matEndDate placeholder="End date">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #rangePicker></mat-date-range-picker>
+    </mat-form-field>
+
+    <!-- Expiry date toggler -->
+    <div class="mb-3">
+        <label class="text-sm font-bold">Add an expiry date for this training</label>
+        <p class="text-gray-500 text-sm mb-2">Employees will need to renew their training by a certain date or after a specified period of time.</p>
+        <mat-slide-toggle [(ngModel)]="hasExpiryDate" name="hasExpiryDate" color="primary"></mat-slide-toggle>
+    </div>
+      
+    <div *ngIf="hasExpiryDate">
+      <!-- When do you want this training to expire -->
+      <mat-radio-group class="mb-4" [(ngModel)]="expiryOption" name="expiryOption" color="primary">
+        <mat-radio-button value="specificDate" class="block mb-1">Specific expiry date</mat-radio-button>
+        <mat-radio-button value="afterPeriod" class="block mb-1">After a specific period</mat-radio-button>
+      </mat-radio-group>
+  
+      <!-- Specific expiry date (when the specific expiry date is selected) -->
+      <mat-form-field appearance="outline" style="width: 100%;" class="mb-2" *ngIf="expiryOption === 'specificDate'" color="primary">
+        <mat-label>Specific expiry date</mat-label>
+        <input matInput [matDatepicker]="expiryDatePicker" placeholder="Select expiry date">
+        <mat-datepicker-toggle matSuffix [for]="expiryDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #expiryDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <div *ngIf="expiryOption === 'afterPeriod'">
+        <!-- Expiry period select (when after specific period is selected) -->
+        <mat-form-field appearance="outline" style="width: 100%;" class="mb-2" color="primary">
+            <mat-label>Expiry period</mat-label>
+            <mat-select [(ngModel)]="expiryPeriod" name="expiryPeriod">
+            <mat-option *ngFor="let year of expiryYears" [value]="year">{{ year }} year(s)</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- Alert Box -->
+        <div *ngIf="showAlert" class="alert alert-warning flex items-center p-2 text-sm mb-3" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0 mr-4 ml-2" viewBox="0 0 16 16" fill="currentColor" aria-label="Warning:">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </svg>
+            <div class="flex-grow">This expiry period will come into effect once the training is marked as completed.
+            </div>
+        </div>
+      </div>     
+    </div>
+
+    <!-- Add Attachment -->
+    <div class="mb-3 flex items-center">
+        <input type="file" 
+            #fileInput 
+            accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
+            style="display: none;" 
+            (change)="onFileSelected($event)">
+        
+        <button mat-raised-button 
+                color="primary" 
+                (click)="fileInput.click()" 
+                class="mr-3">
+        <mat-icon svgIcon="mat:attach_file"></mat-icon>
+        Add Attachment
+        </button>
+    
+        <!-- Attachment Info -->
+        <div *ngIf="attachmentName" class="flex items-center overflow-hidden">
+        <span class="text-sm mr-2 truncate max-w-xs">{{ attachmentName }}</span>
+        <button mat-icon-button color="warn" (click)="removeAttachment()">
+            <mat-icon svgIcon="mat:delete"></mat-icon>
+        </button>
+        </div>
+    </div>    
+
+    <!-- Inline Checkbox: Require proof of completion once training is completed -->
+    <div class="flex items-center mb-2">
+        <mat-checkbox [(ngModel)]="requireAttachment" name="requireAttachment" class="mr-2 text-sm" color="primary">
+            <span class="font-bold text-sm" style="color: rgba(0, 0, 0, 0.6);">Require proof of completion once training is completed</span>
+        </mat-checkbox>
+    </div>
+
+    <!-- Inline Checkbox: Send employee an email notification about this training. -->
+    <div class="flex items-center">
+        <mat-checkbox [(ngModel)]="sendEmailNotificationEmployee" name="sendEmailNotificationEmployee" class="mr-2" color="primary">
+            <span class="font-bold text-sm" style="color: rgba(0, 0, 0, 0.6);">Send employee an email notification about this training.</span>
+        </mat-checkbox>
+    </div>    
+      
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+</mat-dialog-actions>

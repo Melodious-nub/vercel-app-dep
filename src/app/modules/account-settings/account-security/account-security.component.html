@@ -1,0 +1,51 @@
+<div class="p-6">
+  <h3 class="text-lg font-bold mb-4">Security Settings</h3>
+
+  <!-- Change Password Section -->
+  <div class="card p-4 mb-4">
+    <h3 class="text-lg font-semibold mb-4">Change Password</h3>
+    <form class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gapy-2">
+      <mat-form-field class="w-full">
+        <mat-label>Current Password</mat-label>
+        <input matInput type="password" [(ngModel)]="securityForm.currentPassword" name="currentPassword" placeholder="Enter current password" />
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>New Password</mat-label>
+        <input matInput type="password" [(ngModel)]="securityForm.newPassword" name="newPassword" placeholder="Enter new password" />
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput type="password" [(ngModel)]="securityForm.confirmPassword" name="confirmPassword" placeholder="Re-enter new password" />
+      </mat-form-field>
+      <div class="col-span-full flex justify-end">
+        <button mat-raised-button color="primary" type="submit">
+          Change Password
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Notifications Section -->
+  <div class="card p-4 mb-4">
+    <h3 class="text-lg font-semibold">Notifications</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
+      <mat-checkbox color="primary" [(ngModel)]="securityForm.emailNotifications" name="emailNotifications">Email Notifications</mat-checkbox>
+      <mat-checkbox color="primary" [(ngModel)]="securityForm.smsNotifications" name="smsNotifications">SMS Notifications</mat-checkbox>
+      <mat-checkbox color="primary" [(ngModel)]="securityForm.twoStepAuth" name="twoStepAuth" (change)="toggleTwoStepAuth()">Two-Step Authentication</mat-checkbox>
+    </div>
+    <div *ngIf="securityForm.twoStepAuth" class="mt-4">
+      <mat-form-field class="w-full">
+        <mat-label>Two-Step Verification Method</mat-label>
+        <mat-select [(ngModel)]="securityForm.otpMethod" name="otpMethod">
+          <mat-option value="phone">OTP to Phone</mat-option>
+          <mat-option value="email">OTP to Email</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="mt-4 flex justify-end">
+      <button mat-raised-button color="primary" type="button" (click)="updateNotifications()">
+        Update Notifications
+      </button>
+    </div>
+  </div>
+</div>

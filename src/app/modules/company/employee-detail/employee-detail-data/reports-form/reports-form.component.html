@@ -1,0 +1,156 @@
+<div class="p-6">
+    <form @fadeInRight class="container px-3">
+      <!-- Heading & Subheading -->
+      <div @stagger class="mb-4">
+        <h2 class="mb-1 text-lg font-bold">Reports</h2>
+      </div>
+  
+      <!-- Chart Card -->
+      <div class="card pt-3 mb-3">
+        <vex-chart [options]="options" [series]="series"></vex-chart>
+      </div>
+  
+      <!-- Expansion Panel Section -->
+      <mat-accordion multi="true">
+        <!-- Holiday Panel -->
+        <mat-expansion-panel class="mb-3 border">
+          <mat-expansion-panel-header>
+            <h2 class="mb-1 text-lg font-bold">Holiday</h2>
+          </mat-expansion-panel-header>
+  
+          <!-- Card with Holiday Details -->
+          <div class="holiday-card p-4 mb-3 border border-gray-300 rounded">
+            <p><strong>Working hours per day:</strong> 8.0</p>
+            <p><strong>Annually allowed:</strong> 20 days</p>
+            <p><strong>Currently available:</strong> 20 days</p>
+          </div>
+  
+          <!-- Applied Transactions Table -->
+          <div class="table-container border border-gray-300 p-3">
+            <h3 class="mb-2 text-lg font-semibold">Applied transactions</h3>
+            <table mat-table [dataSource]="dataSourceHoliday" class="pt-2">
+              <ng-container matColumnDef="created">
+                <th mat-header-cell *matHeaderCellDef> Created </th>
+                <td mat-cell *matCellDef="let element"> {{ element.created }} </td>
+              </ng-container>
+              <ng-container matColumnDef="createdBy">
+                <th mat-header-cell *matHeaderCellDef> Created by </th>
+                <td mat-cell *matCellDef="let element"> {{ element.createdBy }} </td>
+              </ng-container>
+              <ng-container matColumnDef="timeOffRequest">
+                <th mat-header-cell *matHeaderCellDef> Time off request </th>
+                <td mat-cell *matCellDef="let element"> {{ element.timeOffRequest }} </td>
+              </ng-container>
+              <ng-container matColumnDef="note">
+                <th mat-header-cell *matHeaderCellDef> Note </th>
+                <td mat-cell *matCellDef="let element"> {{ element.note }} </td>
+              </ng-container>
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let element"> {{ element.action }} </td>
+              </ng-container>
+              <ng-container matColumnDef="days">
+                <th mat-header-cell *matHeaderCellDef> Days </th>
+                <td mat-cell *matCellDef="let element"> {{ element.days }} </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsHoliday"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumnsHoliday;"></tr>
+            </table>
+          </div>
+        </mat-expansion-panel>
+  
+        <!-- Sickday Panel -->
+        <mat-expansion-panel class="mb-3 border">
+          <mat-expansion-panel-header>
+            <h2 class="mb-1 text-lg font-bold">Sickday</h2>
+          </mat-expansion-panel-header>
+          <!-- Sickday Card -->
+            <div class="sickday-card p-4 mb-3 border border-gray-300 rounded">
+                <p><strong>Working hours per day:</strong> 8.0</p>
+                <p><strong>Annually allowed:</strong> 10 days</p>
+                <p><strong>Currently available:</strong> 8 days</p>
+            </div>
+
+            <!-- table -->
+            <div class="table-container border border-gray-300 p-3">
+                <h3 class="mb-2 text-lg font-semibold">Applied transactions</h3>
+                <table mat-table [dataSource]="dataSourceSickday" class="pt-2">
+                <ng-container matColumnDef="created">
+                    <th mat-header-cell *matHeaderCellDef> Created </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.created }} </td>
+                </ng-container>
+                <ng-container matColumnDef="createdBy">
+                    <th mat-header-cell *matHeaderCellDef> Created by </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.createdBy }} </td>
+                </ng-container>
+                <ng-container matColumnDef="timeOffRequest">
+                    <th mat-header-cell *matHeaderCellDef> Time off request </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.timeOffRequest }} </td>
+                </ng-container>
+                <ng-container matColumnDef="note">
+                    <th mat-header-cell *matHeaderCellDef> Note </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.note }} </td>
+                </ng-container>
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef> Action </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.action }} </td>
+                </ng-container>
+                <ng-container matColumnDef="days">
+                    <th mat-header-cell *matHeaderCellDef> Days </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.days }} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsSickday"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsSickday;"></tr>
+                </table>
+            </div>
+        </mat-expansion-panel>
+  
+        <!-- Business Trip Panel -->
+        <mat-expansion-panel class="mb-3 border">
+          <mat-expansion-panel-header>
+            <h2 class="mb-1 text-lg font-bold">Business Trip</h2>
+          </mat-expansion-panel-header>
+            <!-- Business Trip Card -->
+            <div class="business-trip-card p-4 mb-3 border border-gray-300 rounded">
+                <p><strong>Working hours per day:</strong> 8.0</p>
+                <p><strong>Annually allowed:</strong> 15 days</p>
+                <p><strong>Currently available:</strong> 12 days</p>
+            </div>
+
+            <!-- table -->
+            <div class="table-container border border-gray-300 p-3">
+                <h3 class="mb-2 text-lg font-semibold">Applied transactions</h3>
+                <table mat-table [dataSource]="dataSourceBusinessTrip" class="pt-2">
+                <ng-container matColumnDef="created">
+                    <th mat-header-cell *matHeaderCellDef> Created </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.created }} </td>
+                </ng-container>
+                <ng-container matColumnDef="createdBy">
+                    <th mat-header-cell *matHeaderCellDef> Created by </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.createdBy }} </td>
+                </ng-container>
+                <ng-container matColumnDef="timeOffRequest">
+                    <th mat-header-cell *matHeaderCellDef> Time off request </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.timeOffRequest }} </td>
+                </ng-container>
+                <ng-container matColumnDef="note">
+                    <th mat-header-cell *matHeaderCellDef> Note </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.note }} </td>
+                </ng-container>
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef> Action </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.action }} </td>
+                </ng-container>
+                <ng-container matColumnDef="days">
+                    <th mat-header-cell *matHeaderCellDef> Days </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.days }} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsBusinessTrip"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsBusinessTrip;"></tr>
+                </table>
+            </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </form>
+</div>
+  

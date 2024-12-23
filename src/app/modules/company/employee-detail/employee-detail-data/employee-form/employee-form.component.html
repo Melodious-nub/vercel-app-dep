@@ -1,0 +1,198 @@
+<div class="p-6">
+  <form @fadeInRight class="container px-3 row">
+      <!-- Image Upload -->
+      <div class="profile-container mb-4">
+          <div class="profile-picture" [style.background-image]="employeeDetails.imageSrc ? 'url(' + employeeDetails.imageSrc + ')' : null">
+            <button type="button" mat-icon-button class="upload-btn" (click)="fileInput.click()">
+              <mat-icon svgIcon="mat:add_a_photo"></mat-icon>
+            </button>
+            <input type="file" (change)="onFileSelected($event)" hidden #fileInput accept="image/*" />
+          </div>
+      </div>
+
+      <!-- Title input -->
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Designation</mat-label>
+          <input matInput name="designation" [(ngModel)]="employeeDetails.designation" placeholder="Type designation">
+        </mat-form-field>
+      </div>        
+
+      <!-- Name input -->
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Name</mat-label>
+          <input matInput name="name" [(ngModel)]="employeeDetails.name" placeholder="Type full name">
+        </mat-form-field>
+      </div>
+
+      <!-- Position List -->
+      <div>
+        <h2 class="mb-1" style="font-weight: 500; font-size: 16px;">Positions</h2>
+        <div class="row px-3">
+          <div *ngFor="let pos of positions" class="position-card mb-3 col-lg-6">
+            <mat-card class="card">
+              <mat-card-content>
+                <mat-card-title class="text-sm"> {{ pos.positionName }}</mat-card-title>
+                <mat-card-subtitle class="text-sm">Since {{ pos.startDate | date: 'longDate' }}</mat-card-subtitle>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Position Button -->
+      <div class="mb-2">
+        <button mat-raised-button color="primary" (click)="openAddPositionModal()">
+          <mat-icon class="ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 icon-sm" svgIcon="mat:add"></mat-icon>
+          <span>New Position</span>
+        </button>
+      </div>
+
+      <!-- Work Email -->
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Work Email</mat-label>
+          <input matInput type="email" [(ngModel)]="employeeDetails.email" placeholder="Type work email" name="workEmail">
+        </mat-form-field>
+      </div>
+
+      <!-- Work Phone -->
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Work Phone</mat-label>
+          <input matInput type="tel"  [(ngModel)]="employeeDetails.phone" placeholder="Type work phone" name="workPhone">
+        </mat-form-field>
+      </div>
+
+      <!-- Employee Start Date -->
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Employee Start Date</mat-label>
+          <input matInput [matDatepicker]="startPicker" [(ngModel)]="employeeDetails.startDate" placeholder="Choose a date" name="startDate">
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <!-- Employment Status -->
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Employment Status</mat-label>
+          <mat-select placeholder="Select status" [(ngModel)]="employeeDetails.employeeStatus" name="employeeStatus">
+            <mat-option value="full-time">Full-time</mat-option>
+            <mat-option value="part-time">Part-time</mat-option>
+            <mat-option value="contractual">Contractual</mat-option>
+            <mat-option value="wfh">Work from home</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Onboarding Mentor -->
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Onboarding Mentor</mat-label>
+          <input matInput placeholder="Type mentor name" name="onBoardingMentor" [(ngModel)]="employeeDetails.onBoardingMentor">
+        </mat-form-field>
+      </div>
+
+      <!-- Direct Manager -->
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Direct Manager</mat-label>
+          <input matInput placeholder="Type manager name" name="directManager" [(ngModel)]="employeeDetails.directManager">
+        </mat-form-field>
+      </div>
+
+      <!-- Team -->
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Team</mat-label>
+          <mat-select placeholder="Select team" name="team" [(ngModel)]="employeeDetails.team">
+            <mat-option value="java">Java team</mat-option>
+            <mat-option value="management">Management team</mat-option>
+            <mat-option value="angular">Angular team</mat-option>
+            <mat-option value="sqa">SQA team</mat-option>
+            <mat-option value="marketing">Marketing team</mat-option>
+            <mat-option value="devops">DevOps team</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Location -->
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Location</mat-label>
+          <mat-select placeholder="Select location" [(ngModel)]="employeeDetails.location" name="location">
+            <mat-option value="dhaka">Dhaka</mat-option>
+            <mat-option value="london">London</mat-option>
+            <mat-option value="new-york">New York</mat-option>
+            <mat-option value="amsterdam">Amsterdam</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Public Holiday Group -->
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Public Holiday Group</mat-label>
+          <mat-select placeholder="Select group" [(ngModel)]="employeeDetails.publicHolidayGroup" name="publicHolidayGroup">
+            <mat-option value="general">General</mat-option>
+            <mat-option value="india">India</mat-option>
+            <mat-option value="bangladesh">Bangladesh</mat-option>
+            <mat-option value="uk">UK</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Access Level -->
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Access Level</mat-label>
+          <mat-select placeholder="Select access level" name="accessLevel" [(ngModel)]="employeeDetails.accessLevel">
+            <mat-option value="admin">Admin</mat-option>
+            <mat-option value="manager">Manager</mat-option>
+            <mat-option value="employee">Employee</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Driving License -->
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Driving License</mat-label>
+          <input matInput placeholder="Type driving license" name="drivingLicense" [(ngModel)]="employeeDetails.drivingLicense">
+        </mat-form-field>
+      </div>
+
+      <!-- Employee ID -->
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Employee ID</mat-label>
+          <input matInput placeholder="Type employee internal ID" name="employeeInternalId" [(ngModel)]="employeeDetails.employeeInternalId">
+        </mat-form-field>
+      </div>
+
+      <!-- LinkedIn -->
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>LinkedIn</mat-label>
+          <input matInput placeholder="Type LinkedIn URL" name="linkedin" [(ngModel)]="employeeDetails.linkedin">
+        </mat-form-field>
+      </div>
+
+      <!-- Skype -->
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Skype</mat-label>
+          <input matInput placeholder="Type Skype username" name="skype" [(ngModel)]="employeeDetails.skype">
+        </mat-form-field>
+      </div>
+
+      <!-- Buttons -->
+      <div class="actions flex items-center justify-end gap-3">
+          <button mat-raised-button (click)="back()">Back</button>
+          <button mat-raised-button color="primary" (click)="submit()">Save</button>
+      </div>
+  </form>
+</div>

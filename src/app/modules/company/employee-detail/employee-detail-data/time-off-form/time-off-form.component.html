@@ -1,0 +1,147 @@
+<div class="p-6">
+    <form @fadeInRight class="container px-3">
+        <!-- heading only -->
+        <div @stagger class="mb-4">
+            <h2 class="mb-1 text-lg font-bold">Time off summary</h2>
+        </div>
+
+        <!-- time off add button -->
+        <div class="mb-4 flex flex-wrap gap-2 md:gap-4">
+            <button mat-raised-button type="button" color="primary" (click)="openLongTermLeaveModal()">
+                <span>Set long-term leave</span>
+            </button>
+
+            <button mat-raised-button type="button" color="primary" (click)="openRequestTimeOffModal()">
+                <mat-icon class="ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 icon-sm" svgIcon="mat:add"></mat-icon>
+                <span>Request time off</span>
+            </button>
+        </div>
+
+        <div class="row justify-content-center mb-3">
+            <div class="col-lg-4">
+                <!-- Holiday Chart -->
+                <vex-chart [options]="holidayOptions" [series]="holidaySeries"></vex-chart>
+            </div>
+
+            <div class="col-lg-4">
+                <!-- Sickday Chart -->
+                <vex-chart [options]="sickdayOptions" [series]="sickdaySeries"></vex-chart>
+            </div>
+
+            <div class="col-lg-4">
+                <!-- Business Trip Chart -->
+                <vex-chart [options]="businessTripOptions" [series]="businessTripSeries"></vex-chart>
+            </div>
+        </div>
+
+        <!-- time off table -->
+        <div class="border border-gray-300 p-3 mb-3">
+            <h3 class="mb-2 text-lg font-semibold">Time Off Details</h3>
+            <div class="table-container">
+                <table mat-table [dataSource]="dataSourceTimeOff" class="pt-2">
+                    <!-- Policy Column with Badges -->
+                    <ng-container matColumnDef="policy">
+                      <th mat-header-cell *matHeaderCellDef> Policy </th>
+                      <td mat-cell *matCellDef="let element">
+                        <span [ngClass]="{
+                            'badge-sickday': element.policy === 'Sickday',
+                            'badge-holiday': element.policy === 'Holiday',
+                            'badge-business': element.policy === 'Business Trip'
+                          }"> {{ element.policy }}
+                        </span>
+                      </td>
+                    </ng-container>
+                
+                    <!-- Allowance Period Column -->
+                    <ng-container matColumnDef="allowancePeriod">
+                      <th mat-header-cell *matHeaderCellDef> Allowance Period </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.allowancePeriod }} </td>
+                    </ng-container>
+                
+                    <!-- Balance Column -->
+                    <ng-container matColumnDef="balance">
+                      <th mat-header-cell *matHeaderCellDef> Balance </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.balance }} </td>
+                    </ng-container>
+                
+                    <!-- In Current Period Column -->
+                    <ng-container matColumnDef="inCurrentPeriod">
+                      <th mat-header-cell *matHeaderCellDef> In Current Period </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.inCurrentPeriod }} </td>
+                    </ng-container>
+                
+                    <!-- Carried Over Column -->
+                    <ng-container matColumnDef="carriedOver">
+                      <th mat-header-cell *matHeaderCellDef> Carried Over </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.carriedOver }} </td>
+                    </ng-container>
+                
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsTimeOff"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsTimeOff;"></tr>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Time off history -->
+        <div class="border border-gray-300 p-3">
+            <h3 class="mb-2 text-lg font-semibold">Time Off History</h3>
+            <div class="table-container">
+                <table mat-table [dataSource]="dataSourceTimeOffHistory" class="pt-2">
+                    <!-- Dates Column (Sticky) -->
+                    <ng-container matColumnDef="dates" sticky>
+                      <th mat-header-cell *matHeaderCellDef> Dates </th>
+                      <td mat-cell *matCellDef="let element">
+                        <div>
+                          <span>{{ element.dates }}</span>
+                          <small class="text-gray-600 block">{{ element.timeStatus }}</small>
+                        </div>
+                      </td>
+                    </ng-container>
+                    
+                    <!-- Date Requested Column -->
+                    <ng-container matColumnDef="dateRequested">
+                      <th mat-header-cell *matHeaderCellDef> Date Requested </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.dateRequested }} </td>
+                    </ng-container>
+                    
+                    <!-- Policy Column with Badges -->
+                    <ng-container matColumnDef="policy">
+                      <th mat-header-cell *matHeaderCellDef> Policy </th>
+                      <td mat-cell *matCellDef="let element">
+                        <span [ngClass]="{
+                            'badge-sickday': element.policy === 'Sickday',
+                            'badge-holiday': element.policy === 'Holiday',
+                            'badge-business': element.policy === 'Business Trip'
+                          }"> {{ element.policy }}
+                        </span>
+                      </td>
+                    </ng-container>
+              
+                    <!-- Details Column -->
+                    <ng-container matColumnDef="details">
+                      <th mat-header-cell *matHeaderCellDef> Details </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.details }} </td>
+                    </ng-container>
+              
+                    <!-- Status Column -->
+                    <ng-container matColumnDef="status">
+                      <th mat-header-cell *matHeaderCellDef> Status </th>
+                      <td mat-cell *matCellDef="let element"> {{ element.status }} </td>
+                    </ng-container>
+              
+                    <!-- Actions Column -->
+                    <ng-container matColumnDef="actions">
+                      <th mat-header-cell *matHeaderCellDef> Actions </th>
+                      <td mat-cell *matCellDef="let element" class="flex">
+                        <button mat-button color="primary" (click)="acceptRequest(element)" style="height: 28px; margin-right: 4px; margin-top: 5px;"><mat-icon class="ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 icon-sm" svgIcon="mat:check"></mat-icon> Accept</button>
+                        <button mat-button color="warn" (click)="declineRequest(element)" style="height: 28px; margin-top: 5px;"><mat-icon class="ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 icon-sm" svgIcon="mat:clear"></mat-icon> Decline</button>
+                      </td>
+                    </ng-container>
+              
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsTimeOffHistory"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsTimeOffHistory;"></tr>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>

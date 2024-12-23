@@ -1,0 +1,116 @@
+<h2 mat-dialog-title>Edit proflie</h2>
+
+<mat-dialog-content @fadeInUp class="pt-1 border-b">
+  <form>
+    <!-- Image Upload -->
+    <div class="profile-container mb-4" @scaleIn>
+        <div class="profile-picture" [style.background-image]="profilePic ? 'url(' + profilePic + ')' : null">
+            <button type="button" mat-icon-button class="upload-btn" (click)="fileInput.click()">
+            <mat-icon svgIcon="mat:add_a_photo"></mat-icon>
+            </button>
+            <input type="file" (change)="onFileSelected($event)" hidden #fileInput accept="image/*" />
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <!-- Name -->
+        <mat-form-field appearance="outline" class="w-full mb-2">
+            <mat-label>Name</mat-label>
+            <mat-icon matPrefix class="icon-sm" fontIcon="fa-user" fontSet="fa"></mat-icon>
+            <input matInput type="text" name="name" placeholder="Enter name" [(ngModel)]="aboutData.name">
+        </mat-form-field>
+
+        <!-- company name -->
+        <mat-form-field appearance="outline" class="w-full mb-2">
+            <mat-label>Company Name</mat-label>
+            <mat-icon matPrefix class="icon-sm" svgIcon="mat:business"></mat-icon>
+            <input matInput type="text" name="companyName" placeholder="Enter company name" [(ngModel)]="aboutData.companyName">
+        </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <!-- phone number -->
+      <mat-form-field appearance="outline" class="w-full mb-2">
+        <mat-label>Phone Number</mat-label>
+        <mat-icon matPrefix class="icon-sm" svgIcon="mat:phone"></mat-icon>
+        <input matInput type="text" name="phone" placeholder="Enter phone number" [(ngModel)]="aboutData.phone">
+      </mat-form-field>
+
+      <!-- email address -->
+      <mat-form-field appearance="outline" class="w-full mb-2">
+        <mat-label>Email Address</mat-label>
+        <mat-icon matPrefix class="icon-sm" svgIcon="mat:mail"></mat-icon>
+        <input matInput type="text" name="email" placeholder="Enter email address" [(ngModel)]="aboutData.email">
+      </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <!-- designation -->
+        <mat-form-field appearance="outline" class="w-full mb-2">
+            <mat-label>Designation</mat-label>
+            <mat-icon matPrefix class="icon-sm" svgIcon="mat:work"></mat-icon>
+            <input matInput type="text" name="designation" placeholder="Enter designation" [(ngModel)]="aboutData.designation">
+        </mat-form-field>
+
+        <!-- Office Time -->
+        <mat-form-field appearance="outline" class="w-full mb-2">
+            <mat-label>Office Time</mat-label>
+            <mat-icon matPrefix class="icon-sm" svgIcon="mat:access_time"></mat-icon>
+            <input matInput type="text" name="WorkHour" placeholder="Enter office time" [(ngModel)]="aboutData.WorkHour">
+        </mat-form-field>       
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <!-- Previous Company Name -->
+        <mat-form-field appearance="outline" class="w-full mb-2">
+            <mat-label>Previous Company Name</mat-label>
+            <mat-icon matPrefix class="icon-sm" svgIcon="mat:business"></mat-icon>
+            <input matInput type="text" name="previousCompany" placeholder="Enter previous company name" [(ngModel)]="aboutData.previousCompany">
+          </mat-form-field>
+  
+          <!-- Previous Company Designation -->
+          <mat-form-field appearance="outline" class="w-full mb-2">
+              <mat-label>Previous Company Designation</mat-label>
+              <mat-icon matPrefix class="icon-sm" svgIcon="mat:work"></mat-icon>
+              <input matInput type="text" name="previousCompanyDesignation" placeholder="Enter previous company designation" [(ngModel)]="aboutData.previousCompanyDesignation">
+          </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <!-- address -->
+        <mat-form-field appearance="outline" class="w-full mb-2">
+            <mat-label>Address</mat-label>
+            <mat-icon matPrefix class="icon-sm" fontIcon="fa-map-marked" fontSet="fa"></mat-icon>
+            <input matInput type="text" name="address" placeholder="Enter address" [(ngModel)]="aboutData.address">
+        </mat-form-field>
+
+        <!-- Facebook Url -->
+        <mat-form-field appearance="outline" class="w-full mb-2">
+            <mat-label>Facebook Url</mat-label>
+            <mat-icon matPrefix class="icon-sm" fontIcon="fa-facebook" fontSet="fa"></mat-icon>
+            <input matInput type="text" name="facebookUrl" placeholder="Enter facebook url" [(ngModel)]="aboutData.facebookUrl">
+        </mat-form-field>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <!-- linkedin Url -->
+        <mat-form-field appearance="outline" class="w-full mb-2">
+            <mat-label>Linkedin Url</mat-label>
+            <mat-icon matPrefix class="icon-sm" fontIcon="fa-linkedin" fontSet="fa"></mat-icon>
+            <input matInput type="text" name="linkeDinUrl" placeholder="Enter linkedin url" [(ngModel)]="aboutData.linkeDinUrl">
+        </mat-form-field>
+
+        <!-- Skype Url -->
+        <mat-form-field appearance="outline" class="w-full mb-2">
+            <mat-label>Skype Url</mat-label>
+            <mat-icon matPrefix class="icon-sm" fontIcon="fa-skype" fontSet="fa"></mat-icon>
+            <input matInput type="text" name="skypeUrl" placeholder="Enter skype url" [(ngModel)]="aboutData.skypeUrl">
+        </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+</mat-dialog-actions>

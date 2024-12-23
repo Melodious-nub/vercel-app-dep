@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>Return {{assetName}}</h2>
+
+<mat-dialog-content @fadeInUp class="pt-4 border-b">
+  <form>
+    <!-- Date -->
+    <mat-form-field appearance="outline" class="w-full mb-2">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="picker" placeholder="Select a date" [(ngModel)]="date" name="date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <!-- Comments -->
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Comments</mat-label>
+        <textarea matInput name="comments" rows="2" placeholder="Enter comments"></textarea>
+    </mat-form-field>    
+    
+    <!-- Inline Checkbox: Send Email Notification -->
+    <div class="flex items-center">
+        <mat-checkbox [(ngModel)]="sendEmailNotification" name="sendEmailNotification" class="mr-2" color="primary">
+          <span class="font-bold text-sm" style="color: rgba(0, 0, 0, 0.6);">Notify employee by email</span>
+        </mat-checkbox>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+</mat-dialog-actions>

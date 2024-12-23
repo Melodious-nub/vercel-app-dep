@@ -1,0 +1,63 @@
+<h2 mat-dialog-title>Long-term leave</h2>
+
+<mat-dialog-content @fadeInUp class="pt-4 border-b">
+  <form>
+    <!-- Alert Box -->
+    <div class="alert alert-warning flex items-center p-2 text-sm mb-4" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0 mr-4 ml-2" viewBox="0 0 16 16" fill="currentColor" aria-label="Warning:">
+        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </svg>
+        <div class="flex-grow">
+            Long-term leave feature is meant for long-term absences like maternity leave, where certain policies need to be put on "pause" so they don't accrue while an employee is away. If you want to add occasional days when an employee will be away, it's best to create a new time off policy called "Unpaid leave" & let your employees use that one instead.
+        </div>
+    </div>
+
+    <!-- reason -->
+    <mat-form-field appearance="outline" class="w-full mb-2">
+        <mat-label>Reason</mat-label>
+        <mat-select name="reason">
+        <mat-option value="unPaidLeave">Unpaid leave</mat-option>
+        <mat-option value="parentalLeave">Parental leave</mat-option>
+        <mat-option value="maternityLeave">Maternity leave</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <!-- Start Date -->
+        <mat-form-field appearance="outline" class="w-full mb-2">
+            <mat-label>Start date</mat-label>
+            <input matInput [matDatepicker]="startDatePicker" placeholder="Select a start date" [(ngModel)]="startDate" name="startDate">
+            <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #startDatePicker></mat-datepicker>
+        </mat-form-field>
+
+        <!-- end Date -->
+        <mat-form-field appearance="outline" class="w-full mb-2">
+            <mat-label>End date</mat-label>
+            <input matInput [matDatepicker]="endDatePicker" placeholder="Select a end date" name="endDate">
+            <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #endDatePicker></mat-datepicker>
+        </mat-form-field>
+    </div>
+
+    <div class="mb-3"><span class="text-sm text-black">During long-term leave, you may want to stop the accruals for specific policies. Here, you can specify which policies stop accruing during long-term leave</span> <span class="ms-2"><i class="fa-solid fa-circle-question" matTooltip="For allowances accrued annually, HRM tool will be automatically prorate the currently available allowance based on the long-term leave period"></i></span></div>
+
+    <!-- Inline Checkbox: Holiday checkbox -->
+    <div class="flex items-center mb-3">
+        <mat-checkbox [(ngModel)]="isHoliday" name="holiday" class="mr-2" color="primary">
+            <span class="font-bold text-sm" style="color: rgba(0, 0, 0, 0.6);">Holiday</span>
+        </mat-checkbox>
+    </div>
+
+    <!-- Additional comments -->
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Additional comments (optional)</mat-label>
+        <textarea matInput name="additionalComments" rows="2" placeholder="Type additional comments here"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+</mat-dialog-actions>

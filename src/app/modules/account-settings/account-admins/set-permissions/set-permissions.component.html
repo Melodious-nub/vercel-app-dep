@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Set admin permissions</h2>
+
+<mat-dialog-content @fadeInUp class="pt-1 border-b">
+  <form class="grid grid-cols-1 gap-2">
+    <mat-checkbox [(ngModel)]="permissions.addNewAdmin" color="primary">
+      <span class="font-bold">Can add new admins</span>
+    </mat-checkbox>
+    <mat-checkbox [(ngModel)]="permissions.deleteAdmins" color="primary">
+      <span class="font-bold">Can delete admins</span>
+    </mat-checkbox>
+    <mat-checkbox [(ngModel)]="permissions.manageEmployees" color="primary">
+      <span class="font-bold">Can manage employees</span>
+    </mat-checkbox>
+    <mat-checkbox [(ngModel)]="permissions.approveEmployeeTasks" color="primary">
+      <span class="font-bold">Can approve employee tasks</span>
+    </mat-checkbox>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+</mat-dialog-actions>

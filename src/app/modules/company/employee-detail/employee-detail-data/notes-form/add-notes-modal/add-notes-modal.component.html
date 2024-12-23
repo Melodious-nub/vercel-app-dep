@@ -1,0 +1,60 @@
+<h2 mat-dialog-title>Add New Note</h2>
+
+<mat-dialog-content @fadeInUp class="pt-4 border-b">
+  <form>
+    <!-- Note Textarea -->
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Enter a note</mat-label>
+      <textarea matInput [(ngModel)]="data.note" name="note" rows="3" placeholder="Type your note here"></textarea>
+    </mat-form-field>
+
+    <!-- Checkbox for Visibility -->
+    <mat-checkbox [(ngModel)]="data.visibleToOthers" name="visibleToOthers" class="mb-2" color="primary">
+      <span class="font-bold">This note should be visible to other users</span>
+    </mat-checkbox>
+
+    <!-- Alert Box -->
+    <div *ngIf="showAlert" class="alert alert-warning flex items-center p-2 text-sm mb-4" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0 mr-4 ml-2" viewBox="0 0 16 16" fill="currentColor" aria-label="Warning:">
+          <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </svg>
+        <div class="flex-grow">
+          If you uncheck this flag, only you and people with permission to see all the notes in your organization will be able to see it.
+        </div>
+        <button type="button" class="ml-3 text-gray-500 hover:text-gray-700" aria-label="Close" (click)="closeAlert()">
+          <mat-icon class="h-5 w-5" svgIcon="mat:close"></mat-icon>
+        </button>
+    </div>      
+
+    <!-- Add Attachment -->
+    <div class="mb-2 flex items-center">
+        <input type="file" 
+            #fileInput 
+            accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
+            style="display: none;" 
+            (change)="onFileSelected($event)">
+        
+        <button mat-raised-button 
+                color="primary" 
+                (click)="fileInput.click()" 
+                class="mr-3">
+        <mat-icon svgIcon="mat:attach_file"></mat-icon>
+        Add Attachment
+        </button>
+    
+        <!-- Attachment Info -->
+        <div *ngIf="attachmentName" class="flex items-center overflow-hidden">
+        <span class="text-sm mr-2 truncate max-w-xs">{{ attachmentName }}</span>
+        <button mat-icon-button color="warn" (click)="removeAttachment()">
+            <mat-icon svgIcon="mat:delete"></mat-icon>
+        </button>
+        </div>
+    </div>
+  
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+</mat-dialog-actions>

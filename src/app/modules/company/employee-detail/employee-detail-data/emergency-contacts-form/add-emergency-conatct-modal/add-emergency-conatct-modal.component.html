@@ -1,0 +1,82 @@
+<h2 mat-dialog-title>Add Emergency Contact</h2>
+
+<mat-dialog-content @fadeInUp class="pt-4 border-b">
+  <form #emergencyContactForm="ngForm">
+    <!-- Full Name -->
+    <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
+      <mat-label>Full Name</mat-label>
+      <input matInput name="name" placeholder="Enter full name" [(ngModel)]="contact.name" required>
+    </mat-form-field>
+
+    <!-- Relationship -->
+    <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
+      <mat-label>Relationship</mat-label>
+      <mat-select name="relationship" [(ngModel)]="contact.relationship" required>
+        <mat-option value="Brother">Brother</mat-option>
+        <mat-option value="Sister">Sister</mat-option>
+        <mat-option value="Son">Son</mat-option>
+        <mat-option value="Daughter">Daughter</mat-option>
+        <mat-option value="Father">Father</mat-option>
+        <mat-option value="Mother">Mother</mat-option>
+        <mat-option value="Husband">Husband</mat-option>
+        <mat-option value="Wife">Wife</mat-option>
+        <mat-option value="Partner">Partner</mat-option>
+        <mat-option value="Friend">Friend</mat-option>
+        <mat-option value="Other">Other</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Phone -->
+    <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
+      <mat-label>Phone</mat-label>
+      <mat-icon matPrefix svgIcon="mat:call"></mat-icon>
+      <input matInput type="tel" name="phone" placeholder="Enter phone number" [(ngModel)]="contact.phone" required>
+    </mat-form-field>
+
+    <!-- Work Phone -->
+    <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
+      <mat-label>Work Phone</mat-label>
+      <mat-icon matPrefix svgIcon="mat:call"></mat-icon>
+      <input matInput type="tel" name="workPhone" placeholder="Enter work phone number" [(ngModel)]="contact.workPhone">
+    </mat-form-field>
+
+    <!-- Email -->
+    <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" name="email" placeholder="Enter email" [(ngModel)]="contact.email" required>
+    </mat-form-field>
+
+    <!-- Country -->
+    <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
+      <mat-label>Country</mat-label>
+      <input type="text" 
+            placeholder="Select or type country" 
+            aria-label="Country" 
+            matInput 
+            [formControl]="countryControl" [(ngModel)]="contact.country" 
+            [matAutocomplete]="auto" required>
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onCountrySelected($event)">
+        <mat-option *ngFor="let country of filteredCountries | async" [value]="country">
+          {{ country }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <!-- Address -->
+    <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
+      <mat-label>Address</mat-label>
+      <input matInput name="address" placeholder="Example: 123 Main St, City, State/Province" [(ngModel)]="contact.address" required>
+    </mat-form-field>
+
+    <!-- Postal Code -->
+    <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
+      <mat-label>Postal Code</mat-label>
+      <input matInput type="text" name="postalCode" placeholder="Enter postal code" [(ngModel)]="contact.postalCode" required>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave(emergencyContactForm)" [disabled]="!emergencyContactForm.valid">Save</button>
+</mat-dialog-actions>

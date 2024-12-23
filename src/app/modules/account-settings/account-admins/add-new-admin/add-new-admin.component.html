@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>Add new admin</h2>
+
+<mat-dialog-content @fadeInUp class="pt-1 border-b">
+  <form class="mt-3">
+    <!-- Name -->
+    <mat-form-field appearance="outline" class="w-full mb-2">
+        <mat-label>Name</mat-label>
+        <mat-icon matPrefix class="icon-sm" fontIcon="fa-user" fontSet="fa"></mat-icon>
+        <input matInput type="text" name="name" placeholder="Enter name" [(ngModel)]="admins.name">
+    </mat-form-field>
+
+    <!-- email address -->
+    <mat-form-field appearance="outline" class="w-full mb-2">
+        <mat-label>Email Address</mat-label>
+        <mat-icon matPrefix class="icon-sm" svgIcon="mat:mail"></mat-icon>
+        <input matInput type="text" name="email" placeholder="Enter email address" [(ngModel)]="admins.email">
+    </mat-form-field>
+
+    <!-- phone number -->
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Phone Number</mat-label>
+        <mat-icon matPrefix class="icon-sm" svgIcon="mat:phone"></mat-icon>
+        <input matInput type="text" name="phone" placeholder="Enter phone number" [(ngModel)]="admins.phone">
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+</mat-dialog-actions>

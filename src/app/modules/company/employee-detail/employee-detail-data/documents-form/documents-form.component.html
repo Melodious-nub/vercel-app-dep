@@ -1,0 +1,105 @@
+<div class="p-6">
+    <form @fadeInRight class="container px-3">
+        <!-- heading only -->
+        <div @stagger class="mb-4">
+            <h2 class="mb-1 text-lg font-bold">Documents</h2>
+        </div>
+
+        <!-- note add button -->
+        <div class="flex flex-wrap mb-4 justify-start gap-3"> <!-- Flex container with wrap and gap -->
+            <button mat-raised-button type="button" color="primary" class="flex-shrink-0" (click)="openDocModal()">
+                <mat-icon class="ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 icon-sm" svgIcon="mat:add"></mat-icon>
+                <span>Upload document</span>
+            </button>
+
+            <!-- <button mat-raised-button color="primary" class="flex-shrink-0">
+                <mat-icon class="ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 icon-sm" svgIcon="mat:add"></mat-icon>
+                <span>Generate from template</span>
+            </button>
+
+            <button mat-raised-button color="primary" class="flex-shrink-0">
+                <mat-icon class="ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 icon-sm" svgIcon="mat:add"></mat-icon>
+                <span>Create signable document</span>
+            </button> -->
+        </div>
+
+        <div class="heading-with-table">
+            <!-- heading only -->
+            <!-- <div @stagger class="mb-4">
+                <h2 class="mb-1 text-lg font-bold">All documents</h2>
+            </div> -->
+
+            <div class="table-container border border-gray-300">
+                <table mat-table [dataSource]="dataSource" class="pt-2">
+                    <!-- File Name Column -->
+                    <ng-container matColumnDef="fileName">
+                    <th mat-header-cell *matHeaderCellDef> File Name </th>
+                    <td mat-cell *matCellDef="let row">
+                        <a mat-icon-button color="primary" [href]="row.fileName" target="_blank"><mat-icon color="primary" svgIcon="mat:cloud_download"></mat-icon></a>
+                    </td>
+                    </ng-container>
+                
+                    <!-- Description Column -->
+                    <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef> Description </th>
+                    <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                    </ng-container>
+                
+                    <!-- Upload Date Column -->
+                    <ng-container matColumnDef="upload_date">
+                    <th mat-header-cell *matHeaderCellDef> Upload Date </th>
+                    <td mat-cell *matCellDef="let element"> {{element.uploadDate}} </td>
+                    </ng-container>
+                
+                    <!-- Uploaded By Column -->
+                    <ng-container matColumnDef="uploaded_by">
+                    <th mat-header-cell *matHeaderCellDef> Uploaded By </th>
+                    <td mat-cell *matCellDef="let element"> {{element.uploadedBy}} </td>
+                    </ng-container>
+                
+                    <!-- Shared With Column -->
+                    <ng-container matColumnDef="shared_with">
+                    <th mat-header-cell *matHeaderCellDef> Shared With </th>
+                    <td mat-cell *matCellDef="let element"> {{element.sharedWith}} </td>
+                    </ng-container>
+                
+                    <!-- Status Column -->
+                    <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef> Status </th>
+                    <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                    </ng-container>
+                
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef>Actions</th>
+                        <td mat-cell *matCellDef="let row">
+                            <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+                                <mat-icon svgIcon="mat:more_vert"></mat-icon>
+                            </button>
+                            <mat-menu #actionsMenu="matMenu">
+                                <button mat-menu-item>Edit <mat-icon svgIcon="mat:edit"></mat-icon></button>
+                                <button mat-menu-item>Delete <mat-icon svgIcon="mat:delete"></mat-icon></button>
+                            </mat-menu>
+                        </td>
+                    </ng-container>                    
+                
+                    <!-- Header Row -->
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    
+                    <!-- Data Rows -->
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>           
+        </div>
+
+        <!-- <mat-accordion>
+            <mat-expansion-panel [expanded]="false">
+                <mat-expansion-panel-header class="border border-gray-300">
+                <mat-panel-title>
+                    <mat-icon svgIcon="mat:folder" color="grey"></mat-icon>
+                    <span class="ms-2 text-base font-semibold">General</span>
+                </mat-panel-title>
+                </mat-expansion-panel-header> 
+            </mat-expansion-panel>
+        </mat-accordion> -->
+    </form>
+</div>

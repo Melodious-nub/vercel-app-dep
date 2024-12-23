@@ -1,0 +1,43 @@
+table {
+    width: 100%;
+}
+
+// Table Header Style
+th {
+    font-weight: bold;
+    background-color: #f5f5f5; // Optional: light background for header
+}
+
+// Row Hover Effect
+tr:hover {
+    background-color: #f1f1f1; // Light gray on hover
+}
+
+// Table Container for Responsiveness
+.table-container {
+    overflow-x: auto; // Allow horizontal scrolling
+    margin: 0 auto; // Center the table
+
+    // Optional: Limit table's max width
+    table {
+        width: 100%;
+        max-width: 100%;
+        border-collapse: collapse; // Merge borders
+    }
+}
+
+// Cell Styling for Readability
+td,
+th {
+    padding: 6px; // Add padding for better spacing
+    text-align: center; // Align text to the left
+}
+
+.btn-green {
+    background-color: #4caf50; /* Green color */
+    color: white;
+}
+
+.btn-green:hover {
+    background-color: #45a049; /* Darker green on hover */
+}

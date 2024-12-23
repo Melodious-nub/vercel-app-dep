@@ -1,0 +1,75 @@
+<div class="p-6">
+    <form @fadeInRight class="container px-3">
+        <!-- heading only -->
+        <div @stagger class="mb-4">
+            <h2 class="mb-1 text-lg font-bold">Assets</h2>
+        </div>
+
+        <!-- asset add button -->
+        <div class="mb-4">
+            <button mat-raised-button type="button" color="primary" (click)="openAssetsModal()">
+                <mat-icon class="ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 icon-sm" svgIcon="mat:label"></mat-icon>
+                <span>Give asset</span>
+            </button>
+        </div>
+        
+        <div class="heading-with-table">
+            <!-- heading only -->
+            <!-- <div @stagger class="mb-4">
+                <h2 class="mb-1 text-lg font-bold">All assets</h2>
+            </div> -->
+
+            <div class="table-container border border-gray-300">
+                <table mat-table [dataSource]="dataSource" class="pt-2">
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Name </th>
+                        <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+                    </ng-container>
+                
+                    <!-- Category Column -->
+                    <ng-container matColumnDef="category">
+                        <th mat-header-cell *matHeaderCellDef> Category </th>
+                        <td mat-cell *matCellDef="let row">{{ row.category }}</td>
+                    </ng-container>
+                
+                    <!-- Description Column -->
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef> Description </th>
+                        <td mat-cell *matCellDef="let row">{{ row.description }}</td>
+                    </ng-container>
+                
+                    <!-- Asset Number Column -->
+                    <ng-container matColumnDef="assetNumber">
+                        <th mat-header-cell *matHeaderCellDef> Asset Number </th>
+                        <td mat-cell *matCellDef="let row">{{ row.assetNumber }}</td>
+                    </ng-container>
+                
+                    <!-- Serial Given Column -->
+                    <ng-container matColumnDef="serialGiven">
+                        <th mat-header-cell *matHeaderCellDef> Serial Given </th>
+                        <td mat-cell *matCellDef="let row">{{ row.serialGiven }}</td>
+                    </ng-container>
+                
+                    <!-- Actions Column -->
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef> Actions </th>
+                        <td mat-cell *matCellDef="let row">
+                            <button mat-stroked-button type="button" (click)="returnAssetModal(row)">
+                                <mat-icon class="ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 icon-sm" svgIcon="mat:keyboard_return"></mat-icon>
+                                <span>return</span>
+                            </button>
+                        </td>
+                    </ng-container>    
+                
+                    <!-- Header Row -->
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    
+                    <!-- Data Rows -->
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <!-- End of table -->
+            </div>           
+        </div>        
+    </form>
+</div>

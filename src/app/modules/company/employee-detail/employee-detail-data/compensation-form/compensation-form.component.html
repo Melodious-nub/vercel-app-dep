@@ -1,0 +1,75 @@
+<div class="p-6">
+    <form @fadeInRight class="container px-3">
+        <!-- heading & subheading -->
+        <div @stagger class="mb-4">
+            <h2 class="mb-1 text-lg font-bold">Compensation</h2>
+            <p class="text-sm text-gray-500">Here is the list of employee compensation for Shawon</p>
+        </div>
+
+        <!-- Add compensation button -->
+        <div class="mb-4">
+            <button mat-raised-button color="primary" type="button" (click)="addCompensation()">
+                <mat-icon class="ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 icon-sm" svgIcon="mat:account_balance_wallet"></mat-icon>
+                <span>Add compensation</span>
+            </button>
+
+            <button mat-raised-button class="ms-3 btn-green" type="button" (click)="exportToExcel()">
+                <i class="fa-solid fa-file-export me-2"></i>
+                <span>Export excel</span>
+            </button>
+        </div>
+
+        <div class="table-container border border-gray-300">
+            <table mat-table [dataSource]="dataSource" class="pt-2">
+                <!-- Dates Column -->
+                <ng-container matColumnDef="dates">
+                <th mat-header-cell *matHeaderCellDef> Dates </th>
+                <td mat-cell *matCellDef="let element"> {{element.dates}} </td>
+                </ng-container>
+            
+                <!-- Amount Column -->
+                <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef> Amount </th>
+                <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+                </ng-container>
+            
+                <!-- Type Column -->
+                <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef> Type </th>
+                <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+                </ng-container>
+            
+                <!-- Reason Column -->
+                <ng-container matColumnDef="reason">
+                <th mat-header-cell *matHeaderCellDef> Reason </th>
+                <td mat-cell *matCellDef="let element"> <span *ngIf="element.reason">{{element.reason}}</span> <span  *ngIf="!element.reason">Not availabe</span> </td>
+                </ng-container>
+            
+                <!-- Comments Column -->
+                <ng-container matColumnDef="comments">
+                <th mat-header-cell *matHeaderCellDef> Comments </th>
+                <td mat-cell *matCellDef="let element"> {{element.comments}} </td>
+                </ng-container>
+            
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>Actions</th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+                            <mat-icon svgIcon="mat:more_vert"></mat-icon>
+                        </button>
+                        <mat-menu #actionsMenu="matMenu">
+                            <button mat-menu-item>Edit <mat-icon svgIcon="mat:edit"></mat-icon></button>
+                            <button mat-menu-item>Delete <mat-icon svgIcon="mat:delete"></mat-icon></button>
+                        </mat-menu>
+                    </td>
+                </ng-container>                    
+            
+                <!-- Header Row -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                
+                <!-- Data Rows -->
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </form>
+</div>

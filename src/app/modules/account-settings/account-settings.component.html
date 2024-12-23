@@ -1,0 +1,30 @@
+<vex-page-layout mode="card">
+    <vex-page-layout-header class="flex flex-col items-start justify-center">
+      <div class="container">
+        <h1 class="display-1 m-0">Account settings</h1>
+      </div>
+    </vex-page-layout-header>
+  
+    <vex-page-layout-content class="container">
+      <div class="card">
+        <mat-tab-group>
+          <mat-tab label="General">
+            <div class="p-6">
+              <vex-account-general></vex-account-general>
+            </div>
+          </mat-tab>
+          <mat-tab label="Security and Notification">
+            <div class="p-6">
+              <vex-account-security></vex-account-security>
+            </div>
+          </mat-tab>
+          <mat-tab label="Manage Admins">
+            <div class="p-6">
+              <vex-account-admins></vex-account-admins>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </vex-page-layout-content>
+</vex-page-layout>
+  

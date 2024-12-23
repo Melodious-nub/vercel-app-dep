@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Add New Position</h2>
+
+<mat-dialog-content @fadeInUp class="pt-4 border-b">
+  <form>
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Position Name</mat-label>
+      <input matInput [(ngModel)]="data.positionName" name="positionName" placeholder="Enter position name">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="width: 100%;" class="mt-2">
+      <mat-label>Start Date</mat-label>
+      <input matInput [matDatepicker]="modalPicker" [(ngModel)]="data.startDate" name="startDate" placeholder="Choose a date">
+      <mat-datepicker-toggle matSuffix [for]="modalPicker"></mat-datepicker-toggle>
+      <mat-datepicker #modalPicker></mat-datepicker>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+</mat-dialog-actions>

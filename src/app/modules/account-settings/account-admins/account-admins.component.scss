@@ -1,0 +1,58 @@
+// Card styles
+.card {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  
+    .mat-tab-group {
+      margin-top: 16px;
+  
+      .mat-tab-label {
+        font-weight: bold;
+      }
+    }
+  }
+  
+  // Tab content styling
+  .tab-content {
+    padding: 24px;
+  
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+  
+    .input-field {
+      width: 100%;
+      margin-bottom: 16px;
+  
+      mat-label {
+        font-size: 14px;
+      }
+    }
+  
+    button {
+      margin-top: 8px;
+    }
+  }
+  
+  // Admin table styling
+  .admin-table {
+    width: 100%;
+    margin-top: 16px;
+  
+    th {
+      font-weight: 600;
+      color: #444;
+    }
+  
+    td {
+      color: #666;
+    }
+  
+    .mat-icon-button {
+      color: #e53935;
+    }
+  }
+  
