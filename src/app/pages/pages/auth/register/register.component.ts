@@ -1,19 +1,13 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import {
-  ReactiveFormsModule,
-  UntypedFormBuilder,
-  UntypedFormGroup,
+  FormBuilder,
   Validators
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatIconModule } from '@angular/material/icon';
-import { NgIf } from '@angular/common';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MATERIAL_IMPORTS } from 'src/app/material-imports';
+import { MatStepper } from '@angular/material/stepper';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'vex-register',
@@ -22,36 +16,45 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   animations: [fadeInUp400ms],
   standalone: true,
   imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatTooltipModule,
-    NgIf,
-    MatIconModule,
-    MatCheckboxModule,
-    RouterLink
+    RouterLink,
+    MatSnackBarModule,
+    MATERIAL_IMPORTS
   ]
 })
 export class RegisterComponent {
-  form: UntypedFormGroup = this.fb.group({
-    name: ['', Validators.required],
+  firstFormGroup = this.fb.group({
     email: ['', Validators.required],
     password: ['', Validators.required],
     passwordConfirm: ['', Validators.required]
   });
+
+  secondFormGroup = this.fb.group({
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    organization: ['', Validators.required],
+    country: ['', Validators.required],
+    numberOfEmployees: ['', Validators.required],
+  });
+
+  countries = ['Bangladesh', 'USA', 'UK', 'India', 'Canada'];
+  employeeCounts = ['1-10', '11-50', '51-200', '201-500', '501+'];
 
   inputType = 'password';
   visible = false;
 
   constructor(
     private router: Router,
-    private fb: UntypedFormBuilder,
-    private cd: ChangeDetectorRef
-  ) {}
+    private fb: FormBuilder,
+    private cd: ChangeDetectorRef,
+    private snackbar: MatSnackBar
+  ) { }
 
-  send() {
-    this.router.navigate(['/']);
+  createAccount(stepper: MatStepper) {
+    if (this.firstFormGroup.valid) {
+      stepper.next();
+    } else {
+      this.snackbar.open('Please provide valid input', 'Close', { duration: 3000 });
+    }
   }
 
   toggleVisibility() {

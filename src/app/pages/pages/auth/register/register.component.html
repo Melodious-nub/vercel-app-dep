@@ -1,17 +1,133 @@
 <div class="w-full h-full bg-pattern flex flex-col items-center justify-center">
-  <div @fadeInUp class="card overflow-hidden w-full max-w-md">
-    <div class="p-6 pb-0 flex flex-col items-center justify-center">
-      <div class="fill-current text-center">
-        <img class="w-16" src="assets/img/logo/logo.svg" />
-      </div>
-    </div>
-
+  <div @fadeInUp class="card w-full max-w-lg">
     <div class="text-center mt-4">
       <h2 class="title m-0">Register for an account</h2>
       <h4 class="body-2 text-secondary m-0">Simply fill out the form below</h4>
     </div>
 
-    <div
+    <mat-stepper linear #stepper>
+      <ng-template matStepperIcon="edit">
+          <mat-icon svgIcon="mat:done_all"></mat-icon>
+          </ng-template>
+    
+          <ng-template matStepperIcon="done">
+          <mat-icon svgIcon="mat:done_all"></mat-icon>
+      </ng-template>
+      <!-- First Step -->
+      <mat-step [stepControl]="firstFormGroup" [editable]="true">
+        <mat-dialog-content class="mat-typography">
+        <form [formGroup]="firstFormGroup" class="row">
+          <ng-template matStepLabel>Step 1</ng-template>
+          <div class="mb-2"></div>
+          <!-- Email -->
+          <mat-form-field appearance="outline">
+            <mat-label>Your work email</mat-label>
+            <input matInput formControlName="email" placeholder="Email" required type="email">
+            <mat-error *ngIf="firstFormGroup.get('email')?.hasError('email')">
+              Please enter a valid email.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input
+              [type]="inputType"
+              formControlName="password"
+              matInput
+              required />
+            <button
+              (click)="toggleVisibility()"
+              mat-icon-button
+              matIconSuffix
+              matTooltip="Toggle Visibility"
+              type="button">
+              <mat-icon *ngIf="visible" svgIcon="mat:visibility"></mat-icon>
+              <mat-icon *ngIf="!visible" svgIcon="mat:visibility_off"></mat-icon>
+            </button>
+          </mat-form-field>
+  
+          <mat-form-field>
+            <mat-label>Password (Confirm)</mat-label>
+            <input
+              [type]="inputType"
+              formControlName="passwordConfirm"
+              matInput
+              required />
+            <button
+              (click)="toggleVisibility()"
+              mat-icon-button
+              matIconSuffix
+              matTooltip="Toggle Visibility"
+              type="button">
+              <mat-icon *ngIf="visible" svgIcon="mat:visibility"></mat-icon>
+              <mat-icon *ngIf="!visible" svgIcon="mat:visibility_off"></mat-icon>
+            </button>
+          </mat-form-field>
+          <!-- Buttons -->
+          <div class="actions d-grid mt-2">
+            <!-- Next Button -->
+            <button type="button" color="primary" mat-raised-button (click)="createAccount(stepper)">Continue</button>
+          </div>
+          <p class="text-secondary text-center mt-3">
+            Already have an account?<br />
+            <a [routerLink]="['/login']" type="button" class="text-blue-500">Sign in here</a>
+          </p>
+        </form>
+      </mat-dialog-content>
+      </mat-step>
+    
+    <!-- Second Step -->
+    <mat-step [stepControl]="secondFormGroup" [editable]="true">
+    <mat-dialog-content class="mat-typography">
+      <form [formGroup]="secondFormGroup" class="row">
+        <ng-template matStepLabel class="mb-2">Step 2</ng-template>
+        <div class="mb-2"></div>
+      
+        <!-- Input for First Name -->
+        <mat-form-field appearance="outline" class="col-md-6">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName" placeholder="First Name" required>
+        </mat-form-field>
+      
+        <!-- Input for Last Name -->
+        <mat-form-field appearance="outline" class="col-md-6">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName" placeholder="Last Name" required>
+        </mat-form-field>
+      
+        <!-- Input for Organization Name -->
+        <mat-form-field appearance="outline">
+          <mat-label>Organization Name</mat-label>
+          <input matInput formControlName="organization" placeholder="Organization Name" required>
+        </mat-form-field>
+      
+        <!-- Select for Country -->
+        <mat-form-field appearance="outline" class="col-md-12">
+          <mat-label>Country</mat-label>
+          <mat-select formControlName="country" required>
+            <mat-option *ngFor="let country of countries" [value]="country">{{ country }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      
+        <!-- Select for Number of Employees -->
+        <mat-form-field appearance="outline" class="col-md-12">
+          <mat-label>Number of Employees</mat-label>
+          <mat-select formControlName="numberOfEmployees" required>
+            <mat-option *ngFor="let count of employeeCounts" [value]="count">{{ count }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      
+        <!-- Buttons -->
+        <div class="actions flex items-center justify-end gap-2">
+          <button mat-raised-button matStepperPrevious>Back</button>
+          <button mat-raised-button color="primary" type="submit">Create</button>
+        </div>
+      </form>
+    </mat-dialog-content>
+    </mat-step>
+    </mat-stepper>
+
+    <!-- <div
       [formGroup]="form"
       class="p-6 flex flex-col gap-4 flex-auto flex flex-col">
       <div>
@@ -74,6 +190,6 @@
         Already have an account?<br />
         <a [routerLink]="['/login']">Sign in here</a>
       </p>
-    </div>
+    </div> -->
   </div>
 </div>

@@ -1,6 +1,5 @@
 .bg-pattern {
-  background: linear-gradient(
-      135deg,
+  background: linear-gradient(135deg,
       var(--vex-background-background) 22px,
       var(--vex-background-hover) 22px,
       var(--vex-background-hover) 24px,
@@ -8,10 +7,8 @@
       transparent 67px,
       var(--vex-background-hover) 67px,
       var(--vex-background-hover) 69px,
-      transparent 69px
-  ),
-  linear-gradient(
-      225deg,
+      transparent 69px),
+    linear-gradient(225deg,
       var(--vex-background-background) 22px,
       var(--vex-background-hover) 22px,
       var(--vex-background-hover) 24px,
@@ -19,8 +16,11 @@
       transparent 67px,
       var(--vex-background-hover) 67px,
       var(--vex-background-hover) 69px,
-      transparent 69px
-  ) 0 64px;
+      transparent 69px) 0 64px;
   background-color: var(--vex-background-background);
   background-size: 64px 128px;
+}
+
+.mat-stepper-horizontal {
+  margin-top: 8px;
 }

@@ -1,9 +1,9 @@
 import { Component, Inject, inject } from '@angular/core';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import {FormBuilder, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatStepper, MatStepperModule} from '@angular/material/stepper';
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -17,9 +17,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { stagger60ms } from '@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
-import {MatChipEditedEvent, MatChipInputEvent, MatChipsModule} from '@angular/material/chips'; 
+import { MatChipEditedEvent, MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { DataService } from 'src/app/services/data.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -79,8 +79,8 @@ export class CreateEmployeeComponent {
     isDirectManager: [false],
     isTeamManager: [false],
   });
-  
-  creadtedAcoountId:any;
+
+  creadtedAcoountId: any;
 
   positions = ['Java', 'Management', 'Angular', 'SQA', 'Marketing', 'DevOps'];
   teams = ['Java team', 'Management team', 'Angular team', 'SQA team', 'Marketing team', 'DevOps team'];
@@ -92,7 +92,7 @@ export class CreateEmployeeComponent {
   // Separate property to hold the image file
   profilePic: string | null = null; // To store the selected image name
 
-  constructor(private _formBuilder: FormBuilder, private dialogRef: MatDialogRef<CreateEmployeeComponent>, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: { refreshEmployees: () => void }) {}
+  constructor(private _formBuilder: FormBuilder, private dialogRef: MatDialogRef<CreateEmployeeComponent>, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: { refreshEmployees: () => void }) { }
 
   // Close function to handle the close button
   close() {
@@ -171,43 +171,43 @@ export class CreateEmployeeComponent {
     if (this.firstFormGroup.valid) {
       stepper.next();
       // Get form data
-    //   const employeeData = this.firstFormGroup.value;
-  
-    //   // Format startDate
-    //   if (employeeData.startDate) {
-    //     employeeData.startDate = new Date(employeeData.startDate).toISOString().split('T')[0]; // Format as YYYY-MM-DD
-    //   }
-  
-    //   // console.log(employeeData);
-  
-    //   // Simulate API call for employee creation
-    //   this.api.createEmployee(employeeData).subscribe({
-    //     next: (response) => {
-    //       this.creadtedAcoountId = response.id;
-    //       // console.log(this.creadtedAcoountId, 'created id');
-  
-    //       // Show success message
-    //       this.snackbar.open('Employee created successfully!', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
+      //   const employeeData = this.firstFormGroup.value;
 
-    //       // Call the parent's fetchAllEmployee method
-    //       if (this.data?.refreshEmployees) {
-    //         this.data.refreshEmployees();
-    //       }
-  
-    //       // Go to the next step
-    //       stepper.next();
-    //     },
-    //     error: (error) => {
-    //       // Show error message
-    //       this.snackbar.open('Failed to create employee. Please try again.', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
-    //     },
-    //   });
-    // } else {
-    //   // Mark all fields as touched to show validation errors
-    //   this.firstFormGroup.markAllAsTouched();
-    //   this.snackbar.open('Please fill in all required fields.', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
+      //   // Format startDate
+      //   if (employeeData.startDate) {
+      //     employeeData.startDate = new Date(employeeData.startDate).toISOString().split('T')[0]; // Format as YYYY-MM-DD
+      //   }
+
+      //   // console.log(employeeData);
+
+      //   // Simulate API call for employee creation
+      //   this.api.createEmployee(employeeData).subscribe({
+      //     next: (response) => {
+      //       this.creadtedAcoountId = response.id;
+      //       // console.log(this.creadtedAcoountId, 'created id');
+
+      //       // Show success message
+      //       this.snackbar.open('Employee created successfully!', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
+
+      //       // Call the parent's fetchAllEmployee method
+      //       if (this.data?.refreshEmployees) {
+      //         this.data.refreshEmployees();
+      //       }
+
+      //       // Go to the next step
+      //       stepper.next();
+      //     },
+      //     error: (error) => {
+      //       // Show error message
+      //       this.snackbar.open('Failed to create employee. Please try again.', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
+      //     },
+      //   });
+      // } else {
+      //   // Mark all fields as touched to show validation errors
+      //   this.firstFormGroup.markAllAsTouched();
+      //   this.snackbar.open('Please fill in all required fields.', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
     }
-  }  
+  }
 
   employeeCreatedAcoountSettings() {
     if (this.secondFormGroup.valid) {
