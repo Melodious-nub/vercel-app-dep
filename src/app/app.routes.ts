@@ -9,166 +9,16 @@ import { Error404Component } from './pages/pages/errors/error-404/error-404.comp
 import { CompanyComponent } from './modules/company/company.component';
 import { CalendarComponent } from './pages/apps/calendar/calendar.component';
 import { EmployeeDetailComponent } from './modules/company/employee-detail/employee-detail.component';
-import { SocialComponent } from './pages/apps/social/social.component';
 import { MyProfileComponent } from './modules/my-profile/my-profile.component';
 import { AccountSettingsComponent } from './modules/account-settings/account-settings.component';
+import { ComingSoonComponent } from './pages/pages/coming-soon/coming-soon.component';
 
 export const appRoutes: VexRoutes = [
-  // {
-  //   path: 'login',
-  //   loadComponent: () =>
-  //     import('./pages/pages/auth/login/login.component').then(
-  //       (m) => m.LoginComponent
-  //     )
-  // },
-  // {
-  //   path: 'register',
-  //   loadComponent: () =>
-  //     import('./pages/pages/auth/register/register.component').then(
-  //       (m) => m.RegisterComponent
-  //     )
-  // },
-  // {
-  //   path: 'employee',
-  //   component: LayoutComponent,
-  //   children: [
-  //     {
-  //       path: 'directory',
-  //       loadComponent: () =>
-  //         import('./pages/apps/aio-table/aio-table.component').then(
-  //           (m) => m.AioTableComponent
-  //         ),
-  //       data: {
-  //         toolbarShadowEnabled: false
-  //       }
-  //     },
-  //     {
-  //       path: 'employee',
-  //       loadComponent: () =>
-  //         import('./pages/apps/aio-table/aio-table.component').then(
-  //           (m) => m.AioTableComponent
-  //         ),
-  //       data: {
-  //         toolbarShadowEnabled: false
-  //       }
-  //     },
-  //     {
-  //       path: 'personal',
-  //       loadComponent: () =>
-  //         import('./pages/apps/aio-table/aio-table.component').then(
-  //           (m) => m.AioTableComponent
-  //         ),
-  //       data: {
-  //         toolbarShadowEnabled: false
-  //       }
-  //     },
-  //     {
-  //       path: 'notes',
-  //       loadComponent: () =>
-  //         import('./pages/apps/aio-table/aio-table.component').then(
-  //           (m) => m.AioTableComponent
-  //         ),
-  //       data: {
-  //         toolbarShadowEnabled: false
-  //       }
-  //     },
-  //     {
-  //       path: 'documents',
-  //       loadComponent: () =>
-  //         import('./pages/apps/aio-table/aio-table.component').then(
-  //           (m) => m.AioTableComponent
-  //         ),
-  //       data: {
-  //         toolbarShadowEnabled: false
-  //       }
-  //     },
-  //     {
-  //       path: 'assets',
-  //       loadComponent: () =>
-  //         import('./pages/apps/aio-table/aio-table.component').then(
-  //           (m) => m.AioTableComponent
-  //         ),
-  //       data: {
-  //         toolbarShadowEnabled: false
-  //       }
-  //     },
-  //     {
-  //       path: 'training',
-  //       loadComponent: () =>
-  //         import('./pages/apps/aio-table/aio-table.component').then(
-  //           (m) => m.AioTableComponent
-  //         ),
-  //       data: {
-  //         toolbarShadowEnabled: false
-  //       }
-  //     },
-  //     {
-  //       path: 'emergency-contacts',
-  //       loadComponent: () =>
-  //         import('./pages/apps/aio-table/aio-table.component').then(
-  //           (m) => m.AioTableComponent
-  //         ),
-  //       data: {
-  //         toolbarShadowEnabled: false
-  //       }
-  //     },
-  //     {
-  //       path: 'tasks',
-  //       loadComponent: () =>
-  //         import('./pages/apps/aio-table/aio-table.component').then(
-  //           (m) => m.AioTableComponent
-  //         ),
-  //       data: {
-  //         toolbarShadowEnabled: false
-  //       }
-  //     },
-  //     {
-  //       path: 'onboading',
-  //       loadComponent: () =>
-  //         import('./pages/apps/aio-table/aio-table.component').then(
-  //           (m) => m.AioTableComponent
-  //         ),
-  //       data: {
-  //         toolbarShadowEnabled: false
-  //       }
-  //     },
-  //     {
-  //       path: 'reports',
-  //       loadComponent: () =>
-  //         import('./pages/apps/aio-table/aio-table.component').then(
-  //           (m) => m.AioTableComponent
-  //         ),
-  //       data: {
-  //         toolbarShadowEnabled: false
-  //       }
-  //     },
-  //     {
-  //       path: 'time-off',
-  //       loadComponent: () =>
-  //         import('./pages/apps/aio-table/aio-table.component').then(
-  //           (m) => m.AioTableComponent
-  //         ),
-  //       data: {
-  //         toolbarShadowEnabled: false
-  //       }
-  //     },
-  //     {
-  //       path: 'compensation',
-  //       loadComponent: () =>
-  //         import('./pages/apps/aio-table/aio-table.component').then(
-  //           (m) => m.AioTableComponent
-  //         ),
-  //       data: {
-  //         toolbarShadowEnabled: false
-  //       }
-  //     },
-  //   ]
-  // }
-
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'welcome-page', component: ComingSoonComponent },
   {
     path: 'dashboard',
     component: LayoutComponent,
@@ -178,8 +28,8 @@ export const appRoutes: VexRoutes = [
       { path: 'company', component: CompanyComponent },
       { path: 'company/:id', component: EmployeeDetailComponent }, // Route with ID parameter
       { path: 'calender', component: CalendarComponent },
-      {path: 'my-profile', component: MyProfileComponent},
-      {path: 'account-settings', component: AccountSettingsComponent},
+      { path: 'my-profile', component: MyProfileComponent },
+      { path: 'account-settings', component: AccountSettingsComponent },
     ]
   },
   { path: '**', component: Error404Component }

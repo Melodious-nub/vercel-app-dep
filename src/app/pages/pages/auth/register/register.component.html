@@ -1,5 +1,5 @@
 <div class="w-full h-full bg-pattern flex flex-col items-center justify-center">
-  <div @fadeInUp class="card w-full max-w-lg">
+  <div @fadeInUp class="card w-full max-w-xl">
     <div class="text-center mt-4">
       <h2 class="title m-0">Register for an account</h2>
       <h4 class="body-2 text-secondary m-0">Simply fill out the form below</h4>
@@ -126,7 +126,7 @@
         <!-- Buttons -->
         <div class="actions flex items-center justify-end gap-2">
           <button mat-raised-button matStepperPrevious>Back</button>
-          <button mat-raised-button color="primary" type="button" (click)="registerAccount()">Create</button>
+          <button mat-raised-button color="primary" type="button" (click)="registerAccount()" [disabled]="isSubmitting">Create</button>
         </div>
       </form>
     </mat-dialog-content>

@@ -1,12 +1,11 @@
 <div
   @fadeInUp
-  class="card shadow-xl text-center w-full max-w-sm overflow-hidden">
+  class="card shadow-xl text-center w-full max-w-lg overflow-hidden">
   <div class="p-6 flex flex-col items-center">
-    <img class="w-16" src="assets/img/logo/logo.svg" />
+    <img class="w-16" src="assets/img/logo/welcome.png" />
   </div>
-
-  <h1 class="display-1 font-medium m-0">COMING SOON</h1>
-  <h3 class="title mt-3 mb-0">Our website is under construction.</h3>
+  <h1 class="display-1 font-medium m-0">🎉 Congrats!</h1>
+  <h3 class="title mt-3 mb-0">You're all set to explore our HRM app.</h3>
 
   <div class="my-6 flex items-center justify-center gap-3">
     <a class="cursor-pointer">
@@ -25,16 +24,11 @@
 
   <div class="bg-app-bar p-6 flex flex-col">
     <p class="mt-0 mb-4 font-medium">
-      If you would like to get notified as soon as we launch, subscribe below
-      and follow us on socials!
+      Welcome aboard! We're excited to have you join us. Dive into our HRM app to manage, simplify, and elevate your workforce experience.
     </p>
 
-    <mat-form-field>
-      <mat-label>E-Mail</mat-label>
-      <input matInput />
-      <mat-icon matIconSuffix svgIcon="mat:mail"></mat-icon>
-    </mat-form-field>
-
-    <button color="primary" mat-raised-button type="button">Subscribe</button>
+    <button color="primary" mat-raised-button type="button" routerLink="/login">
+      Go to Login
+    </button>
   </div>
 </div>
