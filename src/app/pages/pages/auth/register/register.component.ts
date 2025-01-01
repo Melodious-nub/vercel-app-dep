@@ -1,13 +1,14 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   Validators
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
 import { MATERIAL_IMPORTS } from 'src/app/material-imports';
 import { MatStepper } from '@angular/material/stepper';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'vex-register',
@@ -21,7 +22,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MATERIAL_IMPORTS
   ]
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   firstFormGroup = this.fb.group({
     email: ['', Validators.required],
     password: ['', Validators.required],
@@ -34,26 +35,53 @@ export class RegisterComponent {
     organization: ['', Validators.required],
     country: ['', Validators.required],
     numberOfEmployees: ['', Validators.required],
+    phoneNumber: ['', Validators.required],
   });
 
-  countries = ['Bangladesh', 'USA', 'UK', 'India', 'Canada'];
-  employeeCounts = ['1-10', '11-50', '51-200', '201-500', '501+'];
+  countries: { id: number, name: string }[] = [];
+  employeeCounts: { id: number, label: string }[] = [];
 
   inputType = 'password';
+  inputType2 = 'password';
   visible = false;
+  visible2 = false;
 
   constructor(
-    private router: Router,
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private api: DataService
   ) { }
+
+  ngOnInit(): void {
+    this.fetchCountries();
+    this.fetchInitializeEmployeeCounts();
+  }
+
+  fetchCountries() {
+    this.api.getAllCountries().subscribe((res: any[]) => {
+      this.countries = res.map(country => ({ id: country.id, name: country.name }));
+    });
+  }
+
+  fetchInitializeEmployeeCounts() {
+    this.api.getAllEmployeeRange().subscribe(res => {
+      // console.log(res);
+      this.employeeCounts = res;
+    })
+  }
 
   createAccount(stepper: MatStepper) {
     if (this.firstFormGroup.valid) {
       stepper.next();
     } else {
       this.snackbar.open('Please provide valid input', 'Close', { duration: 3000 });
+    }
+  }
+
+  registerAccount() {
+    const body = {
+      email: this.firstFormGroup.value.email, password: this.firstFormGroup.value.password, phoneNumber: this.secondFormGroup.value.phoneNumber,
     }
   }
 
@@ -65,6 +93,18 @@ export class RegisterComponent {
     } else {
       this.inputType = 'text';
       this.visible = true;
+      this.cd.markForCheck();
+    }
+  }
+
+  toggleVisibility2() {
+    if (this.visible2) {
+      this.inputType2 = 'password';
+      this.visible2 = false;
+      this.cd.markForCheck();
+    } else {
+      this.inputType2 = 'text';
+      this.visible2 = true;
       this.cd.markForCheck();
     }
   }

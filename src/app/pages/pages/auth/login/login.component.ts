@@ -56,7 +56,7 @@ export class LoginComponent {
     private cd: ChangeDetectorRef,
     private snackbar: MatSnackBar,
     private authService: AuthService
-  ) {}
+  ) { }
 
   send() {
     if (this.form.valid) {
@@ -65,26 +65,32 @@ export class LoginComponent {
 
       const email = this.form.get('email')?.value || '';
       const password = this.form.get('password')?.value || '';
+      const formData = new FormData();
 
-      this.authService.login(email, password).subscribe({
+      formData.append('username ', email);
+      formData.append('password  ', password);
+
+
+      this.authService.login(formData).subscribe({
         next: (response) => {
-          this.loading = false;  // Stop loading
-          if (response.success) {
+          this.loading = false; // Stop loading
+          if (response) {
             this.snackbar.open('Login successful!', 'Close', { duration: 3000 });
             this.router.navigate(['dashboard/analytics']);
           } else {
-            this.snackbar.open('Login failed. Please try again.', 'Close', { duration: 3000 });
+            this.snackbar.open('Invalid credentials. Please try again.', 'Close', { duration: 3000 });
           }
         },
         error: () => {
-          this.loading = false;  // Stop loading on error
-          this.snackbar.open('Login failed. Please try again.', 'Close', { duration: 3000 });
+          this.loading = false; // Stop loading on error
+          this.snackbar.open('An error occurred during login. Please try again.', 'Close', { duration: 3000 });
         }
       });
     } else {
       this.snackbar.open('Please enter valid credentials.', 'Close', { duration: 3000 });
     }
   }
+
 
   toggleVisibility() {
     if (this.visible) {
