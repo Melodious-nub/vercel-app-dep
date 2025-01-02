@@ -32,4 +32,12 @@ export class EmployeeCardComponent implements OnInit {
     });
   }
 
+  callTo(phoneNumber: string) {
+    window.location.href = `tel:${phoneNumber}`;
+  }
+
+  mailTo(email: string) {
+    window.location.href = `mailto:${email}`;
+  }
+
 }

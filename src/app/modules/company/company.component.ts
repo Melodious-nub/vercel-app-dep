@@ -80,20 +80,19 @@ export class CompanyComponent implements OnInit {
     this.fetchAllEmployee();
   }
 
-  @ViewChild('openDialogButton') openDialogButton!: ElementRef
+  // @ViewChild('openDialogButton') openDialogButton!: ElementRef
 
   openContact(id?: Contact['id']) {
     const dialogRef = this.dialog.open(CreateEmployeeComponent, {
       width: '700px',
       disableClose: true,
       restoreFocus: false,
-      data: { refreshEmployees: this.fetchAllEmployee.bind(this) },
+      // data: { refreshEmployees: this.fetchAllEmployee.bind(this) },
     });
 
     dialogRef.afterClosed().subscribe(() => {
       // Focus on the button or element that opens the dialog
-      this.openDialogButton.nativeElement.focus();
-      // console.log('after modal closed');
+      this.fetchAllEmployee();
     });
   }
 
@@ -114,7 +113,7 @@ export class CompanyComponent implements OnInit {
       next: (response) => {
         // console.log(response.content);
         this.employeesList = response.content;
-        // console.log('employee list called', this.employeesList);
+        console.log('employee list called', this.employeesList);
       },
       error: (error) => {
         console.log(error, 'error log');

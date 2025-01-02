@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, Inject, inject, OnInit } from '@angular/core';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -53,46 +53,122 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   templateUrl: './create-employee.component.html',
   styleUrls: ['./create-employee.component.scss']
 })
-export class CreateEmployeeComponent {
+export class CreateEmployeeComponent implements OnInit {
   firstFormGroup = this._formBuilder.group({
     name: ['', Validators.required],
     phone: ['', Validators.required],
-    designation: ['', Validators.required],
+    department: [null, Validators.required],
+    designation: [null, Validators.required],
     email: ['', [Validators.required, Validators.email]],
     startDate: ['', Validators.required],
   });
 
   secondFormGroup = this._formBuilder.group({
-    position: ['', Validators.required],
-    onboardingMentor: ['', Validators.required],
-    directManager: ['', Validators.required],
-    team: ['', Validators.required],
-    location: ['', Validators.required],
-    publicHolidayGroup: ['', Validators.required],
+    position: [null, Validators.required],
+    // onboardingMentor: ['', Validators.required],
+    // directManager: ['', Validators.required],
+    team: [null, Validators.required],
+    location: [null, Validators.required],
+    // publicHolidayGroup: ['', Validators.required],
     workingPattern: ['', Validators.required],
-    isHoliday: [false],
-    isSickDay: [false],
-    isBusinessTrip: [false],
-    isConference: [false],
-    isWorkFromHome: [false],
-    isAdministrator: [false],
-    isDirectManager: [false],
-    isTeamManager: [false],
+    // isHoliday: [false],
+    // isSickDay: [false],
+    // isBusinessTrip: [false],
+    // isConference: [false],
+    // isWorkFromHome: [false],
+    // isAdministrator: [false],
+    // isDirectManager: [false],
+    // isTeamManager: [false],
   });
 
-  creadtedAcoountId: any;
+  allDepartments: any[] = [];
+  designationByDept: any[] = [];
 
-  positions = ['Java', 'Management', 'Angular', 'SQA', 'Marketing', 'DevOps'];
-  teams = ['Java team', 'Management team', 'Angular team', 'SQA team', 'Marketing team', 'DevOps team'];
-  locations = ['Dhaka', 'London', 'New York', 'Amsterdam'];
-  publicHolidayGroups = ['General', 'UK', 'India', 'US'];
-  workingPatterns = ['Full-time', 'Part-time', 'Contractual'];
+  policies: any[] = [];
+  selectedPolicyIds: number[] = []; // Stores selected policy IDs
+  positions: any[] = [];
+  teams: any[] = [];
+  locations: any[] = [];
+  // publicHolidayGroups = ['General', 'UK', 'India', 'US'];
+  workingPatterns: any[] = [];
 
   isEditable = false;
   // Separate property to hold the image file
-  profilePic: string | null = null; // To store the selected image name
+  profilePic: string | null = null; // To store the Base64 string
+  profilePicFile: File | null = null; // To store the selected file
 
   constructor(private _formBuilder: FormBuilder, private dialogRef: MatDialogRef<CreateEmployeeComponent>, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: { refreshEmployees: () => void }) { }
+
+  ngOnInit(): void {
+    this.fetchDepartment();
+  }
+
+  // Fetch all departments
+  fetchDepartment() {
+    this.api.getAllDepartments().subscribe({
+      next: (res) => {
+        this.allDepartments = res;
+      },
+      error: () => {
+        this.snackbar.open('Failed to load departments. Please try again.', 'Close', { duration: 3000 });
+      }
+    });
+  }
+
+  // Handle department selection
+  onDepartmentChange(departmentId: number) {
+    if (departmentId) {
+      this.fetchDesignationByDept(departmentId);
+    } else {
+      this.designationByDept = [];
+      this.firstFormGroup.patchValue({ designation: null });
+    }
+  }
+
+  // Fetch designations by department
+  fetchDesignationByDept(departmentId: number) {
+    this.api.getDesignationByDepartment(departmentId).subscribe({
+      next: (res) => {
+        this.designationByDept = res;
+      },
+      error: () => {
+        this.snackbar.open('Failed to load designations. Please try again.', 'Close', { duration: 3000 });
+      }
+    });
+  }
+
+  fetchDynamicSettings() {
+    this.api.getAllSettingDetails(this.firstFormGroup.value.department, this.firstFormGroup.value.designation).subscribe({
+      next: (res) => {
+        this.policies = res.policies;
+        this.positions = res.positions || [];
+        this.teams = res.teams || [];
+        this.workingPatterns = res.employmentStatus || [];
+        console.log('policies:', this.policies);
+      },
+      error: () => {
+        this.snackbar.open('Failed to load designations. Please try again.', 'Close', { duration: 3000 });
+      }
+    });
+
+    this.fetchCountries();
+  }
+
+  fetchCountries() {
+    this.api.getAllCountries().subscribe(res => {
+      this.locations = res;
+    })
+  }
+
+  // Toggle the selection of a policy
+  togglePolicySelection(policyId: number, isChecked: boolean) {
+    if (isChecked) {
+      this.selectedPolicyIds.push(policyId);
+    } else {
+      this.selectedPolicyIds = this.selectedPolicyIds.filter(id => id !== policyId);
+    }
+    // console.log('Selected Policies:', this.selectedPolicyIds);
+  }
 
   // Close function to handle the close button
   close() {
@@ -105,11 +181,13 @@ export class CreateEmployeeComponent {
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
+      this.profilePicFile = input.files[0]; // Store the file object
+
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.profilePic = e.target.result; // Set the preview image as the file's base64 data URL
+        this.profilePic = e.target.result; // Set the preview image as the file's Base64 data URL
       };
-      reader.readAsDataURL(input.files[0]);
+      reader.readAsDataURL(this.profilePicFile); // Read file as Base64
     }
   }
 
@@ -169,84 +247,53 @@ export class CreateEmployeeComponent {
 
   onEmployeeCreate(stepper: MatStepper) {
     if (this.firstFormGroup.valid) {
+      this.fetchDynamicSettings();
       stepper.next();
-      // Get form data
-      //   const employeeData = this.firstFormGroup.value;
-
-      //   // Format startDate
-      //   if (employeeData.startDate) {
-      //     employeeData.startDate = new Date(employeeData.startDate).toISOString().split('T')[0]; // Format as YYYY-MM-DD
-      //   }
-
-      //   // console.log(employeeData);
-
-      //   // Simulate API call for employee creation
-      //   this.api.createEmployee(employeeData).subscribe({
-      //     next: (response) => {
-      //       this.creadtedAcoountId = response.id;
-      //       // console.log(this.creadtedAcoountId, 'created id');
-
-      //       // Show success message
-      //       this.snackbar.open('Employee created successfully!', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
-
-      //       // Call the parent's fetchAllEmployee method
-      //       if (this.data?.refreshEmployees) {
-      //         this.data.refreshEmployees();
-      //       }
-
-      //       // Go to the next step
-      //       stepper.next();
-      //     },
-      //     error: (error) => {
-      //       // Show error message
-      //       this.snackbar.open('Failed to create employee. Please try again.', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
-      //     },
-      //   });
-      // } else {
-      //   // Mark all fields as touched to show validation errors
-      //   this.firstFormGroup.markAllAsTouched();
-      //   this.snackbar.open('Please fill in all required fields.', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
     }
   }
 
   employeeCreatedAcoountSettings() {
     if (this.secondFormGroup.valid) {
+      const startDateObj = this.firstFormGroup.value.startDate;
+      // Format the date to 'YYYY-MM-DD'
+      const formattedDate = startDateObj ? new Date(startDateObj).toLocaleDateString('en-CA') : '';
       // Simulate API call for employee creation
-      const employeeAccountSettingData = {
-        position: this.secondFormGroup.value.position,
-        onboardingMentor: 1,
-        manager: 1,
-        team: this.secondFormGroup.value.team,
-        location: this.secondFormGroup.value.location,
-        publicHolidayGroup: this.secondFormGroup.value.publicHolidayGroup,
-        workingPattern: this.secondFormGroup.value.workingPattern,
-        individualApprovers: [1, 2],
-        holiday: this.secondFormGroup.value.isHoliday,
-        sickDay: this.secondFormGroup.value.isSickDay,
-        directManager: this.secondFormGroup.value.isDirectManager,
-        conference: this.secondFormGroup.value.isConference,
-        workFromHome: this.secondFormGroup.value.isWorkFromHome,
-        administrator: this.secondFormGroup.value.isAdministrator,
-        businessTrip: this.secondFormGroup.value.isBusinessTrip,
-        teamManager: this.secondFormGroup.value.isTeamManager
-      };
+      const body: any = {
+        name: this.firstFormGroup.value.name, phone: this.firstFormGroup.value.phone, email: this.firstFormGroup.value.email, designationId: this.firstFormGroup.value.designation, departmentId: this.firstFormGroup.value.department, startDate: formattedDate, policyIds: this.selectedPolicyIds.join(','), positionId: this.secondFormGroup.value.position, teamId: this.secondFormGroup.value.team, countryId: this.secondFormGroup.value.location, employmentStatus: this.secondFormGroup.value.workingPattern
+      }
 
-      const employeeId = this.creadtedAcoountId;
-      // console.log(employeeAccountSettingData, employeeId, "employeeAccountSettingData");
+      console.log(body, this.profilePicFile);
+      const formData = new FormData();
 
-      // this.api.createdEmployeeAcoountSetting(employeeAccountSettingData, employeeId).subscribe({
-      //   next: (response) => {
-      //     // Show success message
-      //     this.snackbar.open('Employee setting added successfully!', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
-      //     // console.log(response, 'final res');
-      //     this.close();
-      //   }, error: (error) => {
-      //     // Show error message
-      //     this.snackbar.open('Server error!', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
-      //     this.close();
-      //   }
-      // })
+      // Ensure profilePic is valid before appending
+      if (this.profilePicFile) {
+        formData.append('image', this.profilePicFile); // Append the base64 string
+      }
+
+      formData.append('name', body.name);
+      formData.append('phone', body.phone);
+      formData.append('email', body.email);
+      formData.append('designationId', body.designationId);
+      formData.append('departmentId', body.departmentId);
+      formData.append('startDate', body.startDate);
+      formData.append('policyIds', body.policyIds);
+      formData.append('positionId', body.positionId);
+      formData.append('teamId', body.teamId);
+      formData.append('countryId', body.countryId);
+      formData.append('employmentStatus', body.employmentStatus);
+
+      this.api.createEmployee(formData).subscribe({
+        next: (response) => {
+          // Show success message
+          this.snackbar.open('Employee setting added successfully!', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
+          console.log(response, 'final res');
+          this.close();
+        }, error: (error) => {
+          // Show error message
+          this.snackbar.open('Server error!', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
+          // this.close();
+        }
+      })
     }
-    this.close();
   }
 }

@@ -25,11 +25,23 @@ export class DataService {
     return this.http.get<any>(this.apiUrl + '/api/employee/all-employee');
   }
 
-  // prvious works
-  createEmployee(data: any) {
-    return this.http.post<any>('/api/employees', data);
+  getAllDepartments() {
+    return this.http.get<any>(this.apiUrl + '/api/department-designation/departments');
   }
 
+  getDesignationByDepartment(deptId: any) {
+    return this.http.get<any>(this.apiUrl + '/api/department-designation/designations-by-department' + '?departmentId=' + deptId);
+  }
+
+  getAllSettingDetails(deptId: any, desigId: any) {
+    return this.http.get<any>(this.apiUrl + '/api/department-designation/all-details' + '?departmentId=' + deptId + '&designationId=' + desigId);
+  }
+
+  createEmployee(data: any) {
+    return this.http.post<any>(this.apiUrl + '/api/employee/create', data);
+  }
+
+  // prvious works
   createdEmployeeAcoountSetting(data: any, id: any) {
     return this.http.post<any>('/api/employee/' + id + '/employee-settings', data);
   }

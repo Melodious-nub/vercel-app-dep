@@ -33,11 +33,27 @@
           <mat-label>Phone</mat-label>
           <input matInput formControlName="phone" placeholder="Phone number" required>
         </mat-form-field>
-  
-        <!-- Designation -->
+
+        <!-- Department -->
         <mat-form-field appearance="outline" class="col-md-6">
+          <mat-label>Department</mat-label>
+          <mat-select formControlName="department" required (selectionChange)="onDepartmentChange($event.value)">
+            <mat-option *ngFor="let dept of allDepartments" [value]="dept.id">{{ dept.name }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="firstFormGroup.get('department')?.hasError('required')">
+            Please select a department.
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Designation -->
+        <mat-form-field appearance="outline" class="col-md-6" *ngIf="designationByDept.length > 0">
           <mat-label>Designation</mat-label>
-          <input matInput formControlName="designation" placeholder="Designation" required>
+          <mat-select formControlName="designation" required>
+            <mat-option *ngFor="let degi of designationByDept" [value]="degi.id">{{ degi.name }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="firstFormGroup.get('designation')?.hasError('required')">
+            Please select a designation.
+          </mat-error>
         </mat-form-field>
   
         <!-- Email -->
@@ -50,7 +66,7 @@
         </mat-form-field>
 
         <!-- Date Picker -->
-        <mat-form-field appearance="outline" class="col-md-12">
+        <mat-form-field appearance="outline" [class.col-md-6] = "designationByDept.length > 0">
             <mat-label>Employee start date</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="startDate" required>
             <mat-hint>MM/DD/YYYY</mat-hint>
@@ -60,11 +76,11 @@
         </mat-form-field>
   
         <!-- Buttons -->
-        <div class="actions flex items-center justify-end gap-2">
+        <div class="actions flex items-center justify-end gap-2 mt-3">
           <!-- Close Button -->
           <button mat-raised-button color="warn" (click)="close()">Close</button>
           <!-- Next Button -->
-          <button mat-raised-button (click)="onEmployeeCreate(stepper)">Create & next</button>
+          <button mat-raised-button (click)="onEmployeeCreate(stepper)">Next</button>
         </div>
       </form>
     </mat-dialog-content>
@@ -82,13 +98,15 @@
             Select which policies employee is entitled to
           </p>
   
-          <div class="flex flex-col">
-            <mat-checkbox formControlName="isHoliday" color="primary">Holiday</mat-checkbox>
-            <mat-checkbox formControlName="isSickDay" color="primary">Sickday</mat-checkbox>
-            <mat-checkbox formControlName="isBusinessTrip" color="primary">Business trip</mat-checkbox>
-            <mat-checkbox formControlName="isConference" color="primary">Conference</mat-checkbox>
-            <mat-checkbox formControlName="isWorkFromHome" color="primary">Work from home</mat-checkbox>
-          </div>
+            <!-- Dynamic Policies Checkboxes -->
+            <div class="flex flex-col">
+              <mat-checkbox
+                *ngFor="let policy of policies"
+                (change)="togglePolicySelection(policy.policyId, $event.checked)"
+                color="primary">
+                {{ policy.policyName }}
+              </mat-checkbox>
+            </div>
         </div>
       </div>
   
@@ -96,7 +114,7 @@
       <mat-form-field appearance="outline" class="col-md-6">
         <mat-label>Position</mat-label>
         <mat-select formControlName="position" required>
-          <mat-option *ngFor="let pos of positions" [value]="pos">{{ pos }}</mat-option>
+          <mat-option *ngFor="let pos of positions" [value]="pos.positionId">{{ pos.positionName }}</mat-option>
         </mat-select>
       </mat-form-field>
   
@@ -116,7 +134,7 @@
       <mat-form-field appearance="outline" class="col-md-6">
         <mat-label>Team</mat-label>
         <mat-select formControlName="team" required>
-          <mat-option *ngFor="let team of teams" [value]="team">{{ team }}</mat-option>
+          <mat-option *ngFor="let team of teams" [value]="team.teamId">{{ team.teamName }}</mat-option>
         </mat-select>
       </mat-form-field>
   
@@ -124,7 +142,7 @@
       <mat-form-field appearance="outline" class="col-md-6">
         <mat-label>Location</mat-label>
         <mat-select formControlName="location" required>
-          <mat-option *ngFor="let location of locations" [value]="location">{{ location }}</mat-option>
+          <mat-option *ngFor="let location of locations" [value]="location.id">{{ location.name }}</mat-option>
         </mat-select>
       </mat-form-field>
   
@@ -178,7 +196,7 @@
       </mat-form-field>
   
       <!-- Buttons -->
-      <div class="actions flex items-center justify-end gap-2">
+      <div class="actions flex items-center justify-end gap-2 mt-3">
         <button mat-raised-button matStepperPrevious>Back</button>
         <!-- Reset Button -->
         <button mat-raised-button color="primary" type="button" (click)="employeeCreatedAcoountSettings()">Save</button>

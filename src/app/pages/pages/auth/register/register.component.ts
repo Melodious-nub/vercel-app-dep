@@ -33,8 +33,8 @@ export class RegisterComponent implements OnInit {
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     organization: ['', Validators.required],
-    country: [0, Validators.required],
-    numberOfEmployees: [0, Validators.required],
+    country: [null, Validators.required],
+    numberOfEmployees: [null, Validators.required],
     phoneNumber: ['', Validators.required],
   });
 
