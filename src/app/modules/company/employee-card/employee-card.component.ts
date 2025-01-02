@@ -15,21 +15,29 @@ import { Router } from '@angular/router';
 })
 export class EmployeeCardComponent implements OnInit {
   @Input({ required: true }) contact!: any;
-  @Output() openContact = new EventEmitter<any['id']>();
-  @Output() toggleStar = new EventEmitter<any['id']>();
+  @Output() openContact = new EventEmitter<any['eid']>();
+  @Output() toggleStar = new EventEmitter<any['eid']>();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   // emitToggleStar(event: MouseEvent, contactId: Contact['id']) {
   //   event.stopPropagation();
   //   this.toggleStar.emit(contactId);
   // }
   viewEmployeeDetails(id: number) {
-    this.router.navigate(['dashboard/company', this.contact.id], {
+    this.router.navigate(['dashboard/company', this.contact.eid], {
       state: { data: this.contact }
     });
+  }
+
+  callTo(phoneNumber: string) {
+    window.location.href = `tel:${phoneNumber}`;
+  }
+
+  mailTo(email: string) {
+    window.location.href = `mailto:${email}`;
   }
 
 }

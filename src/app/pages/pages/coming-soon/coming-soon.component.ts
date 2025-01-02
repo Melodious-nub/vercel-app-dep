@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'vex-coming-soon',
@@ -11,10 +12,10 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./coming-soon.component.scss'],
   animations: [fadeInUp400ms],
   standalone: true,
-  imports: [MatIconModule, MatFormFieldModule, MatInputModule, MatButtonModule]
+  imports: [MatIconModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterLink]
 })
 export class ComingSoonComponent implements OnInit {
-  constructor() {}
+  constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 }

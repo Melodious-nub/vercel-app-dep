@@ -1,6 +1,6 @@
 <div class="card overflow-hidden">
     <div
-      (click)="openContact.emit(contact.id)" (click)="viewEmployeeDetails(contact.id)"
+      (click)="openContact.emit(contact.eid)" (click)="viewEmployeeDetails(contact.eid)"
       class="p-4 text-center hover:bg-hover transition duration-400 ease-out-swift cursor-pointer relative"
       matRipple>
       <img src="https://avatar.iran.liara.run/public/2" class="avatar h-24 w-24 mx-auto" />
@@ -30,18 +30,18 @@
       </button> -->
     </div>
   
-    <!-- <div class="bg-app-bar p-2 flex items-center justify-around">
-      <button class="text-secondary" mat-icon-button type="button">
+    <div class="bg-app-bar p-2 flex items-center justify-around">
+      <button class="text-secondary" mat-icon-button type="button" (click)="callTo('1234567890')">
         <mat-icon svgIcon="mat:phone"></mat-icon>
       </button>
   
-      <button class="text-secondary" mat-icon-button type="button">
+      <button class="text-secondary" mat-icon-button type="button" (click)="mailTo('example@email.com')">
         <mat-icon svgIcon="mat:mail"></mat-icon>
       </button>
   
-      <button class="text-secondary" mat-icon-button type="button">
+      <!-- <button class="text-secondary" mat-icon-button type="button">
         <mat-icon svgIcon="mat:chat"></mat-icon>
-      </button>
-    </div> -->
+      </button> -->
+    </div>
 </div>
   

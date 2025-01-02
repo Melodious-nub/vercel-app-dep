@@ -1,5 +1,5 @@
 <div class="w-full h-full bg-pattern flex flex-col items-center justify-center">
-  <div @fadeInUp class="card w-full max-w-lg">
+  <div @fadeInUp class="card w-full max-w-xl">
     <div class="text-center mt-4">
       <h2 class="title m-0">Register for an account</h2>
       <h4 class="body-2 text-secondary m-0">Simply fill out the form below</h4>
@@ -49,18 +49,18 @@
           <mat-form-field>
             <mat-label>Password (Confirm)</mat-label>
             <input
-              [type]="inputType"
+              [type]="inputType2"
               formControlName="passwordConfirm"
               matInput
               required />
             <button
-              (click)="toggleVisibility()"
+              (click)="toggleVisibility2()"
               mat-icon-button
               matIconSuffix
               matTooltip="Toggle Visibility"
               type="button">
-              <mat-icon *ngIf="visible" svgIcon="mat:visibility"></mat-icon>
-              <mat-icon *ngIf="!visible" svgIcon="mat:visibility_off"></mat-icon>
+              <mat-icon *ngIf="visible2" svgIcon="mat:visibility"></mat-icon>
+              <mat-icon *ngIf="!visible2" svgIcon="mat:visibility_off"></mat-icon>
             </button>
           </mat-form-field>
           <!-- Buttons -->
@@ -94,6 +94,20 @@
           <mat-label>Last Name</mat-label>
           <input matInput formControlName="lastName" placeholder="Last Name" required>
         </mat-form-field>
+
+        <!-- Select for Country -->
+        <mat-form-field appearance="outline" class="col-md-6">
+          <mat-label>Country</mat-label>
+          <mat-select formControlName="country" required>
+            <mat-option *ngFor="let country of countries" [value]="country.id">{{ country.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Input for phoneNumber -->
+        <mat-form-field appearance="outline" class="col-md-6">
+          <mat-label>Phone Number</mat-label>
+          <input matInput formControlName="phoneNumber" placeholder="Phone Number" required>
+        </mat-form-field>
       
         <!-- Input for Organization Name -->
         <mat-form-field appearance="outline">
@@ -101,26 +115,18 @@
           <input matInput formControlName="organization" placeholder="Organization Name" required>
         </mat-form-field>
       
-        <!-- Select for Country -->
-        <mat-form-field appearance="outline" class="col-md-12">
-          <mat-label>Country</mat-label>
-          <mat-select formControlName="country" required>
-            <mat-option *ngFor="let country of countries" [value]="country">{{ country }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      
         <!-- Select for Number of Employees -->
         <mat-form-field appearance="outline" class="col-md-12">
           <mat-label>Number of Employees</mat-label>
           <mat-select formControlName="numberOfEmployees" required>
-            <mat-option *ngFor="let count of employeeCounts" [value]="count">{{ count }}</mat-option>
+            <mat-option *ngFor="let count of employeeCounts" [value]="count.id">{{ count.label }}</mat-option>
           </mat-select>
         </mat-form-field>
       
         <!-- Buttons -->
         <div class="actions flex items-center justify-end gap-2">
           <button mat-raised-button matStepperPrevious>Back</button>
-          <button mat-raised-button color="primary" type="submit">Create</button>
+          <button mat-raised-button color="primary" type="button" (click)="registerAccount()" [disabled]="isSubmitting">Create</button>
         </div>
       </form>
     </mat-dialog-content>

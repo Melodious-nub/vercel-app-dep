@@ -1,5 +1,5 @@
 <div class="h-full flex flex-col">
-    <div class="p-6 pb-0 bg-foreground shadow-b flex-none border-b">
+    <div class="px-6 pt-2 pb-0 bg-foreground shadow-b flex-none border-b">
       <div class="container px-0">
         <!-- <h1 class="display-1 font-bold mt-0 mb-4 flex items-center">
           <span
@@ -12,7 +12,7 @@
   
         <div class="flex items-center">
           <div class="border-0 flex-auto mt-4">
-            <mat-form-field appearance="outline" class="flex-1 ltr:mr-2 rtl:ml-2">
+            <!-- <mat-form-field appearance="outline" class="flex-1 ltr:mr-2 rtl:ml-2">
               <mat-label>All teams</mat-label>
               <mat-select [formControl]="toppings" multiple>
                 <mat-select-trigger>
@@ -23,7 +23,7 @@
                 </mat-select-trigger>
                 <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
               </mat-select>
-            </mat-form-field>      
+            </mat-form-field>       -->
             
             <mat-form-field appearance="outline" class="flex-1 ltr:mr-2 rtl:ml-2">
               <mat-label>All location</mat-label>
@@ -44,14 +44,13 @@
               </mat-select>
             </mat-form-field>
     
-            <mat-form-field appearance="outline" class="flex-1 ltr:mr-2 rtl:ml-2">
+            <!-- <mat-form-field appearance="outline" class="flex-1 ltr:mr-2 rtl:ml-2">
               <mat-label>Active status</mat-label>
               <mat-select>
-                <!-- <mat-option value="">Everyone</mat-option> -->
                 <mat-option value="active">At work</mat-option>
                 <mat-option value="inactive">Away</mat-option>
               </mat-select>
-            </mat-form-field>
+            </mat-form-field> -->
           </div>
           <!-- <nav [tabPanel]="tabPanel" class="border-0 flex-auto" mat-tab-nav-bar>
             <a
@@ -139,4 +138,4 @@
       <img class="m-12 h-64" src="assets/img/illustrations/idea.svg" />
       <h2 class="headline m-0 text-center">No employees matching your filters</h2>
     </div>
-</div>  
+</div>
