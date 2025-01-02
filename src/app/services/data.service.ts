@@ -21,13 +21,13 @@ export class DataService {
     return this.http.get<any>(this.apiUrl + '/api/public/employee-range');
   }
 
+  getAllEmployee() {
+    return this.http.get<any>(this.apiUrl + '/api/employee/all-employee');
+  }
+
   // prvious works
   createEmployee(data: any) {
     return this.http.post<any>('/api/employees', data);
-  }
-
-  getAllEmployee() {
-    return this.http.get<any>('/api/employees');
   }
 
   createdEmployeeAcoountSetting(data: any, id: any) {
