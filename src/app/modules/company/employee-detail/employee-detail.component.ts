@@ -24,6 +24,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'vex-employee-detail',
@@ -52,21 +53,22 @@ import { MatChipsModule } from '@angular/material/chips';
     MatCheckboxModule,
     MatDialogModule,
     MatChipsModule,
-],
+  ],
   templateUrl: './employee-detail.component.html',
   styleUrls: ['./employee-detail.component.scss']
 })
 export class EmployeeDetailComponent implements OnInit {
   employeeId!: string;
   employeeDetails!: any; // Define the type for employee details
+  image: any;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router, private api: DataService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.employeeId = params.get('id')!;
       this.getEmployeeDetails(); // Fetch employee details using the ID
-    });   
+    });
   }
 
   // Method to fetch employee details
@@ -74,9 +76,17 @@ export class EmployeeDetailComponent implements OnInit {
     // Retrieve the employee data from the state
     this.employeeDetails = history.state.data;
 
+    this.api.getEmployeeImage(this.employeeId).subscribe(res => {
+      if (res && res.image) {
+        // Prefix the base64 string with the appropriate data URL
+        this.image = 'data:image/jpeg;base64,' + res.image;
+        // console.log(res);
+      }
+    })
+
     if (!this.employeeDetails) {
       console.error('No employee data passed to the component.');
-    }    
+    }
   }
 
   searchCtrl = new UntypedFormControl();
@@ -84,7 +94,7 @@ export class EmployeeDetailComponent implements OnInit {
   searchStr$ = this.searchCtrl.valueChanges.pipe(debounceTime(10));
 
   menuOpen = false;
-  selectedMenu:any;
+  selectedMenu: any;
 
   setData(data: any) {
     // console.log(data, 'test')

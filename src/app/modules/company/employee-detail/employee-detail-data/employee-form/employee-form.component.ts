@@ -64,9 +64,10 @@ export interface Position {
 })
 export class EmployeeFormComponent implements OnInit {
   employeeId!: string;
-  @Input() employeeDetails: any = []; // Define the type for employee details
+  employeeDetails: any = []; // Define the type for employee details
   // Separate property to hold the image file
   profilePic: string | null = null; // To store the selected image name
+  imageSrc: any;
 
   // variables
   separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -81,7 +82,7 @@ export class EmployeeFormComponent implements OnInit {
     public dialog: MatDialog,
     private api: DataService,
     private snackbar: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -92,7 +93,24 @@ export class EmployeeFormComponent implements OnInit {
 
   // Method to fetch employee details
   getEmployeeDetails(): void {
-    this.employeeDetails.imageSrc = 'https://avatar.iran.liara.run/public/2';
+    this.fetchEmployeeDetails();
+    this.fetchEmployeeImage();
+  }
+
+  fetchEmployeeDetails() {
+    this.api.getEmployeeDetails(this.employeeId).subscribe(res => {
+      this.employeeDetails = res;
+    })
+  }
+
+  fetchEmployeeImage() {
+    this.api.getEmployeeImage(this.employeeId).subscribe(res => {
+      if (res && res.image) {
+        // Prefix the base64 string with the appropriate data URL
+        this.imageSrc = 'data:image/jpeg;base64,' + res.image;
+        // console.log(res);
+      }
+    })
   }
 
   // Function to handle file selection
@@ -102,6 +120,7 @@ export class EmployeeFormComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.profilePic = e.target.result; // Set the preview image as the file's base64 data URL
+        this.imageSrc = this.profilePic;  // Update the image source to show the preview
       };
       reader.readAsDataURL(input.files[0]);
     }
@@ -150,26 +169,26 @@ export class EmployeeFormComponent implements OnInit {
     };
     // console.log(reqestBody, 'request body');
 
-    this.api.updateEmpDetails(reqestBody, this.employeeId).subscribe({
-      next: (res) => {
-        // console.log(res, 'success');
+    // this.api.updateEmpDetails(reqestBody, this.employeeId).subscribe({
+    //   next: (res) => {
+    //     // console.log(res, 'success');
 
-        // Show success message
-        this.snackbar.open('Employee data added successfully!', 'Close', {
-          duration: 2000,
-          horizontalPosition: 'end',
-          verticalPosition: 'bottom'
-        });
-        // console.log(res, 'res of api');
-      },
-      error: (error) => {
-        this.snackbar.open('Server error!', 'Close', {
-          duration: 2000,
-          horizontalPosition: 'end',
-          verticalPosition: 'bottom'
-        });
-        // console.log(error, 'error');
-      }
-    });
+    //     // Show success message
+    //     this.snackbar.open('Employee data added successfully!', 'Close', {
+    //       duration: 2000,
+    //       horizontalPosition: 'end',
+    //       verticalPosition: 'bottom'
+    //     });
+    //     // console.log(res, 'res of api');
+    //   },
+    //   error: (error) => {
+    //     this.snackbar.open('Server error!', 'Close', {
+    //       duration: 2000,
+    //       horizontalPosition: 'end',
+    //       verticalPosition: 'bottom'
+    //     });
+    //     // console.log(error, 'error');
+    //   }
+    // });
   }
 }
