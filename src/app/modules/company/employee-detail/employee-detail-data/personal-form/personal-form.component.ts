@@ -15,7 +15,7 @@ export interface Children {
 @Component({
   selector: 'vex-personal-form',
   standalone: true,
-  animations: [stagger60ms, fadeInUp400ms,fadeInRight400ms],
+  animations: [stagger60ms, fadeInUp400ms, fadeInRight400ms],
   imports: [
     CommonModule,
     MATERIAL_IMPORTS,
@@ -24,8 +24,9 @@ export interface Children {
   styleUrls: ['./personal-form.component.scss']
 })
 export class PersonalFormComponent {
+  personalForm: any = [];
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog) { }
 
   // for positions
   childrens: any = [

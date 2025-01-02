@@ -41,6 +41,14 @@ export class DataService {
     return this.http.post<any>(this.apiUrl + '/api/employee/create', data);
   }
 
+  getEmployeeDetails(id: any) {
+    return this.http.get<any>(this.apiUrl + '/api/employee?employeeId=' + id);
+  }
+
+  getEmployeeImage(id: any) {
+    return this.http.get<any>(this.apiUrl + '/api/employee/image?employeeId=' + id);
+  }
+
   // prvious works
   createdEmployeeAcoountSetting(data: any, id: any) {
     return this.http.post<any>('/api/employee/' + id + '/employee-settings', data);

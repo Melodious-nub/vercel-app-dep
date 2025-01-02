@@ -2,12 +2,12 @@
   <form @fadeInRight class="container px-3 row">
       <!-- Image Upload -->
       <div class="profile-container mb-4">
-          <div class="profile-picture" [style.background-image]="employeeDetails.imageSrc ? 'url(' + employeeDetails.imageSrc + ')' : null">
-            <button type="button" mat-icon-button class="upload-btn" (click)="fileInput.click()">
-              <mat-icon svgIcon="mat:add_a_photo"></mat-icon>
-            </button>
-            <input type="file" (change)="onFileSelected($event)" hidden #fileInput accept="image/*" />
-          </div>
+        <div class="profile-picture" [style.background-image]="imageSrc ? 'url(' + imageSrc + ')' : null">
+          <button type="button" mat-icon-button class="upload-btn" (click)="fileInput.click()">
+            <mat-icon svgIcon="mat:add_a_photo"></mat-icon>
+          </button>
+          <input type="file" (change)="onFileSelected($event)" hidden #fileInput accept="image/*" />
+        </div>
       </div>
 
       <!-- Title input -->
@@ -22,7 +22,7 @@
       <div class="col-lg-6">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Name</mat-label>
-          <input matInput name="name" [(ngModel)]="employeeDetails.name" placeholder="Type full name">
+          <input matInput name="name" [(ngModel)]="employeeDetails.employeename" placeholder="Type full name">
         </mat-form-field>
       </div>
 
@@ -30,7 +30,7 @@
       <div>
         <h2 class="mb-1" style="font-weight: 500; font-size: 16px;">Positions</h2>
         <div class="row px-3">
-          <div *ngFor="let pos of positions" class="position-card mb-3 col-lg-6">
+          <div *ngFor="let pos of positions.slice().reverse()" class="position-card mb-3 col-lg-6">
             <mat-card class="card">
               <mat-card-content>
                 <mat-card-title class="text-sm"> {{ pos.positionName }}</mat-card-title>
@@ -69,7 +69,7 @@
       <div class="col-lg-6">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Employee Start Date</mat-label>
-          <input matInput [matDatepicker]="startPicker" [(ngModel)]="employeeDetails.startDate" placeholder="Choose a date" name="startDate">
+          <input matInput [matDatepicker]="startPicker" [(ngModel)]="employeeDetails.startdate" placeholder="Choose a date" name="startDate">
           <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
           <mat-datepicker #startPicker></mat-datepicker>
         </mat-form-field>
@@ -79,7 +79,7 @@
       <div class="col-lg-6">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Employment Status</mat-label>
-          <mat-select placeholder="Select status" [(ngModel)]="employeeDetails.employeeStatus" name="employeeStatus">
+          <mat-select placeholder="Select status" [(ngModel)]="employeeDetails.employmentstatus" name="employeeStatus">
             <mat-option value="full-time">Full-time</mat-option>
             <mat-option value="part-time">Part-time</mat-option>
             <mat-option value="contractual">Contractual</mat-option>
@@ -108,7 +108,7 @@
       <div class="col-lg-6">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Team</mat-label>
-          <mat-select placeholder="Select team" name="team" [(ngModel)]="employeeDetails.team">
+          <mat-select placeholder="Select team" name="team" [(ngModel)]="employeeDetails.teamname">
             <mat-option value="java">Java team</mat-option>
             <mat-option value="management">Management team</mat-option>
             <mat-option value="angular">Angular team</mat-option>
@@ -161,7 +161,7 @@
       <div class="col-lg-6">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Driving License</mat-label>
-          <input matInput placeholder="Type driving license" name="drivingLicense" [(ngModel)]="employeeDetails.drivingLicense">
+          <input matInput placeholder="Type driving license" name="drivingLicense" [(ngModel)]="employeeDetails.drivinglicense">
         </mat-form-field>
       </div>
 
@@ -169,7 +169,7 @@
       <div class="col-lg-6">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Employee ID</mat-label>
-          <input matInput placeholder="Type employee internal ID" name="employeeInternalId" [(ngModel)]="employeeDetails.employeeInternalId">
+          <input matInput placeholder="Type employee internal ID" name="employeeInternalId" [(ngModel)]="employeeDetails.employeeid">
         </mat-form-field>
       </div>
 
@@ -177,7 +177,7 @@
       <div class="col-lg-6">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>LinkedIn</mat-label>
-          <input matInput placeholder="Type LinkedIn URL" name="linkedin" [(ngModel)]="employeeDetails.linkedin">
+          <input matInput placeholder="Type LinkedIn URL" name="linkedin" [(ngModel)]="employeeDetails.linkedinurl">
         </mat-form-field>
       </div>
 
@@ -185,7 +185,7 @@
       <div class="col-lg-6">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Skype</mat-label>
-          <input matInput placeholder="Type Skype username" name="skype" [(ngModel)]="employeeDetails.skype">
+          <input matInput placeholder="Type Skype username" name="skype" [(ngModel)]="employeeDetails.skypeurl">
         </mat-form-field>
       </div>
 

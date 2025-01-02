@@ -65,14 +65,14 @@ import { MatInputModule } from '@angular/material/input';
     TimeOffFormComponent,
     CompensationFormComponent,
     FormsModule
-],
+  ],
   templateUrl: './employee-detail-data.component.html',
   styleUrls: ['./employee-detail-data.component.scss']
 })
 export class EmployeeDetailDataComponent implements OnInit, OnChanges, AfterViewInit {
-onFileSelected($event: Event) {
-throw new Error('Method not implemented.');
-}
+  onFileSelected($event: Event) {
+    throw new Error('Method not implemented.');
+  }
   // @Input({ required: true }) data!: any;
   // @Input({ required: true }) columns!: TableColumn<any>[];
   // @Input() pageSize = 20;
@@ -88,9 +88,9 @@ throw new Error('Method not implemented.');
   // @ViewChild(MatPaginator, { static: true }) paginator?: MatPaginator;
   // @ViewChild(MatSort, { static: true }) sort?: MatSort;
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngOnChanges(changes: SimpleChanges): void {
     // if (changes['columns']) {
@@ -137,9 +137,9 @@ throw new Error('Method not implemented.');
   // }
 
   employeeId!: string;
-  @Input() employeeDetails!: any; // Define the type for employee details
-  // Separate property to hold the image file
-  profilePic: string | null = null; // To store the selected image name
+  // @Input() employeeDetails!: any; // Define the type for employee details
+  // // Separate property to hold the image file
+  // profilePic: string | null = null; // To store the selected image name
 
   // variables
   positions: string[] = [];

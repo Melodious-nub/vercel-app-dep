@@ -78,7 +78,7 @@ export class LoginComponent {
             this.snackbar.open('Login successful!', 'Close', { duration: 3000 });
             this.router.navigate(['dashboard/analytics']);
           } else {
-            this.snackbar.open('Invalid credentials. Please try again.', 'Close', { duration: 3000 });
+            this.snackbar.open('Invalid response. Please try again.', 'Close', { duration: 3000 });
           }
         },
         error: () => {
