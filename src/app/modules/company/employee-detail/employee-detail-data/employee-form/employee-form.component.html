@@ -10,14 +10,6 @@
         </div>
       </div>
 
-      <!-- Title input -->
-      <div class="col-lg-6">
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>Designation</mat-label>
-          <input matInput name="designation" [(ngModel)]="employeeDetails.designation" placeholder="Type designation">
-        </mat-form-field>
-      </div>        
-
       <!-- Name input -->
       <div class="col-lg-6">
         <mat-form-field appearance="outline" style="width: 100%;">
@@ -26,8 +18,33 @@
         </mat-form-field>
       </div>
 
+      <!-- Department -->
+      <mat-form-field appearance="outline" class="col-lg-6">
+        <mat-label>Department</mat-label>
+        <mat-select name="department" [(ngModel)]="employeeDetails.department" (selectionChange)="onDepartmentChange($event.value)">
+          <mat-option *ngFor="let dept of allDepartments" [value]="dept.id">{{ dept.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Designation -->
+      <mat-form-field appearance="outline" class="col-lg-6">
+        <mat-label>Designation</mat-label>
+        <mat-select name="designation" [(ngModel)]="employeeDetails.designation">
+          <mat-option *ngFor="let degi of designationByDept" [value]="degi.id">{{ degi.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Position</mat-label>
+          <mat-select name="position" [(ngModel)]="employeeDetails.positionId">
+            <mat-option *ngFor="let pos of positions" [value]="pos.positionId">{{ pos.positionName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
       <!-- Position List -->
-      <div>
+      <!-- <div>
         <h2 class="mb-1" style="font-weight: 500; font-size: 16px;">Positions</h2>
         <div class="row px-3">
           <div *ngFor="let pos of positions.slice().reverse()" class="position-card mb-3 col-lg-6">
@@ -39,15 +56,15 @@
             </mat-card>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Add Position Button -->
-      <div class="mb-2">
+      <!-- <div class="mb-2">
         <button mat-raised-button color="primary" (click)="openAddPositionModal()">
           <mat-icon class="ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 icon-sm" svgIcon="mat:add"></mat-icon>
           <span>New Position</span>
         </button>
-      </div>
+      </div> -->
 
       <!-- Work Email -->
       <div class="col-lg-6">
@@ -76,17 +93,12 @@
       </div>
 
       <!-- Employment Status -->
-      <div class="col-lg-6">
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>Employment Status</mat-label>
-          <mat-select placeholder="Select status" [(ngModel)]="employeeDetails.employmentstatus" name="employeeStatus">
-            <mat-option value="full-time">Full-time</mat-option>
-            <mat-option value="part-time">Part-time</mat-option>
-            <mat-option value="contractual">Contractual</mat-option>
-            <mat-option value="wfh">Work from home</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Working Pattern</mat-label>
+        <mat-select [(ngModel)]="employeeDetails.employmentstatus" name="employeeStatus">
+          <mat-option *ngFor="let pattern of workingPatterns" [value]="pattern">{{ pattern }}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
       <!-- Onboarding Mentor -->
       <!-- <div class="col-lg-6">
@@ -120,17 +132,12 @@
       </div>
 
       <!-- Location -->
-      <div class="col-lg-6">
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>Location</mat-label>
-          <mat-select placeholder="Select location" [(ngModel)]="employeeDetails.location" name="location">
-            <mat-option value="dhaka">Dhaka</mat-option>
-            <mat-option value="london">London</mat-option>
-            <mat-option value="new-york">New York</mat-option>
-            <mat-option value="amsterdam">Amsterdam</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>Location</mat-label>
+        <mat-select [(ngModel)]="employeeDetails.location" name="location">
+          <mat-option *ngFor="let location of locations" [value]="location.id">{{ location.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
       <!-- Public Holiday Group -->
       <!-- <div class="col-lg-6">
@@ -191,7 +198,7 @@
 
       <!-- Buttons -->
       <div class="actions flex items-center justify-end gap-3">
-          <button mat-raised-button (click)="back()">Back</button>
+          <!-- <button mat-raised-button (click)="back()">Back</button> -->
           <button mat-raised-button color="primary" (click)="submit()">Save</button>
       </div>
   </form>

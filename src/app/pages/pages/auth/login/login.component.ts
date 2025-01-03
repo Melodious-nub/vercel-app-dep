@@ -83,7 +83,6 @@ export class LoginComponent {
           }
         },
         error: () => {
-          this.loading = false; // Stop loading on error
           this.snackbar.open('An error occurred during login. Please try again.', 'Close', { duration: 3000 });
           this.loading = false; // Stop loading
         }

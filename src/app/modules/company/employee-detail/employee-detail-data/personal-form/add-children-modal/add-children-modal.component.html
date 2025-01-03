@@ -4,7 +4,7 @@
   <form>
     <mat-form-field appearance="outline" style="width: 100%;">
       <mat-label>Children Name</mat-label>
-      <input matInput [(ngModel)]="data.childrenName" name="childrenName" placeholder="Enter children name">
+      <input matInput [(ngModel)]="data.name" name="name" placeholder="Enter children name">
     </mat-form-field>
 
     <mat-form-field appearance="outline" style="width: 100%;" class="mt-2">
@@ -12,6 +12,15 @@
       <input matInput [matDatepicker]="modalPicker" [(ngModel)]="data.birthDate" name="birthDate" placeholder="Choose a date">
       <mat-datepicker-toggle matSuffix [for]="modalPicker"></mat-datepicker-toggle>
       <mat-datepicker #modalPicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Gender</mat-label>
+      <mat-select placeholder="Select gender" name="gender" [(ngModel)]="data.gender">
+        <mat-option value="MALE">MALE</mat-option>
+        <mat-option value="FEMALE">FEMALE</mat-option>
+        <mat-option value="OTHER">OTHER</mat-option>
+      </mat-select>
     </mat-form-field>
   </form>
 </mat-dialog-content>

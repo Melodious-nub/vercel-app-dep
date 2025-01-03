@@ -19,11 +19,9 @@ import { MatChipsModule } from '@angular/material/chips';
 import { stagger60ms } from '@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
 import { ActivatedRoute, Router } from '@angular/router';
-import { employeeData } from 'src/static-data/employees';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { fadeInRight400ms } from '@vex/animations/fade-in-right.animation';
 import { MatCardModule } from '@angular/material/card';
-import { AddPositionModalComponent } from './add-position-modal/add-position-modal.component';
 import { DataService } from 'src/app/services/data.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -49,7 +47,7 @@ export interface Position {
     MatSelectModule,
     MatOptionModule,
     MatAutocompleteModule,
-    NgFor,
+    // NgFor,
     MatSliderModule,
     MatRadioModule,
     MatSlideToggleModule,
@@ -71,14 +69,18 @@ export class EmployeeFormComponent implements OnInit {
 
   // variables
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  teams = ['Team A', 'Team B', 'Team C'];
-  locations = ['Location 1', 'Location 2', 'Location 3'];
-  holidayGroups = ['Group 1', 'Group 2', 'Group 3'];
+
+  allDepartments: any[] = [];
+  designationByDept: any[] = [];
+  positions: any[] = [];
+  teams: any[] = [];
+  locations: any[] = [];
+  // publicHolidayGroups = ['General', 'UK', 'India', 'US'];
+  workingPatterns: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private fb: FormBuilder,
     public dialog: MatDialog,
     private api: DataService,
     private snackbar: MatSnackBar
@@ -89,12 +91,69 @@ export class EmployeeFormComponent implements OnInit {
       this.employeeId = params.get('id')!;
       this.getEmployeeDetails(); // Fetch employee details using the ID
     });
+
+    this.fetchDepartment();
+  }
+
+  // Fetch all departments
+  fetchDepartment() {
+    this.api.getAllDepartments().subscribe({
+      next: (res) => {
+        this.allDepartments = res;
+      },
+      error: () => {
+        this.snackbar.open('Failed to load departments. Please try again.', 'Close', { duration: 3000 });
+      }
+    });
+  }
+
+  // Handle department selection
+  onDepartmentChange(departmentId: number) {
+    if (departmentId) {
+      this.fetchDesignationByDept(departmentId);
+    } else {
+      this.designationByDept = [];
+    }
+  }
+
+  // Fetch designations by department
+  fetchDesignationByDept(departmentId: number) {
+    this.api.getDesignationByDepartment(departmentId).subscribe({
+      next: (res) => {
+        this.designationByDept = res;
+      },
+      error: () => {
+        this.snackbar.open('Failed to load designations. Please try again.', 'Close', { duration: 3000 });
+      }
+    });
+  }
+
+  fetchDynamicSettings() {
+    // this.api.getAllSettingDetails(this.employeeDetails.department, this.employeeDetails.designation).subscribe({
+    //   next: (res) => {
+    //     this.positions = res.positions || [];
+    //     this.teams = res.teams || [];
+    //     this.workingPatterns = res.employmentStatus || [];
+    //   },
+    //   error: () => {
+    //     this.snackbar.open('Failed to load designations. Please try again.', 'Close', { duration: 3000 });
+    //   }
+    // });
+
+    this.fetchCountries();
+  }
+
+  fetchCountries() {
+    this.api.getAllCountries().subscribe(res => {
+      this.locations = res;
+    })
   }
 
   // Method to fetch employee details
   getEmployeeDetails(): void {
     this.fetchEmployeeDetails();
     this.fetchEmployeeImage();
+    this.fetchDynamicSettings();
   }
 
   fetchEmployeeDetails() {
@@ -127,21 +186,21 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   // for positions
-  positions: Position[] = [];
+  // positions: Position[] = [];
 
-  openAddPositionModal(): void {
-    const dialogRef = this.dialog.open(AddPositionModalComponent, {
-      width: '400px',
-      disableClose: true,
-      data: { positionName: '', startDate: null }
-    });
+  // openAddPositionModal(): void {
+  //   const dialogRef = this.dialog.open(AddPositionModalComponent, {
+  //     width: '400px',
+  //     disableClose: true,
+  //     data: { positionName: '', startDate: null }
+  //   });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.positions.push(result);
-      }
-    });
-  }
+  //   dialogRef.afterClosed().subscribe((result) => {
+  //     if (result) {
+  //       this.positions.push(result);
+  //     }
+  //   });
+  // }
 
   back() {
     this.router.navigate(['dashboard/company']);
