@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { stagger60ms } from '@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
@@ -7,11 +7,14 @@ import { MATERIAL_IMPORTS } from 'src/app/material-imports';
 import { MatDialog } from '@angular/material/dialog';
 import { AddAssetModalComponent } from './add-asset-modal/add-asset-modal.component';
 import { ReturnAssetModalComponent } from './return-asset-modal/return-asset-modal.component';
+import { DataService } from 'src/app/services/data.service';
+import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'vex-assets-form',
   standalone: true,
-  animations: [stagger60ms, fadeInUp400ms,fadeInRight400ms],
+  animations: [stagger60ms, fadeInUp400ms, fadeInRight400ms],
   imports: [
     CommonModule,
     MATERIAL_IMPORTS,
@@ -19,9 +22,17 @@ import { ReturnAssetModalComponent } from './return-asset-modal/return-asset-mod
   templateUrl: './assets-form.component.html',
   styleUrls: ['./assets-form.component.scss']
 })
-export class AssetsFormComponent {
+export class AssetsFormComponent implements OnInit {
+  employeeId: any;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private api: DataService, private route: ActivatedRoute, private snackbar: MatSnackBar) { }
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.employeeId = params.get('id')!;
+      this.fetchAllAllocatedAsset(); // Fetch employee details using the ID
+    });
+  }
 
   openAssetsModal() {
     const dialogRef = this.dialog.open(AddAssetModalComponent, {
@@ -43,27 +54,32 @@ export class AssetsFormComponent {
       disableClose: true,
       data: { assetName: asset.name }
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // Handle the result if necessary
-        console.log('Dialog result:', result);
+        // console.log('Dialog result:', result);
       }
     });
   }
 
   // Dummy data structure
-  ELEMENT_DATA: any[] = [
-    { name: 'Laptop', category: 'Electronics', description: 'Dell Latitude 7420', assetNumber: 'A-1001', serialGiven: 'S-101' },
-    { name: 'Projector', category: 'Office Equipment', description: 'Epson XGA', assetNumber: 'A-1002', serialGiven: 'S-102' },
-    { name: 'Chair', category: 'Furniture', description: 'Ergonomic chair', assetNumber: 'A-1003', serialGiven: 'S-103' },
-    { name: 'Desk', category: 'Furniture', description: 'Standing desk', assetNumber: 'A-1004', serialGiven: 'S-104' },
-    { name: 'Phone', category: 'Electronics', description: 'iPhone 12', assetNumber: 'A-1005', serialGiven: 'S-105' },
-    { name: 'Monitor', category: 'Office Equipment', description: '24-inch Dell Monitor', assetNumber: 'A-1006', serialGiven: 'S-106' }
-  ];
+  ELEMENT_DATA: any[] = [];
+
+  fetchAllAllocatedAsset() {
+    this.api.getAllocatedAssedOfEmp(this.employeeId).subscribe({
+      next: (res) => {
+        this.ELEMENT_DATA = res;
+        console.log(res);
+      },
+      error: () => {
+        this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000 });
+      }
+    });
+  }
 
   // Columns displayed in the table
-  displayedColumns: string[] = ['name', 'category', 'description', 'assetNumber', 'serialGiven', 'actions'];
-  dataSource = this.ELEMENT_DATA;
+  displayedColumns: string[] = ['name', 'category', 'description', 'assetNumber', 'status', 'actions'];
+  // dataSource = this.ELEMENT_DATA;
 
 }

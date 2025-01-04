@@ -201,6 +201,7 @@ export class CreateEmployeeComponent implements OnInit {
     this.firstFormGroup.reset();
     this.secondFormGroup.reset();
     this.profilePic = null;
+    this.profilePicFile = null;
   }
 
   addOnBlur = true;
@@ -287,6 +288,7 @@ export class CreateEmployeeComponent implements OnInit {
           // Show success message
           this.snackbar.open('Employee setting added successfully!', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
           console.log(response, 'final res');
+          console.log(body, this.profilePicFile);
           this.close();
         }, error: (error) => {
           // Show error message

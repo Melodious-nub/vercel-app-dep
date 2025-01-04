@@ -47,11 +47,13 @@ export class PersonalFormComponent implements OnInit {
     this.api.getAllCountries().subscribe(res => {
       this.locations = res;
     })
+
+    this.fetchPersonalData();
   }
 
   // for positions
   childrens: Children[] = [
-    { name: 'Children 1', birthDate: new Date('2022-10-6'), gender: 'MALE' },
+    // { name: 'Children 1', birthDate: new Date('2022-10-6'), gender: 'MALE' },
   ];
 
   openChildrenModal(): void {
@@ -94,6 +96,21 @@ export class PersonalFormComponent implements OnInit {
       }
     });
 
+  }
+
+  fetchPersonalData() {
+    this.api.getPersonalData(this.employeeId).subscribe({
+      next: (res) => {
+        // this.allDepartments = res;
+        console.log(res);
+        this.personalForm = res;
+        this.childrens = res.children;
+        // this.snackbar.open('Personal data saved successfully.', 'Close', { duration: 3000 });
+      },
+      error: () => {
+        this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000 });
+      }
+    });
   }
 
 }

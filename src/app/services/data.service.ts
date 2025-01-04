@@ -53,4 +53,16 @@ export class DataService {
     return this.http.put<any>(this.apiUrl + '/api/employee/create-or-update-personal', data);
   }
 
+  getAllocatedAssedOfEmp(employeeId: any) {
+    return this.http.get<any>(this.apiUrl + '/get-allocated-asset-by-employee' + '?employeeId=' + employeeId);
+  }
+
+  getAllAssetName() {
+    return this.http.get<any>(this.apiUrl + '/all');
+  }
+
+  getPersonalData(employeeId: any) {
+    return this.http.get<any>(this.apiUrl + '/api/employee/personal-info' + '?employeeId=' + employeeId);
+  }
+
 }
