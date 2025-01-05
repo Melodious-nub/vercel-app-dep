@@ -5,11 +5,13 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { stagger60ms } from '@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
 import { fadeInRight400ms } from '@vex/animations/fade-in-right.animation';
+import { DataService } from 'src/app/services/data.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'vex-add-notes-modal',
   standalone: true,
-  animations: [stagger60ms, fadeInUp400ms,fadeInRight400ms],
+  animations: [stagger60ms, fadeInUp400ms, fadeInRight400ms],
   imports: [
     CommonModule,
     MATERIAL_IMPORTS,
@@ -26,12 +28,7 @@ export class AddNotesModalComponent {
   attachmentName: string | null = null;
   attachmentFile: File | null = null;
 
-  constructor(public dialogRef: MatDialogRef<AddNotesModalComponent>) {}
-
-  onSave(): void {
-    // Logic to save the note with attachment data if available
-    this.dialogRef.close({ note: this.data, attachment: this.attachmentFile });
-  }
+  constructor(public dialogRef: MatDialogRef<AddNotesModalComponent>, private api: DataService, private snackbar: MatSnackBar) { }
 
   onCancel(): void {
     this.dialogRef.close();
@@ -63,4 +60,26 @@ export class AddNotesModalComponent {
     this.attachmentName = null;
     this.attachmentFile = null;
   }
+
+  addNewNote() {
+    const formData = new FormData();
+
+    if (this.attachmentFile) {
+      formData.append('file', this.attachmentFile);
+    }
+    formData.append('content', this.data.note);
+    formData.append('visibleToOthers', JSON.stringify(this.data.visibleToOthers));
+
+    this.api.addNotes(formData).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.snackbar.open('Note has been created', 'Close', { duration: 3000 });
+        this.dialogRef.close(true);
+      },
+      error: () => {
+        this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000 });
+      }
+    });
+  }
+
 }

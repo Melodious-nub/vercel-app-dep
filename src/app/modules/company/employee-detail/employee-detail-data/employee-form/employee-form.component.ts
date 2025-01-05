@@ -91,8 +91,6 @@ export class EmployeeFormComponent implements OnInit {
       this.employeeId = params.get('id')!;
       this.getEmployeeDetails(); // Fetch employee details using the ID
     });
-
-    this.fetchDepartment();
   }
 
   // Fetch all departments
@@ -100,6 +98,7 @@ export class EmployeeFormComponent implements OnInit {
     this.api.getAllDepartments().subscribe({
       next: (res) => {
         this.allDepartments = res;
+        this.onDepartmentChange();
       },
       error: () => {
         this.snackbar.open('Failed to load departments. Please try again.', 'Close', { duration: 3000 });
@@ -108,9 +107,9 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   // Handle department selection
-  onDepartmentChange(departmentId: number) {
-    if (departmentId) {
-      this.fetchDesignationByDept(departmentId);
+  onDepartmentChange() {
+    if (this.employeeDetails.departmentid) {
+      this.fetchDesignationByDept(this.employeeDetails.departmentid);
     } else {
       this.designationByDept = [];
     }
@@ -121,6 +120,7 @@ export class EmployeeFormComponent implements OnInit {
     this.api.getDesignationByDepartment(departmentId).subscribe({
       next: (res) => {
         this.designationByDept = res;
+        this.fetchDynamicSettings();
       },
       error: () => {
         this.snackbar.open('Failed to load designations. Please try again.', 'Close', { duration: 3000 });
@@ -129,16 +129,20 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   fetchDynamicSettings() {
-    // this.api.getAllSettingDetails(this.employeeDetails.department, this.employeeDetails.designation).subscribe({
-    //   next: (res) => {
-    //     this.positions = res.positions || [];
-    //     this.teams = res.teams || [];
-    //     this.workingPatterns = res.employmentStatus || [];
-    //   },
-    //   error: () => {
-    //     this.snackbar.open('Failed to load designations. Please try again.', 'Close', { duration: 3000 });
-    //   }
-    // });
+    console.log(this.employeeDetails.departmentid, this.employeeDetails.designationid);
+
+    this.api.getAllSettingDetails(this.employeeDetails.departmentid, this.employeeDetails.designationid).subscribe({
+      next: (res) => {
+        this.positions = res.positions || [];
+        console.log(this.positions);
+
+        this.teams = res.teams || [];
+        this.workingPatterns = res.employmentStatus || [];
+      },
+      error: () => {
+        this.snackbar.open('Failed to load dynamic settings. Please try again.', 'Close', { duration: 3000 });
+      }
+    });
 
     this.fetchCountries();
   }
@@ -152,8 +156,8 @@ export class EmployeeFormComponent implements OnInit {
   // Method to fetch employee details
   getEmployeeDetails(): void {
     this.fetchEmployeeDetails();
+    this.fetchDepartment();
     this.fetchEmployeeImage();
-    this.fetchDynamicSettings();
   }
 
   fetchEmployeeDetails() {
@@ -209,22 +213,7 @@ export class EmployeeFormComponent implements OnInit {
   submit() {
     const reqestBody = {
       name: this.employeeDetails.name,
-      designation: this.employeeDetails.designation,
-      email: this.employeeDetails.email,
-      workPhone: this.employeeDetails.phone,
-      startDate: this.employeeDetails.startDate,
-      employeeStatus: this.employeeDetails.employeeStatus,
-      onBoardingMentor: this.employeeDetails.onBoardingMentor,
-      directManager: this.employeeDetails.directManager,
-      team: this.employeeDetails.team,
-      location: this.employeeDetails.location,
-      publicHolidayGroup: this.employeeDetails.publicHolidayGroup,
-      accessLevel: this.employeeDetails.accessLevel,
-      drivingLicense: this.employeeDetails.drivingLicense,
-      employeeInternalId: this.employeeDetails.employeeInternalId,
-      linkedin: this.employeeDetails.linkedin,
-      skype: this.employeeDetails.skype,
-      positions: this.positions
+
     };
     // console.log(reqestBody, 'request body');
 

@@ -80,4 +80,12 @@ export class DataService {
     );
   }
 
+  addNotes(data: any) {
+    return this.http.post<any>(this.apiUrl + '/api/employee/create-note', data)
+  }
+
+  addDocument(data: any) {
+    return this.http.post<any>(this.apiUrl + '/api/employee/create-document', data);
+  }
+
 }

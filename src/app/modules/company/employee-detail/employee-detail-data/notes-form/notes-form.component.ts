@@ -11,7 +11,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 
 interface DataRow {
   date: Date;
-  createdBy: string;
+  // createdBy: string;
   note: string;
   document: string
 }
@@ -19,7 +19,7 @@ interface DataRow {
 @Component({
   selector: 'vex-notes-form',
   standalone: true,
-  animations: [stagger60ms, fadeInUp400ms,fadeInRight400ms],
+  animations: [stagger60ms, fadeInUp400ms, fadeInRight400ms],
   imports: [
     CommonModule,
     MATERIAL_IMPORTS,
@@ -31,8 +31,8 @@ export class NotesFormComponent {
   // for table data
   dataSource = new MatTableDataSource<DataRow>(this.createData());
   selection = new SelectionModel<DataRow>(true, []);
-  
-  constructor(private dialog: MatDialog) {}
+
+  constructor(private dialog: MatDialog) { }
 
   openAddNoteDialog(): void {
     const dialogRef = this.dialog.open(AddNotesModalComponent, {
@@ -51,23 +51,8 @@ export class NotesFormComponent {
   createData(): DataRow[] {
     return [
       {
-        date: new Date(), createdBy: 'Shawon talukder', note: 'Lorem ipsum dolor, sit', document: 'https://dummyimage.com/300x200/000/fff'
-      },
-      {
-        date: new Date(), createdBy: 'Imran sarker', note: 'this is a test note for developer', document: 'https://dummyimage.com/400x300/00ff00/000'
-      },
-      {
-        date: new Date(), createdBy: 'Imran sarker', note: 'this is a test note for dev.', document: 'https://dummyimage.com/400x300/00ff00/000'
-      },
-      {
-        date: new Date(), createdBy: 'Moniruzzamn', note: 'this is a test note for dev.', document: 'https://dummyimage.com/400x300/00ff00/000'
-      },
-      {
-        date: new Date(), createdBy: 'Anders Sti', note: 'this is a test note for dev.', document: 'https://dummyimage.com/400x300/00ff00/000'
-      },
-      {
-        date: new Date(), createdBy: 'Anders Sti', note: 'this is a test note for dev.', document: 'https://dummyimage.com/400x300/00ff00/000'
-      },
+        date: new Date(), note: 'Lorem ipsum dolor, sit', document: 'https://dummyimage.com/300x200/000/fff'
+      }
     ];
   }
 

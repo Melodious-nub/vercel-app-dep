@@ -21,7 +21,7 @@
       <!-- Department -->
       <mat-form-field appearance="outline" class="col-lg-6">
         <mat-label>Department</mat-label>
-        <mat-select name="department" [(ngModel)]="employeeDetails.department" (selectionChange)="onDepartmentChange($event.value)">
+        <mat-select name="departmentid" [(ngModel)]="employeeDetails.departmentid">
           <mat-option *ngFor="let dept of allDepartments" [value]="dept.id">{{ dept.name }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -29,7 +29,7 @@
       <!-- Designation -->
       <mat-form-field appearance="outline" class="col-lg-6">
         <mat-label>Designation</mat-label>
-        <mat-select name="designation" [(ngModel)]="employeeDetails.designation">
+        <mat-select name="designationid" [(ngModel)]="employeeDetails.designationid">
           <mat-option *ngFor="let degi of designationByDept" [value]="degi.id">{{ degi.name }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -37,7 +37,7 @@
       <div class="col-lg-6">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Position</mat-label>
-          <mat-select name="position" [(ngModel)]="employeeDetails.positionId">
+          <mat-select name="positionid" [(ngModel)]="employeeDetails.positionid">
             <mat-option *ngFor="let pos of positions" [value]="pos.positionId">{{ pos.positionName }}</mat-option>
           </mat-select>
         </mat-form-field>

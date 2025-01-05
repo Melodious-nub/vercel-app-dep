@@ -8,7 +8,7 @@
 
         <!-- note add button -->
         <div class="mb-4">
-            <button mat-raised-button color="primary" (click)="openAddNoteDialog()">
+            <button mat-raised-button type="button" color="primary" (click)="openAddNoteDialog()">
                 <mat-icon class="ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 icon-sm" svgIcon="mat:note_add"></mat-icon>
                 <span>Add new note</span>
             </button>
@@ -19,11 +19,6 @@
                 <ng-container matColumnDef="date">
                     <th mat-header-cell *matHeaderCellDef>Date</th>
                     <td mat-cell *matCellDef="let row">{{ row.date | date: 'shortDate' }}</td>
-                </ng-container>
-        
-                <ng-container matColumnDef="createdBy">
-                    <th mat-header-cell *matHeaderCellDef>Created_By</th>
-                    <td mat-cell *matCellDef="let row">{{ row.createdBy }}</td>
                 </ng-container>
         
                 <ng-container matColumnDef="note">
@@ -45,14 +40,14 @@
                             <mat-icon svgIcon="mat:more_vert"></mat-icon>
                         </button>
                         <mat-menu #actionsMenu="matMenu">
-                            <button mat-menu-item (click)="updateCustomer(row)">Edit <mat-icon svgIcon="mat:edit"></mat-icon></button>
-                            <button mat-menu-item (click)="deleteCustomer(row)">Delete <mat-icon svgIcon="mat:delete"></mat-icon></button>
+                            <!-- <button mat-menu-item (click)="updateCustomer(row)">Edit <mat-icon svgIcon="mat:edit"></mat-icon></button> -->
+                            <button mat-menu-item type="button" (click)="deleteCustomer(row)">Delete <mat-icon svgIcon="mat:delete"></mat-icon></button>
                         </mat-menu>
                     </td>
                 </ng-container>
         
-                <tr mat-header-row *matHeaderRowDef="['date', 'createdBy', 'note', 'document', 'actions']"></tr>
-                <tr mat-row *matRowDef="let row; columns: ['date', 'createdBy', 'note', 'document', 'actions']"></tr>
+                <tr mat-header-row *matHeaderRowDef="['date', 'note', 'document', 'actions']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['date', 'note', 'document', 'actions']"></tr>
             </table>
         </div>
         

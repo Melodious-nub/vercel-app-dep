@@ -5,11 +5,13 @@ import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
 import { fadeInRight400ms } from '@vex/animations/fade-in-right.animation';
 import { MATERIAL_IMPORTS } from 'src/app/material-imports';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'vex-add-document-modal',
   standalone: true,
-  animations: [stagger60ms, fadeInUp400ms,fadeInRight400ms],
+  animations: [stagger60ms, fadeInUp400ms, fadeInRight400ms],
   imports: [
     CommonModule,
     MATERIAL_IMPORTS,
@@ -26,12 +28,7 @@ export class AddDocumentModalComponent {
   requireAccept = false;
   sendEmailNotification = true;
 
-  constructor(public dialogRef: MatDialogRef<AddDocumentModalComponent>) {}
-
-  onSave(): void {
-    // Logic to save the note with attachment data if available
-    this.dialogRef.close();
-  }
+  constructor(public dialogRef: MatDialogRef<AddDocumentModalComponent>, private api: DataService, private snackbar: MatSnackBar) { }
 
   onCancel(): void {
     this.dialogRef.close();
@@ -58,6 +55,11 @@ export class AddDocumentModalComponent {
   removeAttachment(): void {
     this.attachmentName = null;
     this.attachmentFile = null;
+  }
+
+  onAddDocument(): void {
+    // Logic to save the note with attachment data if available
+    this.dialogRef.close();
   }
 
 }

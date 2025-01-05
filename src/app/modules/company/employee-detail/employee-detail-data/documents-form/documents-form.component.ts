@@ -6,11 +6,13 @@ import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
 import { fadeInRight400ms } from '@vex/animations/fade-in-right.animation';
 import { MatDialog } from '@angular/material/dialog';
 import { AddDocumentModalComponent } from './add-document-modal/add-document-modal.component';
+import { DataService } from 'src/app/services/data.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'vex-documents-form',
   standalone: true,
-  animations: [stagger60ms, fadeInUp400ms,fadeInRight400ms],
+  animations: [stagger60ms, fadeInUp400ms, fadeInRight400ms],
   imports: [
     CommonModule,
     MATERIAL_IMPORTS,
@@ -20,7 +22,7 @@ import { AddDocumentModalComponent } from './add-document-modal/add-document-mod
 })
 export class DocumentsFormComponent {
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private api: DataService, private snackbar: MatSnackBar) { }
 
   openDocModal() {
     const dialogRef = this.dialog.open(AddDocumentModalComponent, {
@@ -45,7 +47,7 @@ export class DocumentsFormComponent {
     { fileName: 'https://dummyimage.com/300x200/000/ffft', description: 'This is a test note.', uploadDate: '2023-04-22', uploadedBy: 'Sarah Lee', sharedWith: 'Selected Users', status: 'Completed' },
     { fileName: 'https://dummyimage.com/300x200/000/fff', description: 'This is a test note.', uploadDate: '2023-05-30', uploadedBy: 'John Doe', sharedWith: 'Everyone', status: 'Pending' }
   ];
-  
+
   displayedColumns: string[] = ['fileName', 'description', 'upload_date', 'uploaded_by', 'shared_with', 'status', 'actions'];
   dataSource = this.ELEMENT_DATA;
 
