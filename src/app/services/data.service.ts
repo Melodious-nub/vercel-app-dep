@@ -65,4 +65,19 @@ export class DataService {
     return this.http.get<any>(this.apiUrl + '/api/employee/personal-info' + '?employeeId=' + employeeId);
   }
 
+  allocateAsset(data: any) {
+    return this.http.post<any>(this.apiUrl + '/allocate', data);
+  }
+
+  returnAsset(allocationId: any, data: any) {
+    return this.http.post<any>(
+      `${this.apiUrl}/return/${allocationId}`,
+      data,
+      {
+        headers: { 'Content-Type': 'application/json' },
+        responseType: 'text' as 'json', // Specify that the response should be treated as plain text
+      }
+    );
+  }
+
 }

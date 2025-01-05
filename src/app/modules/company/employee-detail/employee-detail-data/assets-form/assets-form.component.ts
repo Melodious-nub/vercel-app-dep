@@ -38,12 +38,14 @@ export class AssetsFormComponent implements OnInit {
     const dialogRef = this.dialog.open(AddAssetModalComponent, {
       width: '600px',
       disableClose: true,
+      data: { employeeId: this.employeeId } // Pass the data here
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // Handle the result if necessary
-        // console.log('Dialog result:', result);
+        // console.log('Dialog result');
+        this.fetchAllAllocatedAsset();
       }
     });
   }
@@ -52,13 +54,14 @@ export class AssetsFormComponent implements OnInit {
     const dialogRef = this.dialog.open(ReturnAssetModalComponent, {
       width: '600px',
       disableClose: true,
-      data: { assetName: asset.name }
+      data: { assetName: asset.name, assetId: asset.id }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // Handle the result if necessary
         // console.log('Dialog result:', result);
+        this.fetchAllAllocatedAsset();
       }
     });
   }
