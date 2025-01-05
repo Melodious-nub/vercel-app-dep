@@ -120,13 +120,8 @@
       <div class="col-lg-6">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Team</mat-label>
-          <mat-select placeholder="Select team" name="team" [(ngModel)]="employeeDetails.teamname">
-            <mat-option value="java">Java team</mat-option>
-            <mat-option value="management">Management team</mat-option>
-            <mat-option value="angular">Angular team</mat-option>
-            <mat-option value="sqa">SQA team</mat-option>
-            <mat-option value="marketing">Marketing team</mat-option>
-            <mat-option value="devops">DevOps team</mat-option>
+          <mat-select placeholder="Select team" name="team" [(ngModel)]="employeeDetails.teamid">
+            <mat-option *ngFor="let team of teams" [value]="team.teamId">{{team.teamName}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -184,7 +179,7 @@
       <div class="col-lg-6">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>LinkedIn</mat-label>
-          <input matInput placeholder="Type LinkedIn URL" name="linkedin" [(ngModel)]="employeeDetails.linkedinurl">
+          <input matInput placeholder="Type LinkedIn URL" name="linkedinurl" [(ngModel)]="employeeDetails.linkedinurl">
         </mat-form-field>
       </div>
 
@@ -199,7 +194,7 @@
       <!-- Buttons -->
       <div class="actions flex items-center justify-end gap-3">
           <!-- <button mat-raised-button (click)="back()">Back</button> -->
-          <button mat-raised-button color="primary" (click)="submit()">Save</button>
+          <button mat-raised-button type="button" color="primary" (click)="submit()">Save</button>
       </div>
   </form>
 </div>

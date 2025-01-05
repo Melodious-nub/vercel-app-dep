@@ -88,4 +88,8 @@ export class DataService {
     return this.http.post<any>(this.apiUrl + '/api/employee/create-document', data);
   }
 
+  updateEmployeeDetails(data: any) {
+    return this.http.put<any>(this.apiUrl + '/api/employee/update', data);
+  }
+
 }
