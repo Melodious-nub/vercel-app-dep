@@ -33,17 +33,15 @@
 
     <!-- description -->
     <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
-        <mat-label>Description (optional)</mat-label>
-        <textarea matInput name="description" rows="3" placeholder="Type description here"></textarea>
+        <mat-label>Description</mat-label>
+        <textarea matInput name="description" rows="3" placeholder="Type description here" [(ngModel)]="description"></textarea>
     </mat-form-field>
 
     <!-- Category -->
     <mat-form-field appearance="outline" style="width: 100%;" class="mb-2" color="primary">
         <mat-label>Category</mat-label>
-        <mat-select [(ngModel)]="category" name="category">
-          <mat-option value="General">General</mat-option>
-          <mat-option value="Onboarding">Onboarding</mat-option>
-          <mat-option value="Offboarding">Offboarding</mat-option>
+        <mat-select [(ngModel)]="categoryId" name="category">
+          <mat-option *ngFor="let cat of categoryData" [value]="cat.documentCategoryId">{{cat.name}}</mat-option>
         </mat-select>
     </mat-form-field>
 

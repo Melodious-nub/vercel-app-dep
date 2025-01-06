@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { stagger60ms } from '@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
 import { fadeInRight400ms } from '@vex/animations/fade-in-right.animation';
 import { MATERIAL_IMPORTS } from 'src/app/material-imports';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataService } from 'src/app/services/data.service';
 
@@ -23,12 +23,19 @@ export class AddDocumentModalComponent {
   // variables
   attachmentName: string | null = null;
   attachmentFile: File | null = null;
-  category = 'General';
+  categoryId = 1;
   shareDocumentWith = 'current_user';
   requireAccept = false;
   sendEmailNotification = true;
+  description: string = '';
 
-  constructor(public dialogRef: MatDialogRef<AddDocumentModalComponent>, private api: DataService, private snackbar: MatSnackBar) { }
+  categoryData = [
+    { documentCategoryId: 1, name: 'General' },
+    { documentCategoryId: 2, name: 'Off Boarding' },
+    { documentCategoryId: 3, name: 'On Boarding' },
+  ]
+
+  constructor(public dialogRef: MatDialogRef<AddDocumentModalComponent>, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: { employeeId: any }) { }
 
   onCancel(): void {
     this.dialogRef.close();
@@ -58,8 +65,36 @@ export class AddDocumentModalComponent {
   }
 
   onAddDocument(): void {
-    // Logic to save the note with attachment data if available
-    this.dialogRef.close();
+    const formData = new FormData();
+    const body = {
+      employeeId: this.data.employeeId,
+      description: this.description,
+      shareType: 'CURRENT_USER',
+      documentCategoryId: this.categoryId
+    }
+
+    if (this.attachmentFile) {
+      formData.append('file', this.attachmentFile);
+      console.log(this.attachmentFile, body);
+    }
+    formData.append('description', body.description);
+    formData.append('employeeId', body.employeeId);
+    formData.append('shareType', body.shareType);
+    formData.append('documentCategoryId', JSON.stringify(body.documentCategoryId));
+
+    this.api.createDocuments(formData).subscribe({
+      next: () => {
+        this.snackbar.open('Document has been successfully created.', 'Close', {
+          duration: 3000,
+        });
+        this.dialogRef.close(true);
+      },
+      error: () => {
+        this.snackbar.open('An error occurred while creating the document. Please try again later.', 'Close', {
+          duration: 3000,
+        });
+      }
+    });
   }
 
 }
