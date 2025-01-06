@@ -20,7 +20,7 @@
             </div> -->
 
             <div class="table-container border border-gray-300">
-                <table mat-table [dataSource]="ELEMENT_DATA" class="pt-2">
+                <table mat-table [dataSource]="ELEMENT_DATA.slice().reverse()" class="pt-2">
                     <!-- Name Column -->
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -30,7 +30,7 @@
                     <!-- Category Column -->
                     <ng-container matColumnDef="category">
                         <th mat-header-cell *matHeaderCellDef> Category </th>
-                        <td mat-cell *matCellDef="let row">{{ row.type }}</td>
+                        <td mat-cell *matCellDef="let row">{{ row.name }}</td>
                     </ng-container>
                 
                     <!-- Description Column -->
@@ -42,7 +42,7 @@
                     <!-- Asset Number Column -->
                     <ng-container matColumnDef="assetNumber">
                         <th mat-header-cell *matHeaderCellDef> Asset Number </th>
-                        <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+                        <td mat-cell *matCellDef="let row">{{ row.serial_number }}</td>
                     </ng-container>
                 
                     <!-- Serial Given Column -->

@@ -46,10 +46,10 @@ export class AddAssetModalComponent implements OnInit {
   onSave(): void {
     // assetName will add soon
     let body = {
-      employeeId: this.data.employeeId, assetId: this.assetAllocateForm.assetId, allocationDate: this.assetAllocateForm.allocationDate, conditionOnAllocation: 'BRAND_NEW', status: 'ALLOCATED', serialNumber: this.assetAllocateForm.serialNumber, remarks: this.assetAllocateForm.remarks
+      employeeId: this.data.employeeId, assetId: this.assetAllocateForm.assetId, allocationDate: this.assetAllocateForm.allocationDate, conditionOnAllocation: 'BRAND_NEW', status: 'ALLOCATED', serialNumber: this.assetAllocateForm.serialNumber, remarks: this.assetAllocateForm.remarks, assetName: this.assetAllocateForm.assetName
     }
 
-    // console.log(body);
+    console.log(body);
 
     this.api.allocateAsset(body).subscribe({
       next: () => {

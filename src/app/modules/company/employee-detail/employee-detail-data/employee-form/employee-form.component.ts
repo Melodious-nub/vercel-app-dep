@@ -66,6 +66,7 @@ export class EmployeeFormComponent implements OnInit {
   // Separate property to hold the image file
   profilePic: string | null = null; // To store the selected image name
   imageSrc: any;
+  profilePicFile: File | null = null; // To store the selected file
 
   // variables
   separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -144,14 +145,14 @@ export class EmployeeFormComponent implements OnInit {
       }
     });
 
-    this.fetchCountries();
+    // this.fetchCountries();
   }
 
-  fetchCountries() {
-    this.api.getAllCountries().subscribe(res => {
-      this.locations = res;
-    })
-  }
+  // fetchCountries() {
+  //   this.api.getAllCountries().subscribe(res => {
+  //     this.locations = res;
+  //   })
+  // }
 
   // Method to fetch employee details
   getEmployeeDetails(): void {
@@ -180,6 +181,7 @@ export class EmployeeFormComponent implements OnInit {
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
+      this.profilePicFile = input.files[0]; // Store the file object
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.profilePic = e.target.result; // Set the preview image as the file's base64 data URL
@@ -211,32 +213,66 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   submit() {
+    const formData = new FormData();
+
     const reqestBody = {
-      name: this.employeeDetails.name,
-
+      name: this.employeeDetails.employeename,
+      phone: this.employeeDetails.phone,
+      email: this.employeeDetails.email,
+      departmentId: this.employeeDetails.departmentid,
+      designationId: this.employeeDetails.designationid,
+      startDate: this.employeeDetails.startdate,
+      positionId: this.employeeDetails.positionid,
+      teamId: this.employeeDetails.teamid,
+      employmentStatus: this.employeeDetails.employmentstatus,
+      employeeId: this.employeeDetails.employeeid,
+      linkedInUrl: this.employeeDetails.linkedinurl,
+      skypeUrl: this.employeeDetails.skypeurl,
+      drivingLicence: this.employeeDetails.drivinglicense,
+      // eId: JSON.parse(this.employeeId)
     };
-    // console.log(reqestBody, 'request body');
+    console.log(reqestBody, 'request body');
 
-    // this.api.updateEmpDetails(reqestBody, this.employeeId).subscribe({
-    //   next: (res) => {
-    //     // console.log(res, 'success');
+    // append all data together for sending in backend
+    if (this.profilePicFile) {
+      formData.append('image', this.profilePicFile);
+      console.log(this.profilePicFile, 'image');
+    }
+    formData.append('name', reqestBody.name);
+    formData.append('phone', reqestBody.phone);
+    formData.append('email', reqestBody.email);
+    formData.append('departmentId', reqestBody.departmentId);
+    formData.append('designationId', reqestBody.designationId);
+    formData.append('startDate', reqestBody.startDate);
+    formData.append('positionId', reqestBody.positionId);
+    formData.append('teamId', reqestBody.teamId);
+    formData.append('employmentStatus', reqestBody.employmentStatus);
+    formData.append('employeeId', reqestBody.employeeId);
+    formData.append('linkedInUrl', reqestBody.linkedInUrl);
+    formData.append('skypeUrl', reqestBody.skypeUrl);
+    formData.append('drivingLicence', reqestBody.drivingLicence);
+    formData.append('eId', JSON.parse(this.employeeId));
 
-    //     // Show success message
-    //     this.snackbar.open('Employee data added successfully!', 'Close', {
-    //       duration: 2000,
-    //       horizontalPosition: 'end',
-    //       verticalPosition: 'bottom'
-    //     });
-    //     // console.log(res, 'res of api');
-    //   },
-    //   error: (error) => {
-    //     this.snackbar.open('Server error!', 'Close', {
-    //       duration: 2000,
-    //       horizontalPosition: 'end',
-    //       verticalPosition: 'bottom'
-    //     });
-    //     // console.log(error, 'error');
-    //   }
-    // });
+    this.api.updateEmployeeDetails(formData).subscribe({
+      next: (res) => {
+        console.log('success', res);
+
+        // Show success message
+        this.snackbar.open('Employee data updated successfully!', 'Close', {
+          duration: 2000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom'
+        });
+        // console.log(res, 'res of api');
+      },
+      error: (error) => {
+        this.snackbar.open('Server error!', 'Close', {
+          duration: 2000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom'
+        });
+        console.log(error, 'error');
+      }
+    });
   }
 }

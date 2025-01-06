@@ -14,7 +14,7 @@
       <div class="col-lg-6">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Name</mat-label>
-          <input matInput name="name" [(ngModel)]="employeeDetails.employeename" placeholder="Type full name">
+          <input matInput name="employeename" [(ngModel)]="employeeDetails.employeename" placeholder="Type full name">
         </mat-form-field>
       </div>
 
@@ -127,12 +127,12 @@
       </div>
 
       <!-- Location -->
-      <mat-form-field appearance="outline" class="col-md-6">
+      <!-- <mat-form-field appearance="outline" class="col-md-6">
         <mat-label>Location</mat-label>
         <mat-select [(ngModel)]="employeeDetails.location" name="location">
           <mat-option *ngFor="let location of locations" [value]="location.id">{{ location.name }}</mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
 
       <!-- Public Holiday Group -->
       <!-- <div class="col-lg-6">
