@@ -100,4 +100,8 @@ export class DataService {
     return this.http.post<any>(this.apiUrl + '/api/employee/create-document', data);
   }
 
+  getAllNotes(empId: any) {
+    return this.http.get<any>(this.apiUrl + '/api/employee/note/all-by-employee?empId=' + empId);
+  }
+
 }
