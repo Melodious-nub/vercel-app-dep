@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { stagger60ms } from '@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
@@ -8,6 +8,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddNotesModalComponent } from './add-notes-modal/add-notes-modal.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ActivatedRoute } from '@angular/router';
+import { DataService } from 'src/app/services/data.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface DataRow {
   date: Date;
@@ -27,34 +30,44 @@ interface DataRow {
   templateUrl: './notes-form.component.html',
   styleUrls: ['./notes-form.component.scss']
 })
-export class NotesFormComponent {
+export class NotesFormComponent implements OnInit {
   // for table data
-  dataSource = new MatTableDataSource<DataRow>(this.createData());
-  selection = new SelectionModel<DataRow>(true, []);
+  dataSource: any;
+  // selection = new SelectionModel<DataRow>(true, []);
+  employeeId: any;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private route: ActivatedRoute, private api: DataService, private snackbar: MatSnackBar) { }
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.employeeId = params.get('id')!;
+      this.fetchAllNotes();
+    });
+  }
 
   openAddNoteDialog(): void {
     const dialogRef = this.dialog.open(AddNotesModalComponent, {
       width: '600px',
       disableClose: true,
+      data: { employeeId: this.employeeId }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // Handle the result if necessary
         // console.log('Dialog result:', result);
+        this.fetchAllNotes();
       }
     });
   }
 
-  createData(): DataRow[] {
-    return [
-      {
-        date: new Date(), note: 'Lorem ipsum dolor, sit', document: 'https://dummyimage.com/300x200/000/fff'
-      }
-    ];
-  }
+  // createData(): DataRow[] {
+  //   return [
+  //     {
+  //       date: new Date(), note: 'Lorem ipsum dolor, sit', document: 'https://dummyimage.com/300x200/000/fff'
+  //     }
+  //   ];
+  // }
 
   updateCustomer(row: DataRow) {
     console.log('Update Customer:', row);
@@ -62,6 +75,18 @@ export class NotesFormComponent {
 
   deleteCustomer(row: DataRow) {
     console.log('Delete Customer:', row);
+  }
+
+  fetchAllNotes() {
+    this.api.getAllNotes(this.employeeId).subscribe({
+      next: (res) => {
+        this.dataSource = res.content;
+        console.log(res);
+      },
+      error: () => {
+        this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
+      }
+    });
   }
 
 }

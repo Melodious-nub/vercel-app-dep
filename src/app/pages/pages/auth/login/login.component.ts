@@ -74,21 +74,21 @@ export class LoginComponent {
       this.authService.login(formData).subscribe({
         next: (response) => {
           if (response) {
-            this.snackbar.open('Login successful!', 'Close', { duration: 3000 });
+            this.snackbar.open('Login successful!', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
             this.loading = false; // Stop loading
             this.router.navigate(['dashboard/analytics']);
           } else {
-            this.snackbar.open('Invalid response. Please try again.', 'Close', { duration: 3000 });
+            this.snackbar.open('Invalid response. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
             this.loading = false; // Stop loading
           }
         },
         error: () => {
-          this.snackbar.open('An error occurred during login. Please try again.', 'Close', { duration: 3000 });
+          this.snackbar.open('An error occurred during login. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
           this.loading = false; // Stop loading
         }
       });
     } else {
-      this.snackbar.open('Please enter valid credentials.', 'Close', { duration: 3000 });
+      this.snackbar.open('Please enter valid credentials.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
     }
   }
 

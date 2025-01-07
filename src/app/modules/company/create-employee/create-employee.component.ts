@@ -110,7 +110,7 @@ export class CreateEmployeeComponent implements OnInit {
         this.allDepartments = res;
       },
       error: () => {
-        this.snackbar.open('Failed to load departments. Please try again.', 'Close', { duration: 3000 });
+        this.snackbar.open('Failed to load departments. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
       }
     });
   }
@@ -132,7 +132,7 @@ export class CreateEmployeeComponent implements OnInit {
         this.designationByDept = res;
       },
       error: () => {
-        this.snackbar.open('Failed to load designations. Please try again.', 'Close', { duration: 3000 });
+        this.snackbar.open('Failed to load designations. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
       }
     });
   }
@@ -147,7 +147,7 @@ export class CreateEmployeeComponent implements OnInit {
         console.log('policies:', this.policies);
       },
       error: () => {
-        this.snackbar.open('Failed to load designations. Please try again.', 'Close', { duration: 3000 });
+        this.snackbar.open('Failed to load designations. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
       }
     });
 

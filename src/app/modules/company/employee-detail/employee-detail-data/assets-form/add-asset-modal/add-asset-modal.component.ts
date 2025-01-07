@@ -38,7 +38,7 @@ export class AddAssetModalComponent implements OnInit {
         console.log(res, this.data.employeeId);
       },
       error: () => {
-        this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000 });
+        this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
       }
     });
   }
@@ -49,21 +49,21 @@ export class AddAssetModalComponent implements OnInit {
       employeeId: this.data.employeeId, assetId: this.assetAllocateForm.assetId, allocationDate: this.assetAllocateForm.allocationDate, conditionOnAllocation: 'BRAND_NEW', status: 'ALLOCATED', serialNumber: this.assetAllocateForm.serialNumber, remarks: this.assetAllocateForm.remarks, assetName: this.assetAllocateForm.assetName
     }
 
-    console.log(body);
+    // console.log(body);
 
     this.api.allocateAsset(body).subscribe({
       next: () => {
-        this.snackbar.open('Asset allocated successfully', 'Close', { duration: 3000 });
+        this.snackbar.open('Asset allocated successfully', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
         this.dialogRef.close(true);
       },
       error: (error) => {
         if (error.status === 200 && error.error.text) {
           // Parse the text manually for 200 OK responses
-          this.snackbar.open(error.error.text, 'Close', { duration: 3000 });
+          this.snackbar.open(error.error.text, 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
           this.dialogRef.close(true);
         } else {
           console.error('Error:', error);
-          this.snackbar.open('Failed to allocate asset.', 'Close', { duration: 3000 });
+          this.snackbar.open('Failed to allocate asset.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
         }
       }
     });

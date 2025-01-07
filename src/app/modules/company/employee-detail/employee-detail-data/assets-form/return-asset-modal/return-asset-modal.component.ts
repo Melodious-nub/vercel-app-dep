@@ -37,7 +37,7 @@ export class ReturnAssetModalComponent {
     this.api.returnAsset(this.data.assetId, requestData).subscribe({
       next: (res) => {
         // console.log(res);
-        this.snackbar.open(res, 'Close', { duration: 3000 });
+        this.snackbar.open(res, 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
         this.dialogRef.close(true);
       },
       error: (error) => {

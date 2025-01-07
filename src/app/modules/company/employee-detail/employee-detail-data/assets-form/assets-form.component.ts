@@ -76,7 +76,7 @@ export class AssetsFormComponent implements OnInit {
         console.log(res);
       },
       error: () => {
-        this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000 });
+        this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
       }
     });
   }

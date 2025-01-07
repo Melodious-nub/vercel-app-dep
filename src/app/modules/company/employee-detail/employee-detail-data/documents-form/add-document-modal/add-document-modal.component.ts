@@ -85,13 +85,13 @@ export class AddDocumentModalComponent {
     this.api.createDocuments(formData).subscribe({
       next: () => {
         this.snackbar.open('Document has been successfully created.', 'Close', {
-          duration: 3000,
+          duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom'
         });
         this.dialogRef.close(true);
       },
       error: () => {
         this.snackbar.open('An error occurred while creating the document. Please try again later.', 'Close', {
-          duration: 3000,
+          duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom'
         });
       }
     });

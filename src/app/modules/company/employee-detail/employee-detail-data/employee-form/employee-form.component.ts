@@ -157,8 +157,10 @@ export class EmployeeFormComponent implements OnInit {
   // Method to fetch employee details
   getEmployeeDetails(): void {
     this.fetchEmployeeDetails();
-    this.fetchDepartment();
-    this.fetchEmployeeImage();
+    setTimeout(() => {
+      this.fetchDepartment();
+      this.fetchEmployeeImage();
+    }, 1000);
   }
 
   fetchEmployeeDetails() {

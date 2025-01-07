@@ -52,9 +52,7 @@ export class PersonalFormComponent implements OnInit {
   }
 
   // for positions
-  childrens: Children[] = [
-    // { name: 'Children 1', birthDate: new Date('2022-10-6'), gender: 'MALE' },
-  ];
+  childrens: any | null = [];
 
   openChildrenModal(): void {
     const dialogRef = this.dialog.open(AddChildrenModalComponent, {
@@ -74,7 +72,7 @@ export class PersonalFormComponent implements OnInit {
   onSave() {
     // for formating date format
     const birthDate = this.personalForm.birthDate ? new Date(this.personalForm.birthDate).toLocaleDateString('en-CA') : '';
-    const formattedChildrens = this.childrens.map(child => ({
+    const formattedChildrens = this.childrens.map((child: any) => ({
       ...child,
       birthDate: new Date(child.birthDate).toLocaleDateString('en-CA') // Format each child's birthDate
     }));
@@ -89,10 +87,10 @@ export class PersonalFormComponent implements OnInit {
       next: (res) => {
         // this.allDepartments = res;
         console.log(res);
-        this.snackbar.open('Personal data saved successfully.', 'Close', { duration: 3000 });
+        this.snackbar.open('Personal data saved successfully.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
       },
       error: () => {
-        this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000 });
+        this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
       }
     });
 
@@ -104,11 +102,15 @@ export class PersonalFormComponent implements OnInit {
         // this.allDepartments = res;
         console.log(res);
         this.personalForm = res;
-        this.childrens = res.children;
+        if (res.children) {
+          this.childrens = res.children;
+        } else {
+          this.childrens = [];
+        }
         // this.snackbar.open('Personal data saved successfully.', 'Close', { duration: 3000 });
       },
       error: () => {
-        this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000 });
+        this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
       }
     });
   }

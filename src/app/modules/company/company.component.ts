@@ -111,8 +111,13 @@ export class CompanyComponent implements OnInit {
   fetchAllEmployee() {
     this.api.getAllEmployee().subscribe({
       next: (response) => {
-        // console.log(response.content);
-        this.employeesList = response.content;
+        // Add cache-busting query parameter to the image URL
+        this.employeesList = response.content.map((employee: any) => {
+          return {
+            ...employee,
+            image: `${employee.image}&timestamp=${new Date().getTime()}` // Add timestamp
+          };
+        });
         console.log('employee list called', this.employeesList);
       },
       error: (error) => {
