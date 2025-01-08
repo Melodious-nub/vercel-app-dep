@@ -24,6 +24,7 @@ import { fadeInRight400ms } from '@vex/animations/fade-in-right.animation';
 import { MatCardModule } from '@angular/material/card';
 import { DataService } from 'src/app/services/data.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 export interface Position {
   positionName: string;
@@ -55,7 +56,8 @@ export interface Position {
     MatDialogModule,
     MatChipsModule,
     MatCardModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './employee-form.component.html',
   styleUrls: ['./employee-form.component.scss']
@@ -214,7 +216,9 @@ export class EmployeeFormComponent implements OnInit {
     this.router.navigate(['dashboard/company']);
   }
 
+  isLoading: boolean = false;
   submit() {
+    this.isLoading = true;
     const formData = new FormData();
 
     const reqestBody = {
@@ -233,12 +237,12 @@ export class EmployeeFormComponent implements OnInit {
       drivingLicence: this.employeeDetails.drivinglicense,
       // eId: JSON.parse(this.employeeId)
     };
-    console.log(reqestBody, 'request body');
+    // console.log(reqestBody, 'request body');
 
     // append all data together for sending in backend
     if (this.profilePicFile) {
       formData.append('image', this.profilePicFile);
-      console.log(this.profilePicFile, 'image');
+      // console.log(this.profilePicFile, 'image');
     }
     formData.append('name', reqestBody.name);
     formData.append('phone', reqestBody.phone);
@@ -257,8 +261,8 @@ export class EmployeeFormComponent implements OnInit {
 
     this.api.updateEmployeeDetails(formData).subscribe({
       next: (res) => {
-        console.log('success', res);
-
+        // console.log('success', res);
+        this.isLoading = false;
         // Show success message
         this.snackbar.open('Employee data updated successfully!', 'Close', {
           duration: 2000,
@@ -268,12 +272,13 @@ export class EmployeeFormComponent implements OnInit {
         // console.log(res, 'res of api');
       },
       error: (error) => {
+        this.isLoading = false;
         this.snackbar.open('Server error!', 'Close', {
           duration: 2000,
           horizontalPosition: 'end',
           verticalPosition: 'bottom'
         });
-        console.log(error, 'error');
+        // console.log(error, 'error');
       }
     });
   }

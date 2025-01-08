@@ -69,7 +69,9 @@ export class PersonalFormComponent implements OnInit {
   }
 
   isButtonClicked: boolean = false;
+  isLoading: boolean = false;
   onSave() {
+    this.isLoading = true;
     // for formating date format
     const birthDate = this.personalForm.birthDate ? new Date(this.personalForm.birthDate).toLocaleDateString('en-CA') : '';
     const formattedChildrens = this.childrens.map((child: any) => ({
@@ -81,15 +83,17 @@ export class PersonalFormComponent implements OnInit {
       birthDate: birthDate, street: this.personalForm.street, city: this.personalForm.city, state: this.personalForm.state, countryId: this.personalForm.countryId, nationality: this.personalForm.nationality, homePhone: this.personalForm.homePhone, mobilePhone: this.personalForm.mobilePhone, personalEmail: this.personalForm.personalEmail, gender: this.personalForm.gender, maritalStatus: this.personalForm.maritalStatus, personalIdentificationNumber: this.personalForm.personalIdentificationNumber, taxReferenceNumber: this.personalForm.taxReferenceNumber, children: formattedChildrens, eid: this.employeeId
     }
 
-    console.log(reqBody);
+    // console.log(reqBody);
 
     this.api.saveEmployeePersonal(reqBody).subscribe({
       next: (res) => {
+        this.isLoading = false;
         // this.allDepartments = res;
-        console.log(res);
+        // console.log(res);
         this.snackbar.open('Personal data saved successfully.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
       },
       error: () => {
+        this.isLoading = false;
         this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
       }
     });
@@ -100,8 +104,9 @@ export class PersonalFormComponent implements OnInit {
     this.api.getPersonalData(this.employeeId).subscribe({
       next: (res) => {
         // this.allDepartments = res;
-        console.log(res);
+        // console.log(res);
         this.personalForm = res;
+        this.personalForm.personalEmail = "test@test.com";
         if (res.children) {
           this.childrens = res.children;
         } else {
@@ -110,7 +115,7 @@ export class PersonalFormComponent implements OnInit {
         // this.snackbar.open('Personal data saved successfully.', 'Close', { duration: 3000 });
       },
       error: () => {
-        this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
+        this.snackbar.open('No data found.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
       }
     });
   }

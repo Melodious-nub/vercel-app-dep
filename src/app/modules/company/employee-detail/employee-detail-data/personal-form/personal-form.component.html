@@ -149,7 +149,10 @@
       <!-- Buttons -->
       <div class="actions flex items-center justify-end gap-3">
         <!-- <button mat-raised-button>Back</button> -->
-        <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+        <button mat-raised-button color="primary" (click)="onSave()" [disabled]="isLoading">
+          <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+          <span *ngIf="!isLoading">Save</span>
+        </button>
       </div>     
     </form>
 </div>

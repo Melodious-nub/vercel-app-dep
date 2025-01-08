@@ -1,37 +1,37 @@
 .profile-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  
-    .profile-picture {
-      width: 150px;
-      height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-image: url(../../../../../../assets/img/main/user.png);
+    background-size: cover;
+    background-position: center;
+    background-color: #f0f0f0;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    .upload-btn {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
       border-radius: 50%;
-      background-image: url(../../../../../../assets/img/main/user.png);
-      background-size: cover;
-      background-position: center;
-      background-color: #f0f0f0;
-      position: relative;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  
-      .upload-btn {
-        position: absolute;
-        bottom: 10px;
-        right: 10px;
-        background-color: rgba(0, 0, 0, 0.6);
-        color: white;
-        border-radius: 50%;
-      }
-  
-      input[type="file"] {
-        display: none;
-      }
+    }
+
+    input[type="file"] {
+      display: none;
     }
   }
+}
 
 .mat-mdc-form-field {
-    margin-top: 16px;
+  margin-top: 16px;
 }
 
 .position-card {
