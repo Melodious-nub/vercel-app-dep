@@ -70,7 +70,7 @@
           <!-- Buttons -->
           <div class="actions d-grid mt-2">
             <!-- Next Button -->
-            <button type="button" color="primary" mat-raised-button (click)="createAccount(stepper)">Continue</button>
+            <button type="button" color="primary" mat-raised-button (click)="createAccount(stepper)" [disabled]="firstFormGroup.invalid">Continue</button>
           </div>
           <div class="text-secondary text-center mt-3">
             <p class="mb-1">
@@ -132,7 +132,7 @@
         <!-- Buttons -->
         <div class="actions flex items-center justify-end gap-2 pb-2">
           <button mat-raised-button matStepperPrevious>Back</button>
-          <button mat-raised-button color="primary" type="button" (click)="registerAccount()" [disabled]="isSubmitting">Create</button>
+          <button mat-raised-button color="primary" type="button" (click)="registerAccount()" [disabled]="isSubmitting || secondFormGroup.invalid">Create</button>
         </div>
       </form>
     </mat-dialog-content>
