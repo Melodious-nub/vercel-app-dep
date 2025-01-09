@@ -1,26 +1,158 @@
-.bg-pattern {
-  background: linear-gradient(135deg,
-      var(--vex-background-background) 22px,
-      var(--vex-background-hover) 22px,
-      var(--vex-background-hover) 24px,
-      transparent 24px,
-      transparent 67px,
-      var(--vex-background-hover) 67px,
-      var(--vex-background-hover) 69px,
-      transparent 69px),
-    linear-gradient(225deg,
-      var(--vex-background-background) 22px,
-      var(--vex-background-hover) 22px,
-      var(--vex-background-hover) 24px,
-      transparent 24px,
-      transparent 67px,
-      var(--vex-background-hover) 67px,
-      var(--vex-background-hover) 69px,
-      transparent 69px) 0 64px;
-  background-color: var(--vex-background-background);
-  background-size: 64px 128px;
+// .bg-pattern {
+//   background: linear-gradient(135deg,
+//       var(--vex-background-background) 22px,
+//       var(--vex-background-hover) 22px,
+//       var(--vex-background-hover) 24px,
+//       transparent 24px,
+//       transparent 67px,
+//       var(--vex-background-hover) 67px,
+//       var(--vex-background-hover) 69px,
+//       transparent 69px),
+//     linear-gradient(225deg,
+//       var(--vex-background-background) 22px,
+//       var(--vex-background-hover) 22px,
+//       var(--vex-background-hover) 24px,
+//       transparent 24px,
+//       transparent 67px,
+//       var(--vex-background-hover) 67px,
+//       var(--vex-background-hover) 69px,
+//       transparent 69px) 0 64px;
+//   background-color: var(--vex-background-background);
+//   background-size: 64px 128px;
+// }
+
+// .mat-stepper-horizontal {
+//   margin-top: 8px;
+// }
+
+/* app.component.scss or your component's style */
+::ng-deep .mat-step-header {
+  display: none;
 }
 
-.mat-stepper-horizontal {
-  margin-top: 8px;
+::ng-deep .mat-stepper-horizontal-line {
+  display: none;
+  /* Hide the line below the stepper */
+}
+
+::ng-deep .mat-horizontal-stepper-header {
+  display: none !important;
+}
+
+::ng-deep .mat-horizontal-content-container {
+  // overflow: hidden;
+  padding: 0 !important;
+}
+
+$primary-color: #4f46e5;
+$background-color: #fbf1db;
+$border-radius: 24px;
+
+// *,
+// *::before,
+// *::after {
+//   font-family: 'Apercu Pro', 'DM Sans', 'Inter', sans-serif;
+// }
+
+.registration-container {
+  display: flex;
+  justify-content: center;
+  background-color: $background-color;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+
+  .form-card {
+    background: #fff;
+    border-radius: $border-radius;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 552px;
+    width: 100%;
+    padding: 50px 80px;
+
+    .brand-name {
+      color: $primary-color;
+      font-weight: bolder;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .form-title {
+      font-size: 20px;
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    .step-indicator {
+      font-size: 14px;
+      color: black;
+      margin-bottom: 20px;
+    }
+
+    form {
+      .form-group {
+        margin-bottom: 15px;
+
+        label {
+          display: block;
+          color: #595958;
+          font-weight: 500;
+          margin-bottom: 5px;
+        }
+
+        .form-control {
+          border-radius: 4px;
+          padding: 10px;
+          font-size: 14px;
+        }
+      }
+
+      .privacy-note {
+        font-size: 12px;
+        color: gray;
+        margin: 20px 0;
+
+        a {
+          color: $primary-color;
+          text-decoration: none;
+        }
+      }
+
+      .already-using {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 14px;
+
+        a {
+          color: $primary-color;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  .primary-color {
+    color: #2853ad !important;
+    font-weight: 500;
+  }
+
+  :hover.primary-color {
+    text-decoration: underline !important;
+  }
+
+  /* Media query for smaller screens */
+  @media (max-width: 767px) {
+    .form-card {
+      padding: 20px 30px;
+      /* Less padding for smaller screens */
+    }
+
+    .form-title {
+      font-size: 18px;
+    }
+
+    .step-indicator {
+      font-size: 12px;
+    }
+  }
 }

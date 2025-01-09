@@ -1,8 +1,9 @@
-<div class="w-full h-full bg-pattern flex flex-col items-center justify-center">
-  <div @fadeInUp class="card w-full max-w-xl">
-    <div class="text-center mt-4">
-      <h2 class="title m-0">Register for an account</h2>
-      <h4 class="body-2 text-secondary m-0">Simply fill out the form below</h4>
+<div class="registration-container">
+  <div @fadeInUp class="form-card">
+    <h1 class="brand-name">HRM</h1>
+    <div class="d-flex justify-content-between mb-2">
+      <h2 class="form-title">Register your company</h2>
+      <p class="step-indicator">Step {{stepper.selectedIndex + 1}} of 2</p>
     </div>
 
     <mat-stepper linear #stepper>
@@ -63,15 +64,20 @@
               <mat-icon *ngIf="!visible2" svgIcon="mat:visibility_off"></mat-icon>
             </button>
           </mat-form-field>
+          <p style="font-size: 13px; line-height: 20px;" class="mb-3 text-left">
+            Your privacy matters to us. We’ll use your information to share useful content and product updates. See our <button class="primary-color">Privacy Policy</button> and <button class="primary-color">Terms of Service</button> for more information.
+          </p>
           <!-- Buttons -->
           <div class="actions d-grid mt-2">
             <!-- Next Button -->
             <button type="button" color="primary" mat-raised-button (click)="createAccount(stepper)">Continue</button>
           </div>
-          <p class="text-secondary text-center mt-3">
-            Already have an account?<br />
-            <a [routerLink]="['/login']" type="button" class="text-blue-500">Sign in here</a>
-          </p>
+          <div class="text-secondary text-center mt-3">
+            <p class="mb-1">
+              Is your company already using HRM?
+            </p>
+            <a [routerLink]="['/login']" class="primary-color">Sign in</a>
+          </div>
         </form>
       </mat-dialog-content>
       </mat-step>
@@ -124,7 +130,7 @@
         </mat-form-field>
       
         <!-- Buttons -->
-        <div class="actions flex items-center justify-end gap-2">
+        <div class="actions flex items-center justify-end gap-2 pb-2">
           <button mat-raised-button matStepperPrevious>Back</button>
           <button mat-raised-button color="primary" type="button" (click)="registerAccount()" [disabled]="isSubmitting">Create</button>
         </div>
