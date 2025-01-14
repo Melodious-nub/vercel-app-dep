@@ -49,9 +49,20 @@
 }
 
 /* Override Bootstrap font settings */
-body, h1, h2, h3, h4, h5, h6, p, label, button, input {
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+label,
+button,
+input {
   font-family: "Inter var", sans-serif !important;
-  font-weight: 400; /* Adjust this based on your preferred weight */
+  // font-weight: 400;
+  /* Adjust this based on your preferred weight */
 }
 
 // for preventing line break on table cell
