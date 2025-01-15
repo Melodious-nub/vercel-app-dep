@@ -46,13 +46,16 @@
 
 $primary-color: #4f46e5;
 $background-color: #fbf1db;
+$dark-color: #161513;
 $border-radius: 24px;
 
-// *,
-// *::before,
-// *::after {
-//   font-family: 'Apercu Pro', 'DM Sans', 'Inter', sans-serif;
-// }
+*,
+*::before,
+*::after {
+  font-family: 'Apercu', sans-serif !important;
+  letter-spacing: 0 !important;
+  text-decoration: rgb(22, 21, 19);
+}
 
 .registration-container {
   display: flex;
@@ -68,25 +71,27 @@ $border-radius: 24px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     max-width: 552px;
     width: 100%;
-    padding: 50px 80px;
+    padding: 56px 88px;
 
     .brand-name {
       color: $primary-color;
-      font-weight: bolder;
+      font-weight: 600;
       font-size: 24px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     .form-title {
       font-size: 20px;
-      line-height: 1;
+      line-height: 20px;
       font-weight: 500;
+      color: $dark-color;
     }
 
     .step-indicator {
       font-size: 14px;
-      color: black;
+      color: $dark-color;
       margin-bottom: 20px;
+      font-weight: 300;
     }
 
     form {
