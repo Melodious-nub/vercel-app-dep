@@ -3,7 +3,7 @@
       (click)="openContact.emit(contact.eid)" (click)="viewEmployeeDetails(contact.eid)"
       class="p-4 text-center hover:bg-hover transition duration-400 ease-out-swift cursor-pointer relative"
       matRipple>
-      <img src="https://avatar.iran.liara.run/public/2" class="avatar h-24 w-24 mx-auto" />
+      <img [src]="contact.image" class="avatar h-24 w-24 mx-auto" />
   
       <h2 class="title mb-1 mt-3">{{ contact.name }}</h2>
       <div class="body-2 text-secondary flex items-center justify-center">
@@ -31,11 +31,11 @@
     </div>
   
     <div class="bg-app-bar p-2 flex items-center justify-around">
-      <button class="text-secondary" mat-icon-button type="button" (click)="callTo('1234567890')">
+      <button class="text-secondary" mat-icon-button type="button" (click)="callTo(contact.phone)">
         <mat-icon svgIcon="mat:phone"></mat-icon>
       </button>
   
-      <button class="text-secondary" mat-icon-button type="button" (click)="mailTo('example@email.com')">
+      <button class="text-secondary" mat-icon-button type="button" (click)="mailTo(contact.email)">
         <mat-icon svgIcon="mat:mail"></mat-icon>
       </button>
   

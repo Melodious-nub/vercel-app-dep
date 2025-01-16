@@ -33,43 +33,41 @@
 
     <!-- description -->
     <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
-        <mat-label>Description (optional)</mat-label>
-        <textarea matInput name="description" rows="3" placeholder="Type description here"></textarea>
+        <mat-label>Description</mat-label>
+        <textarea matInput name="description" rows="3" placeholder="Type description here" [(ngModel)]="description"></textarea>
     </mat-form-field>
 
     <!-- Category -->
     <mat-form-field appearance="outline" style="width: 100%;" class="mb-2" color="primary">
         <mat-label>Category</mat-label>
-        <mat-select [(ngModel)]="category" name="category">
-          <mat-option value="General">General</mat-option>
-          <mat-option value="Onboarding">Onboarding</mat-option>
-          <mat-option value="Offboarding">Offboarding</mat-option>
+        <mat-select [(ngModel)]="categoryId" name="category">
+          <mat-option *ngFor="let cat of categoryData" [value]="cat.documentCategoryId">{{cat.name}}</mat-option>
         </mat-select>
-    </mat-form-field> 
+    </mat-form-field>
 
     <!-- Share Document -->
-    <label class="block mb-1 text-sm font-bold">Who would you like to share this document with?</label>
+    <!-- <label class="block mb-1 text-sm font-bold">Who would you like to share this document with?</label>
     <mat-radio-group class="mb-2" [(ngModel)]="shareDocumentWith" name="shareDocumentWith" color="primary">
       <mat-radio-button value="current_user" class="block mb-1">Current User</mat-radio-button>
       <mat-radio-button value="everyone" class="block mb-1">Everyone</mat-radio-button>
       <mat-radio-button value="selected_users" class="block mb-1">Selected Users Only</mat-radio-button>
-    </mat-radio-group>
+    </mat-radio-group> -->
 
     <!-- Inline Checkbox: Require employee to accept documents -->
-    <div class="flex items-center mb-2">
+    <!-- <div class="flex items-center mb-2">
         <mat-checkbox [(ngModel)]="requireAccept" name="requireAccept" class="mr-2 text-sm" color="primary"><span class="font-bold text-sm" style="color: rgba(0, 0, 0, 0.6);">Require employee to accept documents</span></mat-checkbox>
         <mat-icon svgIcon="mat:help_outline" matTooltip="Send a task asking review & accept this document. If set, then the deadline date will also be displayed in the task message."></mat-icon>
-    </div>
+    </div> -->
 
     <!-- Inline Checkbox: Send Email Notification -->
-    <div class="flex items-center">
+    <!-- <div class="flex items-center">
         <mat-checkbox [(ngModel)]="sendEmailNotification" name="sendEmailNotification" class="mr-2" color="primary"><span class="font-bold text-sm" style="color: rgba(0, 0, 0, 0.6);">Send email notification</span></mat-checkbox>
-    </div>
+    </div> -->
   
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+  <button mat-button type="button" (click)="onCancel()">Cancel</button>
+  <button mat-raised-button type="button" color="primary" (click)="onAddDocument()">Save</button>
 </mat-dialog-actions>

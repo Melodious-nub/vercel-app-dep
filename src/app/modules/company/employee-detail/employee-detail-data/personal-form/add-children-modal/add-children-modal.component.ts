@@ -10,7 +10,7 @@ import { Children } from '../personal-form.component';
 @Component({
   selector: 'vex-add-children-modal',
   standalone: true,
-  animations: [stagger60ms, fadeInUp400ms,fadeInRight400ms],
+  animations: [stagger60ms, fadeInUp400ms, fadeInRight400ms],
   imports: [
     CommonModule,
     MATERIAL_IMPORTS
@@ -23,10 +23,12 @@ export class AddChildrenModalComponent {
   constructor(
     public dialogRef: MatDialogRef<AddChildrenModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Children
-  ) {}
-  
+  ) { }
+
   onSave(): void {
-    if (this.data.childrenName && this.data.birthDate) {
+    if (this.data.name && this.data.birthDate && this.data.gender) {
+      console.log(this.data);
+
       this.dialogRef.close(this.data);
     }
   }

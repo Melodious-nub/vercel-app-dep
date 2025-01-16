@@ -6,65 +6,44 @@
       <!-- Asset Name -->
       <mat-form-field appearance="outline" class="w-full mb-2">
         <mat-label>Asset Name</mat-label>
-        <input matInput type="text" name="assetName" placeholder="Enter asset name">
+        <input matInput type="text" name="assetName" placeholder="Enter asset name" [(ngModel)]="assetAllocateForm.assetName">
       </mat-form-field>
 
       <!-- Category -->
       <mat-form-field appearance="outline" class="w-full mb-2">
         <mat-label>Category</mat-label>
-        <mat-select name="category">
-          <mat-option value="mobile">Mobile</mat-option>
-          <mat-option value="computer">Computer</mat-option>
-          <mat-option value="accessories">Accessories</mat-option>
+        <mat-select name="assetId" [(ngModel)]="assetAllocateForm.assetId">
+          <mat-option *ngFor="let pos of assetategory" [value]="pos.id">{{ pos.name }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
 
     <!-- Description -->
     <mat-form-field appearance="outline" class="w-full mb-2">
-      <mat-label>Description (optional)</mat-label>
-      <textarea matInput name="description" rows="2" placeholder="Type description here"></textarea>
+      <mat-label>Description</mat-label>
+      <textarea matInput name="remarks" rows="2" placeholder="Type description here" [(ngModel)]="assetAllocateForm.remarks"></textarea>
     </mat-form-field>
 
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
       <!-- Asset Number -->
       <mat-form-field appearance="outline" class="w-full mb-2">
         <mat-label>Asset Number</mat-label>
-        <input matInput type="text" name="assetNumber" placeholder="Enter asset number">
+        <input matInput type="text" name="serialNumber" placeholder="Enter asset number" [(ngModel)]="assetAllocateForm.serialNumber">
         <mat-icon matSuffix svgIcon="mat:help_outline" matTooltip="This is usually a unique number which is used internally to reference this asset"></mat-icon>
       </mat-form-field>
 
-      <!-- Serial Number -->
+      <!-- Date -->
       <mat-form-field appearance="outline" class="w-full mb-2">
-        <mat-label>Serial Number</mat-label>
-        <input matInput type="text" name="serialNumber" placeholder="Enter serial number">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="picker" placeholder="Select a date" name="allocationDate" [(ngModel)]="assetAllocateForm.allocationDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-    </div>
-
-    <!-- Date -->
-    <mat-form-field appearance="outline" class="w-full mb-2">
-      <mat-label>Date</mat-label>
-      <input matInput [matDatepicker]="picker" placeholder="Select a date" [(ngModel)]="date" name="date">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-
-    <!-- Comments -->
-    <mat-form-field appearance="outline" class="w-full">
-      <mat-label>Comments</mat-label>
-      <textarea matInput name="comments" rows="2" placeholder="Enter comments"></textarea>
-    </mat-form-field>
-
-    <!-- Inline Checkbox: Send Email Notification -->
-    <div class="flex items-center">
-      <mat-checkbox [(ngModel)]="sendEmailNotification" name="sendEmailNotification" class="mr-2" color="primary">
-        <span class="font-bold text-sm" style="color: rgba(0, 0, 0, 0.6);">Notify employee by email</span>
-      </mat-checkbox>
     </div>
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+  <button mat-button type="button" (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" type="button" (click)="onSave()">Save</button>
 </mat-dialog-actions>

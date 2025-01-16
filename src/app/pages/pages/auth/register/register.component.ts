@@ -104,7 +104,7 @@ export class RegisterComponent implements OnInit {
         next: () => {
           // console.log(res);
           this.isSubmitting = false; // Re-enable the button
-          this.snackbar.open('Account created successfully!', 'Close', { duration: 3000 });
+          this.snackbar.open('Account created successfully!', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
           this.router.navigate(['/welcome-page']);
         },
         error: (err) => {
@@ -113,15 +113,15 @@ export class RegisterComponent implements OnInit {
 
           // Handle specific error message
           if (err?.error?.message) {
-            this.snackbar.open(err.error.message, 'Close', { duration: 3000 });
+            this.snackbar.open(err.error.message, 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
           } else {
             // Default error message
-            this.snackbar.open('Something went wrong. Please try again later.', 'Close', { duration: 3000 });
+            this.snackbar.open('Something went wrong. Please try again later.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
           }
         }
       });
     } else {
-      this.snackbar.open('Please provide valid input', 'Close', { duration: 3000 });
+      this.snackbar.open('Please provide valid input', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
     }
   }
 

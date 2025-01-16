@@ -35,24 +35,19 @@
       </div>
   
       <!-- Post Code -->
-      <div class="col-lg-6">
+      <!-- <div class="col-lg-6">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Post Code</mat-label>
           <input matInput name="postCode" placeholder="Type post code" [(ngModel)]="personalForm.postCode">
         </mat-form-field>
-      </div>
+      </div> -->
   
       <!-- Country -->
       <div class="col-lg-6">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Country</mat-label>
-          <mat-select placeholder="Select country" name="country">
-            <mat-option value="usa">USA</mat-option>
-            <mat-option value="uk">UK</mat-option>
-            <mat-option value="bangladesh">Bangladesh</mat-option>
-            <mat-option value="india">India</mat-option>
-            <mat-option value="canada">Canada</mat-option>
-            <!-- Add more countries as needed -->
+          <mat-select [(ngModel)]="personalForm.countryId" name="countryId">
+            <mat-option *ngFor="let location of locations" [value]="location.id">{{ location.name }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -66,12 +61,12 @@
       </div>
   
       <!-- Home Phone -->
-      <div class="col-lg-6">
+      <!-- <div class="col-lg-6">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Home Phone</mat-label>
           <input matInput name="homePhone" placeholder="Type home phone" [(ngModel)]="personalForm.homePhone">
         </mat-form-field>
-      </div>
+      </div> -->
   
       <!-- Mobile Phone -->
       <div class="col-lg-6">
@@ -94,9 +89,9 @@
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Gender</mat-label>
           <mat-select placeholder="Select gender" name="gender" [(ngModel)]="personalForm.gender">
-            <mat-option value="male">Male</mat-option>
-            <mat-option value="female">Female</mat-option>
-            <mat-option value="other">Other</mat-option>
+            <mat-option value="MALE">Male</mat-option>
+            <mat-option value="FEMALE">Female</mat-option>
+            <mat-option value="OTHER">Other</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -106,8 +101,8 @@
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Marital Status</mat-label>
           <mat-select placeholder="Select marital status" name="maritalStatus" [(ngModel)]="personalForm.maritalStatus">
-            <mat-option value="married">Married</mat-option>
-            <mat-option value="single">Single</mat-option>
+            <mat-option value="MARRIED">Married</mat-option>
+            <mat-option value="SINGLE">Single</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -132,10 +127,10 @@
       <div>
         <h2 class="mb-1" style="font-weight: 500; font-size: 16px;">Childrens:</h2>
         <div class="row px-3">
-          <div *ngFor="let pos of childrens" class="position-card mb-3 col-lg-6">
+          <div *ngFor="let pos of childrens.slice().reverse()" class="position-card mb-3 col-lg-6">
             <mat-card class="card">
               <mat-card-content>
-                <mat-card-title class="text-sm"> {{ pos.childrenName }}</mat-card-title>
+                <mat-card-title class="text-sm"> {{ pos.name }} ({{pos.gender}})</mat-card-title>
                 <mat-card-subtitle class="text-sm">Birthdate: {{ pos.birthDate | date: 'longDate' }}</mat-card-subtitle>
               </mat-card-content>
             </mat-card>
@@ -145,7 +140,7 @@
 
       <!-- Add Position Button -->
       <div class="mb-2">
-        <button mat-raised-button color="primary" (click)="openChildrenModal()">
+        <button mat-raised-button color="primary" (click)="openChildrenModal()" [disabled]="isButtonClicked">
           <mat-icon class="ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 icon-sm" svgIcon="mat:add"></mat-icon>
           <span>New Children</span>
         </button>
@@ -153,8 +148,11 @@
 
       <!-- Buttons -->
       <div class="actions flex items-center justify-end gap-3">
-        <button mat-raised-button>Back</button>
-        <button mat-raised-button color="primary">Save</button>
+        <!-- <button mat-raised-button>Back</button> -->
+        <button mat-raised-button color="primary" (click)="onSave()" [disabled]="isLoading">
+          <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+          <span *ngIf="!isLoading">Save</span>
+        </button>
       </div>     
     </form>
 </div>

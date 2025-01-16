@@ -49,12 +49,59 @@ export class DataService {
     return this.http.get<any>(this.apiUrl + '/api/employee/image?employeeId=' + id);
   }
 
-  // prvious works
-  createdEmployeeAcoountSetting(data: any, id: any) {
-    return this.http.post<any>('/api/employee/' + id + '/employee-settings', data);
+  saveEmployeePersonal(data: any) {
+    return this.http.put<any>(this.apiUrl + '/api/employee/create-or-update-personal', data);
   }
 
-  updateEmpDetails(data: any, id: any) {
-    return this.http.post<any>('/api/employee/' + id + '/employee-details', data);
+  getAllocatedAssedOfEmp(employeeId: any) {
+    return this.http.get<any>(this.apiUrl + '/get-allocated-asset-by-employee' + '?employeeId=' + employeeId);
   }
+
+  getAllAssetName() {
+    return this.http.get<any>(this.apiUrl + '/all');
+  }
+
+  getPersonalData(employeeId: any) {
+    return this.http.get<any>(this.apiUrl + '/api/employee/personal-info' + '?employeeId=' + employeeId);
+  }
+
+  allocateAsset(data: any) {
+    return this.http.post<any>(this.apiUrl + '/allocate', data);
+  }
+
+  returnAsset(allocationId: any, data: any) {
+    return this.http.post<any>(
+      `${this.apiUrl}/return/${allocationId}`,
+      data,
+      {
+        headers: { 'Content-Type': 'application/json' },
+        responseType: 'text' as 'json', // Specify that the response should be treated as plain text
+      }
+    );
+  }
+
+  addNotes(data: any) {
+    return this.http.post<any>(this.apiUrl + '/api/employee/create-note', data)
+  }
+
+  addDocument(data: any) {
+    return this.http.post<any>(this.apiUrl + '/api/employee/create-document', data);
+  }
+
+  updateEmployeeDetails(data: any) {
+    return this.http.put<any>(this.apiUrl + '/api/employee/update', data);
+  }
+
+  getAllDocuments() {
+    return this.http.get<any>(this.apiUrl + '/api/employee/document/all-by-employee');
+  }
+
+  createDocuments(data: any) {
+    return this.http.post<any>(this.apiUrl + '/api/employee/create-document', data);
+  }
+
+  getAllNotes(empId: any) {
+    return this.http.get<any>(this.apiUrl + '/api/employee/note/all-by-employee?empId=' + empId);
+  }
+
 }

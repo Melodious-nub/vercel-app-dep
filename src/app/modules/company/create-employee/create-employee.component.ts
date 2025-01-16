@@ -110,7 +110,7 @@ export class CreateEmployeeComponent implements OnInit {
         this.allDepartments = res;
       },
       error: () => {
-        this.snackbar.open('Failed to load departments. Please try again.', 'Close', { duration: 3000 });
+        this.snackbar.open('Failed to load departments. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
       }
     });
   }
@@ -132,7 +132,7 @@ export class CreateEmployeeComponent implements OnInit {
         this.designationByDept = res;
       },
       error: () => {
-        this.snackbar.open('Failed to load designations. Please try again.', 'Close', { duration: 3000 });
+        this.snackbar.open('Failed to load designations. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
       }
     });
   }
@@ -147,7 +147,7 @@ export class CreateEmployeeComponent implements OnInit {
         console.log('policies:', this.policies);
       },
       error: () => {
-        this.snackbar.open('Failed to load designations. Please try again.', 'Close', { duration: 3000 });
+        this.snackbar.open('Failed to load designations. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
       }
     });
 
@@ -201,6 +201,7 @@ export class CreateEmployeeComponent implements OnInit {
     this.firstFormGroup.reset();
     this.secondFormGroup.reset();
     this.profilePic = null;
+    this.profilePicFile = null;
   }
 
   addOnBlur = true;
@@ -287,6 +288,7 @@ export class CreateEmployeeComponent implements OnInit {
           // Show success message
           this.snackbar.open('Employee setting added successfully!', 'Close', { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' });
           console.log(response, 'final res');
+          console.log(body, this.profilePicFile);
           this.close();
         }, error: (error) => {
           // Show error message

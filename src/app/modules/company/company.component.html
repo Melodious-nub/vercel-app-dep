@@ -125,7 +125,7 @@
       <div
         class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 container">
         <vex-employee-card
-          *ngFor="let contact of employeesList.slice().reverse(); trackBy: trackById"
+          *ngFor="let contact of employeesList; trackBy: trackById"
           @fadeInUp
           [contact]="contact"></vex-employee-card>
       </div>
