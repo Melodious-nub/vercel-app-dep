@@ -52,7 +52,7 @@ $border-radius: 24px;
 *,
 *::before,
 *::after {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', sans-serif !important;
 }
 
 .registration-container {

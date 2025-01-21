@@ -9,6 +9,7 @@ import { MATERIAL_IMPORTS } from 'src/app/material-imports';
 import { MatStepper } from '@angular/material/stepper';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { DataService } from 'src/app/services/data.service';
+import { valueMatch } from 'src/app/services/validator/matchPass';
 
 @Component({
   selector: 'vex-register',
@@ -25,8 +26,15 @@ import { DataService } from 'src/app/services/data.service';
 export class RegisterComponent implements OnInit {
   firstFormGroup = this.fb.group({
     email: ['', Validators.required],
-    password: ['', Validators.required],
-    passwordConfirm: ['', Validators.required]
+    passwords: this.fb.group({
+      password: ['', [Validators.required]],
+      confirmPassword: ['', [Validators.required]]
+    }, {
+      validators: [
+        // mustMatch //this is a function based but not proper way
+        valueMatch('password', 'confirmPassword')
+      ]
+    }),
   });
 
   secondFormGroup = this.fb.group({
@@ -89,7 +97,7 @@ export class RegisterComponent implements OnInit {
 
       const body = {
         email: this.firstFormGroup.value.email,
-        password: this.firstFormGroup.value.password,
+        password: this.firstFormGroup.value.passwords?.password,
         phoneNumber: this.secondFormGroup.value.phoneNumber,
         companyName: this.secondFormGroup.value.organization,
         firstName: this.secondFormGroup.value.firstName,

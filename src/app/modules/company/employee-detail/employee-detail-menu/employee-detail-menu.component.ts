@@ -10,18 +10,18 @@ import { contactsData } from 'src/static-data/contacts';
 export interface EmployeeMenu {
   type: 'link' | 'subheading';
   id?:
-    | 'employee'
-    | 'personal'
-    | 'notes'
-    | 'documents'
-    | 'assets'
-    | 'training'
-    | 'emergencyContacts'
-    | 'tasks'
-    | 'onboarding'
-    | 'reports'
-    | 'timeOff'
-    | 'compensation'
+  | 'employee'
+  | 'personal'
+  | 'notes'
+  | 'documents'
+  | 'assets'
+  | 'training'
+  | 'emergencyContacts'
+  | 'tasks'
+  | 'onboarding'
+  | 'reports'
+  | 'timeOff'
+  | 'compensation'
   icon?: string;
   label: string;
   classes?: {
@@ -119,33 +119,33 @@ export class EmployeeDetailMenuComponent implements OnInit {
       //   icon: 'text-primary-600'
       // }
     },
-    {
-      type: 'link',
-      id: 'onboarding',
-      icon: 'mat:add_circle',
-      label: 'Onboarding',
-      // classes: {
-      //   icon: 'text-primary-600'
-      // }
-    },
-    {
-      type: 'link',
-      id: 'reports',
-      icon: 'mat:pie_chart',
-      label: 'Reports',
-      // classes: {
-      //   icon: 'text-primary-600'
-      // }
-    },
-    {
-      type: 'link',
-      id: 'timeOff',
-      icon: 'mat:access_time',
-      label: 'Time off',
-      // classes: {
-      //   icon: 'text-primary-600'
-      // }
-    },
+    // {
+    //   type: 'link',
+    //   id: 'onboarding',
+    //   icon: 'mat:add_circle',
+    //   label: 'Onboarding',
+    //   // classes: {
+    //   //   icon: 'text-primary-600'
+    //   // }
+    // },
+    // {
+    //   type: 'link',
+    //   id: 'reports',
+    //   icon: 'mat:pie_chart',
+    //   label: 'Reports',
+    //   // classes: {
+    //   //   icon: 'text-primary-600'
+    //   // }
+    // },
+    // {
+    //   type: 'link',
+    //   id: 'timeOff',
+    //   icon: 'mat:access_time',
+    //   label: 'Time off',
+    //   // classes: {
+    //   //   icon: 'text-primary-600'
+    //   // }
+    // },
     {
       type: 'link',
       id: 'compensation',
@@ -162,7 +162,7 @@ export class EmployeeDetailMenuComponent implements OnInit {
 
   activeCategory: EmployeeMenu['id'] = 'employee';
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     this.filterChange.emit(this.activeCategory);

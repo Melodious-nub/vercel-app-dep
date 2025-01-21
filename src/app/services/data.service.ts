@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -102,6 +103,32 @@ export class DataService {
 
   getAllNotes(empId: any) {
     return this.http.get<any>(this.apiUrl + '/api/employee/note/all-by-employee?empId=' + empId);
+  }
+
+  getAllEmployeeList() {
+    return this.http.get<any>(`${this.apiUrl}/api/employee/employee-list`);
+  }
+
+  createTraining(data: any): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/api/training/create`, data, {
+      responseType: 'text' as 'json' // Explicitly cast the response type to 'json'
+    });
+  }
+
+  getAllTraining() {
+    return this.http.get<any>(`${this.apiUrl}/api/training`);
+  }
+
+  getSpecificTrainingDetails(empId: any) {
+    return this.http.get<any>(`${this.apiUrl}/api/training/${empId}/details`);
+  }
+
+  createTaskAssign(data: any) {
+    return this.http.post<any>(`${this.apiUrl}/api/task/assign`, data);
+  }
+
+  getAllTasks() {
+    return this.http.get<any>(`${this.apiUrl}/api/task`);
   }
 
 }

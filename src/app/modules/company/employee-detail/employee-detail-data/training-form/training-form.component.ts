@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { stagger60ms } from '@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
@@ -10,7 +10,7 @@ import { AddNewTrainingModalComponent } from './add-new-training-modal/add-new-t
 @Component({
   selector: 'vex-training-form',
   standalone: true,
-  animations: [stagger60ms, fadeInUp400ms,fadeInRight400ms],
+  animations: [stagger60ms, fadeInUp400ms, fadeInRight400ms],
   imports: [
     CommonModule,
     MATERIAL_IMPORTS,
@@ -19,8 +19,9 @@ import { AddNewTrainingModalComponent } from './add-new-training-modal/add-new-t
   styleUrls: ['./training-form.component.scss']
 })
 export class TrainingFormComponent {
+  dataSource: any;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private destroyRef: DestroyRef) { }
 
   openAddTraining() {
     const dialogRef = this.dialog.open(AddNewTrainingModalComponent, {
@@ -33,7 +34,7 @@ export class TrainingFormComponent {
         // Handle the result if necessary
         // console.log('Dialog result:', result);
       }
-    }); 
+    });
   }
 
 }
