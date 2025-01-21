@@ -123,6 +123,12 @@ export class DataService {
     return this.http.get<any>(`${this.apiUrl}/api/training/${empId}/details`);
   }
 
+  deleteTraining(trainingId: any) {
+    return this.http.delete<any>(`${this.apiUrl}/api/training/delete/${trainingId}`, {
+      responseType: 'text' as 'json' // Explicitly cast the response type to 'json'
+    })
+  }
+
   createTaskAssign(data: any) {
     return this.http.post<any>(`${this.apiUrl}/api/task/assign`, data);
   }

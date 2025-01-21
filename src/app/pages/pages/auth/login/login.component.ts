@@ -1,7 +1,8 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component
+  Component,
+  DestroyRef
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -55,7 +56,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
     private snackbar: MatSnackBar,
-    private authService: AuthService
+    private authService: AuthService,
+    private destroyRef: DestroyRef
   ) { }
 
   send() {
@@ -71,22 +73,27 @@ export class LoginComponent {
       formData.append('password  ', password);
 
 
-      this.authService.login(formData).subscribe({
+      const subscription = this.authService.login(formData).subscribe({
         next: (response) => {
           if (response) {
             this.snackbar.open('Login successful!', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
-            this.loading = false; // Stop loading
             this.router.navigate(['dashboard/analytics']);
           } else {
             this.snackbar.open('Invalid response. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
             this.loading = false; // Stop loading
           }
         },
+        complete: () => this.loading = false,
         error: () => {
           this.snackbar.open('An error occurred during login. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
           this.loading = false; // Stop loading
         }
       });
+
+
+      this.destroyRef.onDestroy(() => {
+        subscription
+      })
     } else {
       this.snackbar.open('Please enter valid credentials.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
     }

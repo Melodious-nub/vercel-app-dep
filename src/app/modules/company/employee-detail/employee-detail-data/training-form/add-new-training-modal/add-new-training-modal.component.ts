@@ -140,7 +140,7 @@ export class AddNewTrainingModalComponent implements OnInit {
           verticalPosition: 'bottom'
         });
       },
-      complete: () => this.dialogRef.close(),
+      complete: () => this.dialogRef.close(true),
       error: err => console.log(err)
     })
 

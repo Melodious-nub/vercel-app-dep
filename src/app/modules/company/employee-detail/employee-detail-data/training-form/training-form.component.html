@@ -11,28 +11,45 @@
             <span>Add training</span>
         </button>
 
-        <!-- <div class="table-container border border-gray-300 rounded">
+        <div class="table-container border border-gray-300 rounded">
             <table mat-table [dataSource]="dataSource.slice().reverse()">
+                <ng-container matColumnDef="trainingname">
+                    <th mat-header-cell *matHeaderCellDef>Training Name</th>
+                    <td mat-cell *matCellDef="let row">{{ row.trainingname }}</td>
+                </ng-container>
+
                 <ng-container matColumnDef="date">
-                    <th mat-header-cell *matHeaderCellDef>Date</th>
-                    <td mat-cell *matCellDef="let row">{{ row.createddate | date: 'shortDate' }}</td>
+                    <th mat-header-cell *matHeaderCellDef>Dates</th>
+                    <td mat-cell *matCellDef="let row">{{ row.trainigstartdate | date: 'shortDate' }} to {{
+                        row.trainingenddate | date: 'shortDate' }}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="createdby">
-                    <th mat-header-cell *matHeaderCellDef>Created By</th>
-                    <td mat-cell *matCellDef="let row">{{ row.createdby }}</td>
+                <ng-container matColumnDef="paymenttype">
+                    <th mat-header-cell *matHeaderCellDef>Payment Type</th>
+                    <td mat-cell *matCellDef="let row">{{ row.paymenttype }}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="note">
-                    <th mat-header-cell *matHeaderCellDef>Note</th>
-                    <td mat-cell *matCellDef="let row">{{ row.content }}</td>
+                <ng-container matColumnDef="cost">
+                    <th mat-header-cell *matHeaderCellDef>Cost</th>
+                    <td mat-cell *matCellDef="let row">{{ row.cost | currency }}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="document">
+                <ng-container matColumnDef="expirydate">
+                    <th mat-header-cell *matHeaderCellDef>Expiry Date</th>
+                    <td mat-cell *matCellDef="let row">{{ row.expirydate | date: 'shortDate' }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="trainingformat">
+                    <th mat-header-cell *matHeaderCellDef>Training Format</th>
+                    <td mat-cell *matCellDef="let row">{{ row.trainingformat }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="file">
                     <th mat-header-cell *matHeaderCellDef>Document</th>
                     <td mat-cell *matCellDef="let row">
-                        <a mat-icon-button color="primary" [href]="row.file" target="_blank"><mat-icon color="primary"
-                                svgIcon="mat:cloud_download"></mat-icon></a>
+                        <a mat-icon-button color="primary" [href]="row.file" target="_blank">
+                            <mat-icon color="primary" svgIcon="mat:cloud_download"></mat-icon>
+                        </a>
                     </td>
                 </ng-container>
 
@@ -43,18 +60,20 @@
                             <mat-icon svgIcon="mat:more_vert"></mat-icon>
                         </button>
                         <mat-menu #actionsMenu="matMenu">
-                            <button mat-menu-item (click)="updateCustomer(row)">Edit <mat-icon
-                                    svgIcon="mat:edit"></mat-icon></button>
-                            <button mat-menu-item type="button">Delete <mat-icon
+                            <button mat-menu-item type="button" (click)="delete(row.trainingid)">Delete <mat-icon
                                     svgIcon="mat:delete"></mat-icon></button>
                         </mat-menu>
                     </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="['date', 'createdby', 'note', 'document', 'actions']"></tr>
-                <tr mat-row *matRowDef="let row; columns: ['date', 'createdby', 'note', 'document', 'actions']"></tr>
+                <tr mat-header-row
+                    *matHeaderRowDef="['trainingname', 'date', 'paymenttype', 'cost', 'expirydate', 'trainingformat', 'file', 'actions']">
+                </tr>
+                <tr mat-row
+                    *matRowDef="let row; columns: ['trainingname', 'date', 'paymenttype', 'cost', 'expirydate', 'trainingformat', 'file', 'actions']">
+                </tr>
             </table>
-        </div> -->
+        </div>
 
         <!-- Full-page centered training card -->
         <!-- <div class="d-flex justify-content-center align-items-center" *ngIf="dataSource.length === 0">
