@@ -130,7 +130,9 @@ export class DataService {
   }
 
   createTaskAssign(data: any) {
-    return this.http.post<any>(`${this.apiUrl}/api/task/assign`, data);
+    return this.http.post<any>(`${this.apiUrl}/api/task/assign`, data, {
+      responseType: 'text' as 'json' // Explicitly cast the response type to 'json'
+    });
   }
 
   getAllTasks() {

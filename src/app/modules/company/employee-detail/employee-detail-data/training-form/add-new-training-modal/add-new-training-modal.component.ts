@@ -73,7 +73,7 @@ export class AddNewTrainingModalComponent implements OnInit {
         this.employees = res;
         // console.log(this.employees);
       },
-      complete: () => console.log('Completed call'),
+      // complete: () => console.log('Completed call'),
       error: (err) => console.log(err)
     })
 
