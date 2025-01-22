@@ -65,3 +65,11 @@ th {
 *::after {
   font-family: 'Roboto', sans-serif;
 }
+
+mat-icon[fontSet='fa']::before {
+  font-family: 'Font Awesome 6 Free', sans-serif !important;
+}
+
+mat-icon.fa-icon[fontSet='fa']::before {
+  font-family: 'Font Awesome 6 Brands', sans-serif !important;
+}
