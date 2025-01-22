@@ -49,34 +49,31 @@
     <!-- Country -->
     <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
       <mat-label>Country</mat-label>
-      <input type="text" 
-            placeholder="Select or type country" 
-            aria-label="Country" 
-            matInput 
-            [formControl]="countryControl" [(ngModel)]="contact.country" 
-            [matAutocomplete]="auto" required>
-      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onCountrySelected($event)">
-        <mat-option *ngFor="let country of filteredCountries | async" [value]="country">
-          {{ country }}
-        </mat-option>
-      </mat-autocomplete>
+      <mat-select [(ngModel)]="contact.country" name="country">
+        <mat-option *ngFor="let location of countries" [value]="location.name">{{ location.name }}</mat-option>
+      </mat-select>
     </mat-form-field>
 
     <!-- Address -->
     <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
       <mat-label>Address</mat-label>
-      <input matInput name="address" placeholder="Example: 123 Main St, City, State/Province" [(ngModel)]="contact.address" required>
+      <input matInput name="address" placeholder="Example: 123 Main St, City, State/Province"
+        [(ngModel)]="contact.address" required>
     </mat-form-field>
 
     <!-- Postal Code -->
     <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
       <mat-label>Postal Code</mat-label>
-      <input matInput type="text" name="postalCode" placeholder="Enter postal code" [(ngModel)]="contact.postalCode" required>
+      <input matInput type="text" name="postalCode" placeholder="Enter postal code" [(ngModel)]="contact.postalCode"
+        required>
     </mat-form-field>
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-raised-button color="primary" (click)="onSave(emergencyContactForm)" [disabled]="!emergencyContactForm.valid">Save</button>
+  <button mat-button type="button" (click)="onCancel()">Cancel</button>
+  <button mat-raised-button type="button" color="primary" (click)="onSave(emergencyContactForm)"
+    [disabled]="!emergencyContactForm.valid">
+    <span *ngIf="!isEditMode">Save</span>
+    <span *ngIf="isEditMode">Update</span></button>
 </mat-dialog-actions>

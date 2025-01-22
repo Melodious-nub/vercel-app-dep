@@ -1,17 +1,18 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { stagger60ms } from '@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
 import { fadeInRight400ms } from '@vex/animations/fade-in-right.animation';
 import { MATERIAL_IMPORTS } from 'src/app/material-imports';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormControl, NgForm } from '@angular/forms';
-import { map, Observable, startWith } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { DataService } from 'src/app/services/data.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'vex-add-emergency-conatct-modal',
   standalone: true,
-  animations: [stagger60ms, fadeInUp400ms,fadeInRight400ms],
+  animations: [stagger60ms, fadeInUp400ms, fadeInRight400ms],
   imports: [
     CommonModule,
     MATERIAL_IMPORTS,
@@ -22,44 +23,31 @@ import { map, Observable, startWith } from 'rxjs';
 export class AddEmergencyConatctModalComponent implements OnInit {
   contact: any;
   countryControl = new FormControl();
-  countries: string[] = [
-    'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 
-    'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 
-    'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 
-    'Cabo Verde', 'Cambodia', 'Cameroon', 'Canada', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 
-    'Comoros', 'Congo (Congo-Brazzaville)', 'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 
-    'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 
-    'Estonia', 'Eswatini', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 
-    'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 
-    'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 
-    'Kenya', 'Kiribati', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 
-    'Lithuania', 'Luxembourg', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 
-    'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 
-    'Mozambique', 'Myanmar (Burma)', 'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 
-    'Nigeria', 'North Korea', 'North Macedonia', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Panama', 'Papua New Guinea', 
-    'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 
-    'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 
-    'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 
-    'South Africa', 'South Korea', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Sweden', 'Switzerland', 
-    'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Timor-Leste', 'Togo', 'Tonga', 'Trinidad and Tobago', 
-    'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 
-    'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe'
-  ];
-  
-  filteredCountries!: Observable<string[]>;
+  countries: any[] = [];
+  isEditMode: boolean = false; // Tracks if modal is in edit mode
+
+  // filteredCountries!: Observable<string[]>;
 
   constructor(
     public dialogRef: MatDialogRef<AddEmergencyConatctModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private api: DataService,
+    private snackbar: MatSnackBar,
+    private destroyRef: DestroyRef
+  ) { }
 
   ngOnInit() {
     // Initialize form with the received data
-    this.contact = { ...this.data };
-    this.filteredCountries = this.countryControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterCountries(value || ''))
-    );
+    this.contact = this.data ? { ...this.data } : {};
+    this.isEditMode = !!this.data; // Determine if editing
+
+    this.fetchCountries();
+  }
+
+  fetchCountries() {
+    this.api.getAllCountries().subscribe(res => {
+      this.countries = res;
+    })
   }
 
   onCancel(): void {
@@ -69,13 +57,36 @@ export class AddEmergencyConatctModalComponent implements OnInit {
   onSave(form: any): void {
     if (form.valid) {
       const contactData = form.value;
-      this.dialogRef.close(contactData);
-    }
-  }
 
-  private _filterCountries(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.countries.filter(country => country.toLowerCase().includes(filterValue));
+      // Call the appropriate API based on the mode
+      const apiCall = this.isEditMode
+        ? this.api.updateEmergencyContact(this.contact.id, contactData) // Pass the ID for update
+        : this.api.createEmergencyContact(contactData);
+
+      const subscription = apiCall.subscribe({
+        next: () => {
+          this.snackbar.open(
+            this.isEditMode ? 'Emergency contact updated' : 'Emergency contact created',
+            'Close',
+            { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' }
+          );
+        },
+        error: () => {
+          this.snackbar.open('Server error...', 'Close', {
+            duration: 2000,
+            horizontalPosition: 'end',
+            verticalPosition: 'bottom',
+          });
+        },
+        complete: () => {
+          this.dialogRef.close(true); // Pass the updated/created contact data
+        },
+      });
+
+      this.destroyRef.onDestroy(() => {
+        subscription.unsubscribe();
+      });
+    }
   }
 
   // Handle country selection from autocomplete

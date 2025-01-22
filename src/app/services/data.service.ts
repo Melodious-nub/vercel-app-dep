@@ -10,6 +10,7 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
+  // auth section
   resgister(data: any) {
     return this.http.post<any>(this.apiUrl + '/api/public/register', data);
   }
@@ -18,6 +19,7 @@ export class DataService {
     return this.http.get<any>(this.apiUrl + '/api/public/countries');
   }
 
+  // employee section
   getAllEmployeeRange() {
     return this.http.get<any>(this.apiUrl + '/api/public/employee-range');
   }
@@ -42,6 +44,7 @@ export class DataService {
     return this.http.post<any>(this.apiUrl + '/api/employee/create', data);
   }
 
+  // employee details section
   getEmployeeDetails(id: any) {
     return this.http.get<any>(this.apiUrl + '/api/employee?employeeId=' + id);
   }
@@ -50,20 +53,26 @@ export class DataService {
     return this.http.get<any>(this.apiUrl + '/api/employee/image?employeeId=' + id);
   }
 
+  updateEmployeeDetails(data: any) {
+    return this.http.put<any>(this.apiUrl + '/api/employee/update', data);
+  }
+
+  // employee personal section
   saveEmployeePersonal(data: any) {
     return this.http.put<any>(this.apiUrl + '/api/employee/create-or-update-personal', data);
   }
 
+  getPersonalData(employeeId: any) {
+    return this.http.get<any>(this.apiUrl + '/api/employee/personal-info' + '?employeeId=' + employeeId);
+  }
+
+  // employee asset section
   getAllocatedAssedOfEmp(employeeId: any) {
     return this.http.get<any>(this.apiUrl + '/get-allocated-asset-by-employee' + '?employeeId=' + employeeId);
   }
 
   getAllAssetName() {
     return this.http.get<any>(this.apiUrl + '/all');
-  }
-
-  getPersonalData(employeeId: any) {
-    return this.http.get<any>(this.apiUrl + '/api/employee/personal-info' + '?employeeId=' + employeeId);
   }
 
   allocateAsset(data: any) {
@@ -81,16 +90,19 @@ export class DataService {
     );
   }
 
+
+  // note section
   addNotes(data: any) {
     return this.http.post<any>(this.apiUrl + '/api/employee/create-note', data)
   }
 
-  addDocument(data: any) {
-    return this.http.post<any>(this.apiUrl + '/api/employee/create-document', data);
+  getAllNotes(empId: any) {
+    return this.http.get<any>(this.apiUrl + '/api/employee/note/all-by-employee?empId=' + empId);
   }
 
-  updateEmployeeDetails(data: any) {
-    return this.http.put<any>(this.apiUrl + '/api/employee/update', data);
+  // document section
+  addDocument(data: any) {
+    return this.http.post<any>(this.apiUrl + '/api/employee/create-document', data);
   }
 
   getAllDocuments() {
@@ -101,14 +113,12 @@ export class DataService {
     return this.http.post<any>(this.apiUrl + '/api/employee/create-document', data);
   }
 
-  getAllNotes(empId: any) {
-    return this.http.get<any>(this.apiUrl + '/api/employee/note/all-by-employee?empId=' + empId);
-  }
-
+  // this is shared employee list for show employees dropdown
   getAllEmployeeList() {
     return this.http.get<any>(`${this.apiUrl}/api/employee/employee-list`);
   }
 
+  // training section
   createTraining(data: any): Observable<string> {
     return this.http.post<string>(`${this.apiUrl}/api/training/create`, data, {
       responseType: 'text' as 'json' // Explicitly cast the response type to 'json'
@@ -129,6 +139,7 @@ export class DataService {
     })
   }
 
+  // task section
   createTaskAssign(data: any) {
     return this.http.post<any>(`${this.apiUrl}/api/task/assign`, data, {
       responseType: 'text' as 'json' // Explicitly cast the response type to 'json'
@@ -137,6 +148,23 @@ export class DataService {
 
   getAllTasks() {
     return this.http.get<any>(`${this.apiUrl}/api/task`);
+  }
+
+  // emergency contact section
+  createEmergencyContact(data: any) {
+    return this.http.post<any>(`${this.apiUrl}/api/emergency-contact`, data);
+  }
+
+  getAllEmergencyContact() {
+    return this.http.get<any>(`${this.apiUrl}/api/emergency-contact`);
+  }
+
+  deleteEmergencyContact(id: any) {
+    return this.http.delete<any>(`${this.apiUrl}/api/emergency-contact/${id}`);
+  }
+
+  updateEmergencyContact(id: any, data: any) {
+    return this.http.put<any>(`${this.apiUrl}/api/emergency-contact/${id}`, data);
   }
 
 }

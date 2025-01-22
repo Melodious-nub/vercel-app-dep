@@ -118,7 +118,6 @@ export class CompanyComponent implements OnInit {
             image: `${employee.image}&timestamp=${new Date().getTime()}` // Add timestamp
           };
         });
-        console.log('employee list called', this.employeesList);
       },
       error: (error) => {
         console.log(error, 'error log');

@@ -132,12 +132,12 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   fetchDynamicSettings() {
-    console.log(this.employeeDetails.departmentid, this.employeeDetails.designationid);
+    // console.log(this.employeeDetails.departmentid, this.employeeDetails.designationid);
 
     this.api.getAllSettingDetails(this.employeeDetails.departmentid, this.employeeDetails.designationid).subscribe({
       next: (res) => {
         this.positions = res.positions || [];
-        console.log(this.positions);
+        // console.log(this.positions);
 
         this.teams = res.teams || [];
         this.workingPatterns = res.employmentStatus || [];
