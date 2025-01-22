@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { stagger60ms } from '@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
@@ -10,11 +10,13 @@ import { FormBuilder } from '@angular/forms';
 import { employeeData } from 'src/static-data/employees';
 import { AddCompensationModalComponent } from './add-compensation-modal/add-compensation-modal.component';
 import * as XLSX from 'xlsx';
+import { DataService } from 'src/app/services/data.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'vex-compensation-form',
   standalone: true,
-  animations: [stagger60ms, fadeInUp400ms,fadeInRight400ms],
+  animations: [stagger60ms, fadeInUp400ms, fadeInRight400ms],
   imports: [
     CommonModule,
     MATERIAL_IMPORTS,
@@ -27,42 +29,68 @@ export class CompensationFormComponent implements OnInit {
   employeeDetails!: any; // Define the type for employee details
 
   // for table
-  ELEMENT_DATA: any[] = [
-    { dates: '2023-01-01', amount: 500, type: 'Salary', reason: 'Promotion', comments: 'test' },
-    { dates: '2023-01-01', amount: 500, type: 'Bonus', reason: '', comments: 'Eid bonus' },
-    { dates: '2023-01-01', amount: 500, type: 'Salary', reason: 'Annual salary increase', comments: 'test' },
-    { dates: '2023-01-01', amount: 500, type: 'Salary', reason: 'Promotion', comments: 'test' },
-    { dates: '2023-01-01', amount: 500, type: 'Bonus', reason: '', comments: 'no comments' },
-    { dates: '2023-01-01', amount: 500, type: 'Bonus', reason: '', comments: 'test' }
-  ];
+  dataSource: any[] = [];
+
+  currencyList: any[] = []
+
+  fetchCurrencies() {
+    const subscription = this.api.getCurrencies().subscribe({
+      next: (res) => {
+        this.currencyList = res;
+      },
+      error: err => console.log(err)
+    })
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    })
+  }
+
+  getCurrencyIcon(currencyId: number): string {
+    const currency = this.currencyList.find((item: any) => item.id === currencyId);
+    if (currency) {
+      // Extract the icon (e.g., $) from the displayValue
+      const match = currency.displayValue.match(/\((.*?)\)/);
+      return match ? match[1] : ''; // Return the icon if found
+    }
+    return ''; // Return empty string if no match
+  }
 
   displayedColumns: string[] = ['dates', 'amount', 'type', 'reason', 'comments', 'actions'];
-  dataSource = this.ELEMENT_DATA; 
 
-  constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, public dialog: MatDialog) {}
+  constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, public dialog: MatDialog, private api: DataService, private destroyRef: DestroyRef) {
+    this.fetchCurrencies();
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.employeeId = params.get('id')!;
-      this.getEmployeeDetails(); // Fetch employee details using the ID
     });
+
+    this.fetchCompensation();
   }
 
-  // Method to fetch employee details
-  getEmployeeDetails(): void {
-    const employeeIdNum = Number(this.employeeId); // Convert to number if ID is numeric
-    this.employeeDetails = employeeData.find((employee: any) => employee.id === employeeIdNum)!;
-    
-    if (!this.employeeDetails) {
-      console.error('Employee not found');
-    }
+  fetchCompensation() {
+    const subscription = this.api.getCompensation().pipe(
+      map((response) => response.content.filter((item: any) => item.employeeId === JSON.parse(this.employeeId)))
+    ).subscribe({
+      next: (filteredData) => this.dataSource = filteredData, // This will log only the filtered data
+      error: (err) => console.error('Error fetching compensation:', err),
+      complete: () => console.log('Compensation data fetched successfully.')
+    });
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    })
   }
+
 
   // open add compensation modal
   addCompensation() {
     const dialogRef = this.dialog.open(AddCompensationModalComponent, {
       width: '600px',
       disableClose: true,
+      data: this.employeeId
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -82,7 +110,7 @@ export class CompensationFormComponent implements OnInit {
     // Prepare the data array with headers
     const excelData = [
       ['Dates', 'Amount', 'Type', 'Reason', 'Comments'], // Header row
-      ...this.ELEMENT_DATA.map(item => [
+      ...this.dataSource.map(item => [
         item.dates,
         item.amount,
         item.type,

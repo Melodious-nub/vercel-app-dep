@@ -1,25 +1,26 @@
 <h2 mat-dialog-title>Add compensation</h2>
 
 <mat-dialog-content @fadeInUp class="pt-4 border-b">
-  <form>
+  <form #compensationForm="ngForm">
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-      <!-- Payment date or Start date based on Type -->
-      <mat-form-field appearance="outline" class="w-full mb-2">
-        <mat-label *ngIf="typeControl.value !== 'salary'">Payment date</mat-label>
-        <mat-label *ngIf="typeControl.value === 'salary'">Start date</mat-label>
-        <input matInput [matDatepicker]="datePicker" placeholder="Select a date" name="date" />
-        <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-        <mat-datepicker #datePicker></mat-datepicker>
-      </mat-form-field>
-
       <!-- Type Selection -->
       <mat-form-field appearance="outline" class="w-full mb-2">
         <mat-label>Type</mat-label>
-        <mat-select name="type" [formControl]="typeControl">
-          <mat-option value="bonus">Bonus</mat-option>
-          <mat-option value="Once">Once</mat-option>
-          <mat-option value="salary">Salary</mat-option>
+        <mat-select name="compensationType" [(ngModel)]="form.compensationType" required>
+          <mat-option value="BONUS">Bonus</mat-option>
+          <mat-option value="ONCE">Once</mat-option>
+          <mat-option value="SALARY">Salary</mat-option>
         </mat-select>
+      </mat-form-field>
+
+      <!-- Payment date or Start date based on Type -->
+      <mat-form-field appearance="outline" class="w-full mb-2">
+        <mat-label *ngIf="form.compensationType !== 'salary'">Payment date</mat-label>
+        <mat-label *ngIf="form.compensationType === 'salary'">Start date</mat-label>
+        <input matInput [matDatepicker]="datePicker" placeholder="Select a date" [(ngModel)]="form.paymentDate"
+          name="paymentDate" required />
+        <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+        <mat-datepicker #datePicker></mat-datepicker>
       </mat-form-field>
     </div>
 
@@ -27,34 +28,24 @@
       <!-- Amount -->
       <mat-form-field appearance="outline" class="w-full mb-2">
         <mat-label>Amount</mat-label>
-        <input matInput type="number" name="amount" placeholder="Enter amount" />
+        <input matInput type="number" name="amount" [(ngModel)]="form.amount" placeholder="Enter amount" required />
       </mat-form-field>
 
       <!-- Currency -->
       <mat-form-field appearance="outline" class="w-full mb-2">
         <mat-label>Currency</mat-label>
-        <input
-          type="text"
-          matInput
-          placeholder="Choose a currency"
-          aria-label="Currency"
-          [formControl]="currencyControl"
-          [matAutocomplete]="auto"
-        />
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-          <mat-option *ngFor="let currency of filteredCurrencies | async" [value]="currency">
-            {{ currency }}
-          </mat-option>
-        </mat-autocomplete>
+        <mat-select [(ngModel)]="form.currencyId" name="currencyId" required>
+          <mat-option *ngFor="let curr of currencies" [value]="curr.id">{{ curr.displayValue }}</mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
 
     <!-- Additional Fields for Salary Type -->
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2" *ngIf="typeControl.value === 'salary'">
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2" *ngIf="form.compensationType === 'salary'">
       <!-- Pay Period -->
       <mat-form-field appearance="outline" class="w-full mb-2">
         <mat-label>Pay period</mat-label>
-        <mat-select name="payPeriod" [formControl]="payPeriodControl">
+        <mat-select name="payPeriod" [(ngModel)]="form.payPeriod">
           <mat-option value="Hourly">Hourly</mat-option>
           <mat-option value="Weekly">Weekly</mat-option>
           <mat-option value="Bi-Weekly">Bi-Weekly</mat-option>
@@ -66,7 +57,7 @@
       <!-- Reason -->
       <mat-form-field appearance="outline" class="w-full mb-2">
         <mat-label>Reason</mat-label>
-        <mat-select name="reason" [formControl]="reasonControl">
+        <mat-select name="reason" [(ngModel)]="form.reason">
           <mat-option value="Annual salary increase">Annual salary increase</mat-option>
           <mat-option value="Promotion">Promotion</mat-option>
           <mat-option value="Salary after probation period">Salary after probation period</mat-option>
@@ -79,12 +70,14 @@
     <!-- Comments -->
     <mat-form-field appearance="outline" class="w-full">
       <mat-label>Comments</mat-label>
-      <textarea matInput name="comments" rows="2" placeholder="Enter comments"></textarea>
+      <textarea matInput name="comments" [(ngModel)]="form.comments" rows="2" placeholder="Enter comments"
+        required></textarea>
     </mat-form-field>
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+  <button mat-button type="button" (click)="onCancel()">Cancel</button>
+  <button mat-raised-button type="button" color="primary" [disabled]="compensationForm.invalid"
+    (click)="onSave()">Save</button>
 </mat-dialog-actions>

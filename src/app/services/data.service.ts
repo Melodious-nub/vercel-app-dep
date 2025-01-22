@@ -167,4 +167,27 @@ export class DataService {
     return this.http.put<any>(`${this.apiUrl}/api/emergency-contact/${id}`, data);
   }
 
+  // compensation section
+  getCurrencies() {
+    return this.http.get<any>(`${this.apiUrl}/api/compensation/currencies`);
+  }
+
+  getCompensation() {
+    return this.http.get<any>(`${this.apiUrl}/api/compensation`);
+  }
+
+  createCompensation(data: any) {
+    return this.http.post<any>(`${this.apiUrl}/api/compensation`, data, {
+      responseType: 'text' as 'json' // Explicitly cast the response type to 'json'
+    });
+  }
+
+  updateCompensation(id: any, data: any) {
+    return this.http.put<any>(`${this.apiUrl}/api/compensation/${id}`, data);
+  }
+
+  deleteCompensation(id: any) {
+    return this.http.delete<any>(`${this.apiUrl}/api/compensation/${id}`);
+  }
+
 }

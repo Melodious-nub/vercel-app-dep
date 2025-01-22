@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { stagger60ms } from '@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
 import { fadeInRight400ms } from '@vex/animations/fade-in-right.animation';
 import { MATERIAL_IMPORTS } from 'src/app/material-imports';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
+import { DataService } from 'src/app/services/data.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'vex-add-compensation-modal',
   standalone: true,
-  animations: [stagger60ms, fadeInUp400ms,fadeInRight400ms],
+  animations: [stagger60ms, fadeInUp400ms, fadeInRight400ms],
   imports: [
     CommonModule,
     MATERIAL_IMPORTS,
@@ -20,46 +22,80 @@ import { map, Observable, startWith } from 'rxjs';
   styleUrls: ['./add-compensation-modal.component.scss']
 })
 export class AddCompensationModalComponent implements OnInit {
-  currencyControl = new FormControl();
-  typeControl = new FormControl();
-  payPeriodControl = new FormControl('Monthly');
-  reasonControl = new FormControl('Annual salary increase'); // Default selection
-  filteredCurrencies!: Observable<string[]>;
-
-  // List of common world currencies
-  currencies: string[] = [
-    'USD - United States Dollar',
-    'EUR - Euro',
-    'JPY - Japanese Yen',
-    'GBP - British Pound Sterling',
-    'AUD - Australian Dollar',
-    'CAD - Canadian Dollar',
-    'CHF - Swiss Franc',
-    'CNY - Chinese Yuan',
-    'SEK - Swedish Krona',
-    'NZD - New Zealand Dollar',
-    // Add more currencies as needed
-  ];
-
-  constructor(public dialogRef: MatDialogRef<AddCompensationModalComponent>) {}
-
-  ngOnInit() {
-    this.filteredCurrencies = this.currencyControl.valueChanges.pipe(
-      startWith(''),
-      map((value: any) => this.filterCurrencies(value || ''))
-    );
+  form: any = {
+    employeeId: this.empId,
+    paymentDate: '',
+    compensationType: '',
+    amount: '',
+    currencyId: '',
+    comments: '',
+    reason: '',
+    payPeriod: ''
   }
 
-  private filterCurrencies(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.currencies.filter(currency =>
-      currency.toLowerCase().includes(filterValue)
-    );
+  // List of common world currencies
+  currencies: any[] = [];
+
+  constructor(public dialogRef: MatDialogRef<AddCompensationModalComponent>, private api: DataService, private destroyRef: DestroyRef, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public empId: any) { }
+
+  ngOnInit() {
+    this.fetchCurrencies();
+  }
+
+  fetchCurrencies() {
+    const subscription = this.api.getCurrencies().subscribe({
+      next: (res) => {
+        this.currencies = res;
+      },
+      error: err => console.log(err)
+    })
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    })
+  }
+
+  private formatDate(date: any): string {
+    return date ? new Date(date).toLocaleDateString('en-CA') : ''; // Format as 'YYYY-MM-DD'
   }
 
   onSave(): void {
-    // Logic to save the note with attachment data if available
-    this.dialogRef.close();
+    const reqBody = {
+      employeeId: JSON.parse(this.empId),
+      paymentDate: this.formatDate(this.form.paymentDate),
+      compensationType: this.form.compensationType,
+      amount: this.form.amount,
+      currencyId: this.form.currencyId,
+      comments: this.form.comments,
+      reason: this.form.reason,
+      payPeriod: this.form.payPeriod
+    }
+
+    // console.log(reqBody);
+
+    const subscription = this.api.createCompensation(reqBody).subscribe({
+      next: (res) => {
+        this.snackbar.open(res, 'Close', {
+          duration: 2000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom'
+        })
+      },
+      error: (err) => {
+        // console.log(err);
+
+        this.snackbar.open('Server error...', 'Close', {
+          duration: 2000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom',
+        });
+      },
+      complete: () => this.dialogRef.close(true)
+    })
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    })
   }
 
   onCancel(): void {
