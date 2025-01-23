@@ -74,8 +74,8 @@ export class TasksFormComponent implements OnInit {
         this.inProgressDataSource = filteredTasks.inProgressTasks;
         this.completedDataSource = filteredTasks.completedTasks;
 
-        console.log('In Progress Tasks:', this.inProgressDataSource);
-        console.log('Completed Tasks:', this.completedDataSource);
+        // console.log('In Progress Tasks:', this.inProgressDataSource);
+        // console.log('Completed Tasks:', this.completedDataSource);
       },
       error: (err) => console.log(err)
     });

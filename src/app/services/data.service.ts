@@ -193,11 +193,15 @@ export class DataService {
   }
 
   updateCompensation(id: any, data: any) {
-    return this.http.put<any>(`${this.apiUrl}/api/compensation/${id}`, data);
+    return this.http.put<any>(`${this.apiUrl}/api/compensation/${id}`, data, {
+      responseType: 'text' as 'json' // Explicitly cast the response type to 'json'
+    });
   }
 
   deleteCompensation(id: any) {
-    return this.http.delete<any>(`${this.apiUrl}/api/compensation/${id}`);
+    return this.http.delete<any>(`${this.apiUrl}/api/compensation/${id}`, {
+      responseType: 'text' as 'json' // Explicitly cast the response type to 'json'
+    });
   }
 
 }

@@ -12,6 +12,7 @@ import { AddCompensationModalComponent } from './add-compensation-modal/add-comp
 import * as XLSX from 'xlsx';
 import { DataService } from 'src/app/services/data.service';
 import { map } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'vex-compensation-form',
@@ -58,7 +59,7 @@ export class CompensationFormComponent implements OnInit {
 
   displayedColumns: string[] = ['dates', 'amount', 'type', 'reason', 'comments', 'actions'];
 
-  constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, public dialog: MatDialog, private api: DataService, private destroyRef: DestroyRef) {
+  constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder, public dialog: MatDialog, private api: DataService, private destroyRef: DestroyRef, private snackbar: MatSnackBar) {
     this.fetchCurrencies();
   }
 
@@ -90,13 +91,50 @@ export class CompensationFormComponent implements OnInit {
     const dialogRef = this.dialog.open(AddCompensationModalComponent, {
       width: '600px',
       disableClose: true,
-      data: this.employeeId
+      data: { employeeId: this.employeeId }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Handle the result if necessary
-        // console.log('Dialog result:', result);
+        this.fetchCompensation();
+      }
+    });
+  }
+
+  deleteCompensatiton(id: any) {
+    const subscription = this.api.deleteCompensation(id).subscribe({
+      next: (res) => {
+        this.snackbar.open(res, 'Close', {
+          duration: 2000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom',
+        });
+      },
+      error: () => {
+        this.snackbar.open('Server error...', 'Close', {
+          duration: 2000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom',
+        });
+      },
+      complete: () => this.fetchCompensation()
+    })
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    })
+  }
+
+  updateCompensation(data: any) {
+    const dialogRef = this.dialog.open(AddCompensationModalComponent, {
+      width: '600px',
+      disableClose: true,
+      data: { ...data, employeeId: this.employeeId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fetchCompensation();
       }
     });
   }
@@ -111,9 +149,9 @@ export class CompensationFormComponent implements OnInit {
     const excelData = [
       ['Dates', 'Amount', 'Type', 'Reason', 'Comments'], // Header row
       ...this.dataSource.map(item => [
-        item.dates,
-        item.amount,
-        item.type,
+        item.paymentDate,
+        item.amount + this.getCurrencyIcon(item.currencyId),
+        item.compensationType,
         item.reason || 'Not available', // Default text if reason is empty
         item.comments
       ])

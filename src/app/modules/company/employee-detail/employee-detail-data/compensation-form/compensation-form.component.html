@@ -21,7 +21,7 @@
         </div>
 
         <div class="table-container border border-gray-300">
-            <table mat-table [dataSource]="dataSource" class="pt-2">
+            <table mat-table [dataSource]="dataSource.slice().reverse()" class="pt-2">
                 <!-- Dates Column -->
                 <ng-container matColumnDef="dates">
                     <th mat-header-cell *matHeaderCellDef> Dates </th>
@@ -61,8 +61,10 @@
                             <mat-icon svgIcon="mat:more_vert"></mat-icon>
                         </button>
                         <mat-menu #actionsMenu="matMenu">
-                            <button mat-menu-item>Edit <mat-icon svgIcon="mat:edit"></mat-icon></button>
-                            <button mat-menu-item>Delete <mat-icon svgIcon="mat:delete"></mat-icon></button>
+                            <button mat-menu-item type="button" (click)="updateCompensation(row)">Edit <mat-icon
+                                    svgIcon="mat:edit"></mat-icon></button>
+                            <button mat-menu-item type="button" (click)="deleteCompensatiton(row.id)">Delete <mat-icon
+                                    svgIcon="mat:delete"></mat-icon></button>
                         </mat-menu>
                     </td>
                 </ng-container>

@@ -23,7 +23,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AddCompensationModalComponent implements OnInit {
   form: any = {
-    employeeId: this.empId,
+    employeeId: '',
     paymentDate: '',
     compensationType: '',
     amount: '',
@@ -35,8 +35,23 @@ export class AddCompensationModalComponent implements OnInit {
 
   // List of common world currencies
   currencies: any[] = [];
+  isEditMode: boolean = false;
 
-  constructor(public dialogRef: MatDialogRef<AddCompensationModalComponent>, private api: DataService, private destroyRef: DestroyRef, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public empId: any) { }
+  constructor(public dialogRef: MatDialogRef<AddCompensationModalComponent>, private api: DataService, private destroyRef: DestroyRef, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: any) {
+    if (data && data.employeeId) {
+      this.form = {
+        employeeId: data.employeeId,
+        paymentDate: data.paymentDate || '',
+        compensationType: data.compensationType || '',
+        amount: data.amount || '',
+        currencyId: data.currencyId || '',
+        comments: data.comments || '',
+        reason: data.reason || '',
+        payPeriod: data.payPeriod || ''
+      };
+      this.isEditMode = !!data.id; // Check if it's edit mode
+    }
+  }
 
   ngOnInit() {
     this.fetchCurrencies();
@@ -59,43 +74,47 @@ export class AddCompensationModalComponent implements OnInit {
     return date ? new Date(date).toLocaleDateString('en-CA') : ''; // Format as 'YYYY-MM-DD'
   }
 
-  onSave(): void {
-    const reqBody = {
-      employeeId: JSON.parse(this.empId),
-      paymentDate: this.formatDate(this.form.paymentDate),
-      compensationType: this.form.compensationType,
-      amount: this.form.amount,
-      currencyId: this.form.currencyId,
-      comments: this.form.comments,
-      reason: this.form.reason,
-      payPeriod: this.form.payPeriod
+  onSave(form: any): void {
+    if (form.valid) {
+      const reqBody = {
+        employeeId: JSON.parse(this.form.employeeId),
+        paymentDate: this.formatDate(this.form.paymentDate),
+        compensationType: this.form.compensationType,
+        amount: this.form.amount,
+        currencyId: this.form.currencyId,
+        comments: this.form.comments,
+        reason: this.form.reason,
+        payPeriod: this.form.payPeriod
+      };
+
+      const apiCall = this.isEditMode
+        ? this.api.updateCompensation(this.data.id, reqBody) // Pass the ID for update
+        : this.api.createCompensation(reqBody);
+
+      const subscription = apiCall.subscribe({
+        next: () => {
+          this.snackbar.open(
+            this.isEditMode ? 'Compensation updated' : 'Compensation created',
+            'Close',
+            { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' }
+          );
+        },
+        error: () => {
+          this.snackbar.open('Server error...', 'Close', {
+            duration: 2000,
+            horizontalPosition: 'end',
+            verticalPosition: 'bottom',
+          });
+        },
+        complete: () => {
+          this.dialogRef.close(true); // Pass the updated/created compensation data
+        },
+      });
+
+      this.destroyRef.onDestroy(() => {
+        subscription.unsubscribe();
+      });
     }
-
-    // console.log(reqBody);
-
-    const subscription = this.api.createCompensation(reqBody).subscribe({
-      next: (res) => {
-        this.snackbar.open(res, 'Close', {
-          duration: 2000,
-          horizontalPosition: 'end',
-          verticalPosition: 'bottom'
-        })
-      },
-      error: (err) => {
-        // console.log(err);
-
-        this.snackbar.open('Server error...', 'Close', {
-          duration: 2000,
-          horizontalPosition: 'end',
-          verticalPosition: 'bottom',
-        });
-      },
-      complete: () => this.dialogRef.close(true)
-    })
-
-    this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe();
-    })
   }
 
   onCancel(): void {
