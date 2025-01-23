@@ -38,6 +38,12 @@
                                 <td mat-cell *matCellDef="let element"> {{ element.createdby }} </td>
                             </ng-container>
 
+                            <!-- description Column -->
+                            <ng-container matColumnDef="description">
+                                <th mat-header-cell *matHeaderCellDef> Description </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+                            </ng-container>
+
                             <!-- Attachment Column -->
                             <ng-container matColumnDef="attachment">
                                 <th mat-header-cell *matHeaderCellDef> Attachment </th>
@@ -65,13 +71,13 @@
                                         <mat-icon svgIcon="mat:more_vert"></mat-icon>
                                     </button>
                                     <mat-menu #actionsMenu="matMenu">
-                                        <button mat-menu-item>
+                                        <button mat-menu-item type="button" (click)="completedTask(row.taskid)">
                                             Completed <mat-icon svgIcon="mat:done_outline"></mat-icon>
                                         </button>
                                         <!-- <button mat-menu-item (click)="editTask(row)">
                                             Edit <mat-icon svgIcon="mat:edit"></mat-icon>
                                         </button> -->
-                                        <button mat-menu-item (click)="deleteTask(row)">
+                                        <button mat-menu-item type="button" (click)="deleteTask(row.taskid)">
                                             Delete <mat-icon svgIcon="mat:delete"></mat-icon>
                                         </button>
                                     </mat-menu>
@@ -97,7 +103,7 @@
 
                 <ng-template matTabContent>
                     <div class="table-container border border-gray-300">
-                        <table mat-table [dataSource]="inProgressDataSource" class="pt-2">
+                        <table mat-table [dataSource]="completedDataSource.slice().reverse()" class="pt-2">
                             <!-- Title Column -->
                             <ng-container matColumnDef="title">
                                 <th mat-header-cell *matHeaderCellDef> Title </th>
@@ -108,6 +114,12 @@
                             <ng-container matColumnDef="createdby">
                                 <th mat-header-cell *matHeaderCellDef> Assigned By </th>
                                 <td mat-cell *matCellDef="let element"> {{ element.createdby }} </td>
+                            </ng-container>
+
+                            <!-- description Column -->
+                            <ng-container matColumnDef="description">
+                                <th mat-header-cell *matHeaderCellDef> Description </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
                             </ng-container>
 
                             <!-- Attachment Column -->
@@ -137,13 +149,13 @@
                                         <mat-icon svgIcon="mat:more_vert"></mat-icon>
                                     </button>
                                     <mat-menu #actionsMenu="matMenu">
-                                        <button mat-menu-item>
+                                        <!-- <button mat-menu-item>
                                             Completed <mat-icon svgIcon="mat:done_outline"></mat-icon>
-                                        </button>
+                                        </button> -->
                                         <!-- <button mat-menu-item (click)="editTask(row)">
                                             Edit <mat-icon svgIcon="mat:edit"></mat-icon>
                                         </button> -->
-                                        <button mat-menu-item (click)="deleteTask(row)">
+                                        <button mat-menu-item type="button" (click)="deleteTask(row.taskid)">
                                             Delete <mat-icon svgIcon="mat:delete"></mat-icon>
                                         </button>
                                     </mat-menu>

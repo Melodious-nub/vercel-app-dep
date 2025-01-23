@@ -8,6 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddTasksModalComponent } from './add-tasks-modal/add-tasks-modal.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataService } from 'src/app/services/data.service';
+import { map } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface Task {
   title: string;
@@ -30,9 +32,9 @@ interface Task {
 })
 export class TasksFormComponent implements OnInit {
   // Columns displayed in the table
-  displayedColumns: string[] = ['title', 'createdby', 'attachment', 'deadline', 'actions'];
+  displayedColumns: string[] = ['title', 'createdby', 'description', 'attachment', 'deadline', 'actions'];
 
-  constructor(private dialog: MatDialog, private api: DataService, private destroyRef: DestroyRef) { }
+  constructor(private dialog: MatDialog, private api: DataService, private destroyRef: DestroyRef, private snackbar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.fetchTasks();
@@ -55,20 +57,32 @@ export class TasksFormComponent implements OnInit {
 
   // Data sources for the tables in each tab
   inProgressDataSource: any[] = [];
-
   completedDataSource: any[] = [];
 
   fetchTasks() {
-    const subscription = this.api.getAllTasks().subscribe({
-      next: (res) => {
-        this.inProgressDataSource = res.content
+    const subscription = this.api.getAllTasks().pipe(
+      map((res) => {
+        // Map the response to separate tasks
+        return {
+          inProgressTasks: res.content.filter((task: any) => task.status === 'PENDING'),
+          completedTasks: res.content.filter((task: any) => task.status === 'COMPLETED')
+        };
+      })
+    ).subscribe({
+      next: (filteredTasks) => {
+        // Assign the filtered tasks to the respective data sources
+        this.inProgressDataSource = filteredTasks.inProgressTasks;
+        this.completedDataSource = filteredTasks.completedTasks;
+
+        console.log('In Progress Tasks:', this.inProgressDataSource);
+        console.log('Completed Tasks:', this.completedDataSource);
       },
-      error: err => console.log(err),
-    })
+      error: (err) => console.log(err)
+    });
 
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
-    })
+    });
   }
 
   // markAsCompleted(task: Task) {
@@ -114,16 +128,58 @@ export class TasksFormComponent implements OnInit {
     console.log('Edit task:', task);
   }
 
-  deleteTask(task: Task) {
-    // if (this.inProgressDataSource.data.includes(task)) {
-    //   this.inProgressDataSource.data = this.inProgressDataSource.data.filter(
-    //     (t) => t !== task
-    //   );
-    // } else if (this.completedDataSource.data.includes(task)) {
-    //   this.completedDataSource.data = this.completedDataSource.data.filter(
-    //     (t) => t !== task
-    //   );
-    // }
+  deleteTask(taskid: any) {
+    const subscription = this.api.deleteTask(taskid).subscribe({
+      next: (res) => {
+        this.snackbar.open(res, 'Close', {
+          duration: 2000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom',
+        });
+      },
+      error: () => {
+        this.snackbar.open('Server error...', 'Close', {
+          duration: 2000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom',
+        });
+      },
+      complete: () => this.fetchTasks()
+    })
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    })
+  }
+
+  completedTask(taskid: any) {
+    const status = 'COMPLETED';
+
+    const subscription = this.api.updateTaskStatus(taskid, status).subscribe({
+      next: () => {
+        // console.log(res);
+
+        this.snackbar.open('Task is marked as Completed', 'Close', {
+          duration: 2000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom',
+        });
+      },
+      error: () => {
+        // console.log(err);
+
+        this.snackbar.open('Server error...', 'Close', {
+          duration: 2000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom',
+        });
+      },
+      complete: () => this.fetchTasks()
+    })
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    })
   }
 
 }

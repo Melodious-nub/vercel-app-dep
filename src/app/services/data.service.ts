@@ -150,6 +150,16 @@ export class DataService {
     return this.http.get<any>(`${this.apiUrl}/api/task`);
   }
 
+  deleteTask(taskId: any) {
+    return this.http.delete<any>(`${this.apiUrl}/api/task/${taskId}`, {
+      responseType: 'text' as 'json' // Explicitly cast the response type to 'json'
+    })
+  }
+
+  updateTaskStatus(taskId: any, status: any) {
+    return this.http.put<any>(`${this.apiUrl}/api/task/${taskId}/update-status?status=${status}`, status);
+  }
+
   // emergency contact section
   createEmergencyContact(data: any) {
     return this.http.post<any>(`${this.apiUrl}/api/emergency-contact`, data);
