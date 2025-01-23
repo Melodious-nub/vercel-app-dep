@@ -81,6 +81,11 @@
 
                 <!-- Data Rows -->
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                <tr *matNoDataRow>
+                    <td colspan="8" class="text-center py-2 text-gray-500">No data found. Click the button above to
+                        add Emergency contact.</td>
+                </tr>
             </table>
         </div>
 

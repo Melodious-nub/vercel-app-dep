@@ -88,6 +88,11 @@
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                             <!-- Data Rows -->
                             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                            <tr *matNoDataRow>
+                                <td colspan="6" class="text-center py-2 text-gray-500">No data found. Click the above
+                                    button to add task.</td>
+                            </tr>
                         </table>
 
                     </div>
@@ -166,6 +171,11 @@
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                             <!-- Data Rows -->
                             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                            <tr *matNoDataRow>
+                                <td colspan="6" class="text-center py-2 text-gray-500">No data found. Click the complete
+                                    button to add completed task.</td>
+                            </tr>
                         </table>
                     </div>
                 </ng-template>

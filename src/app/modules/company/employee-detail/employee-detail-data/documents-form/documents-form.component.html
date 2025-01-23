@@ -33,42 +33,43 @@
                 <table mat-table [dataSource]="ELEMENT_DATA.slice().reverse()" class="pt-2">
                     <!-- File Name Column -->
                     <ng-container matColumnDef="file">
-                    <th mat-header-cell *matHeaderCellDef> File Name </th>
-                    <td mat-cell *matCellDef="let row">
-                        <a mat-icon-button color="primary" [href]="row.file" target="_blank"><mat-icon color="primary" svgIcon="mat:cloud_download"></mat-icon></a>
-                    </td>
+                        <th mat-header-cell *matHeaderCellDef> File Name </th>
+                        <td mat-cell *matCellDef="let row">
+                            <a mat-icon-button color="primary" [href]="row.file" target="_blank"><mat-icon
+                                    color="primary" svgIcon="mat:cloud_download"></mat-icon></a>
+                        </td>
                     </ng-container>
-                
+
                     <!-- Description Column -->
                     <ng-container matColumnDef="description">
-                    <th mat-header-cell *matHeaderCellDef> Description </th>
-                    <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                        <th mat-header-cell *matHeaderCellDef> Description </th>
+                        <td mat-cell *matCellDef="let element"> {{element.description}} </td>
                     </ng-container>
-                
+
                     <!-- Upload Date Column -->
                     <!-- <ng-container matColumnDef="upload_date">
                     <th mat-header-cell *matHeaderCellDef> Upload Date </th>
                     <td mat-cell *matCellDef="let element"> {{element.uploadDate}} </td>
                     </ng-container> -->
-                
+
                     <!-- Uploaded By Column -->
                     <ng-container matColumnDef="uploaded_by">
-                    <th mat-header-cell *matHeaderCellDef> Uploaded By </th>
-                    <td mat-cell *matCellDef="let element"> {{element.createdby}} </td>
+                        <th mat-header-cell *matHeaderCellDef> Uploaded By </th>
+                        <td mat-cell *matCellDef="let element"> {{element.createdby}} </td>
                     </ng-container>
-                
+
                     <!-- Shared With Column -->
                     <ng-container matColumnDef="categoryname">
-                    <th mat-header-cell *matHeaderCellDef> Category </th>
-                    <td mat-cell *matCellDef="let element"> {{element.categoryname}} </td>
+                        <th mat-header-cell *matHeaderCellDef> Category </th>
+                        <td mat-cell *matCellDef="let element"> {{element.categoryname}} </td>
                     </ng-container>
-                
+
                     <!-- Status Column -->
                     <!-- <ng-container matColumnDef="status">
                     <th mat-header-cell *matHeaderCellDef> Status </th>
                     <td mat-cell *matCellDef="let element"> {{element.status}} </td>
                     </ng-container> -->
-                
+
                     <ng-container matColumnDef="actions">
                         <th mat-header-cell *matHeaderCellDef>Actions</th>
                         <td mat-cell *matCellDef="let row">
@@ -77,18 +78,24 @@
                             </button>
                             <mat-menu #actionsMenu="matMenu">
                                 <!-- <button mat-menu-item>Edit <mat-icon svgIcon="mat:edit"></mat-icon></button> -->
-                                <button type="button" mat-menu-item>Delete <mat-icon svgIcon="mat:delete"></mat-icon></button>
+                                <button type="button" mat-menu-item>Delete <mat-icon
+                                        svgIcon="mat:delete"></mat-icon></button>
                             </mat-menu>
                         </td>
-                    </ng-container>                    
-                
+                    </ng-container>
+
                     <!-- Header Row -->
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    
+
                     <!-- Data Rows -->
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    <tr *matNoDataRow>
+                        <td colspan="5" class="text-center py-2 text-gray-500">No data found. Click the button above to
+                            add Documents.</td>
+                    </tr>
                 </table>
-            </div>           
+            </div>
         </div>
 
         <!-- <mat-accordion>

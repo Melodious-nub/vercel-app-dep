@@ -81,7 +81,7 @@ export class NotesFormComponent implements OnInit {
     this.api.getAllNotes(this.employeeId).subscribe({
       next: (res) => {
         this.dataSource = res.content;
-        // console.log(res);
+        console.log(res);
       },
       error: () => {
         this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });

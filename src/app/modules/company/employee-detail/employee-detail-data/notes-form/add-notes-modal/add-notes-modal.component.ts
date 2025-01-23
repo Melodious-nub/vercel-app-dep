@@ -71,7 +71,7 @@ export class AddNotesModalComponent {
     formData.append('employeeId', this.parrentData.employeeId);
     formData.append('visibleToOthers', JSON.stringify(this.data.visibleToOthers));
 
-    // console.log(this.attachmentFile, this.data.note, this.parrentData.employeeId, this.data.visibleToOthers);
+    console.log(this.attachmentFile, this.data.note, this.parrentData.employeeId, this.data.visibleToOthers);
 
 
     this.api.addNotes(formData).subscribe({

@@ -1,159 +1,170 @@
 <div class="p-6">
-    <form @fadeInRight class="container px-3 row">
-      <!-- Date of Birth -->
-      <div class="col-lg-6">
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>Date of Birth</mat-label>
-          <input matInput [matDatepicker]="picker" placeholder="Select date" name="birthDate" [(ngModel)]="personalForm.birthDate">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </div>
-  
-      <!-- Street -->
-      <div class="col-lg-6">
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>Street</mat-label>
-          <input matInput name="street" placeholder="Type street" [(ngModel)]="personalForm.street">
-        </mat-form-field>
-      </div>
-  
-      <!-- City -->
-      <div class="col-lg-6">
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>City</mat-label>
-          <input matInput name="city" placeholder="Type city" [(ngModel)]="personalForm.city">
-        </mat-form-field>
-      </div>
-  
-      <!-- State -->
-      <div class="col-lg-6">
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>State</mat-label>
-          <input matInput name="state" placeholder="Type state" [(ngModel)]="personalForm.state">
-        </mat-form-field>
-      </div>
-  
-      <!-- Post Code -->
-      <!-- <div class="col-lg-6">
+  <form @fadeInRight class="container px-3 row">
+    <!-- Date of Birth -->
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Date of Birth</mat-label>
+        <input matInput [matDatepicker]="picker" placeholder="Select date" name="birthDate"
+          [(ngModel)]="personalForm.birthDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <!-- Street -->
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Street</mat-label>
+        <input matInput name="street" placeholder="Type street" [(ngModel)]="personalForm.street">
+      </mat-form-field>
+    </div>
+
+    <!-- City -->
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>City</mat-label>
+        <input matInput name="city" placeholder="Type city" [(ngModel)]="personalForm.city">
+      </mat-form-field>
+    </div>
+
+    <!-- State -->
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>State</mat-label>
+        <input matInput name="state" placeholder="Type state" [(ngModel)]="personalForm.state">
+      </mat-form-field>
+    </div>
+
+    <!-- Post Code -->
+    <!-- <div class="col-lg-6">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Post Code</mat-label>
           <input matInput name="postCode" placeholder="Type post code" [(ngModel)]="personalForm.postCode">
         </mat-form-field>
       </div> -->
-  
-      <!-- Country -->
-      <div class="col-lg-6">
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>Country</mat-label>
-          <mat-select [(ngModel)]="personalForm.countryId" name="countryId">
-            <mat-option *ngFor="let location of locations" [value]="location.id">{{ location.name }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-  
-      <!-- Nationality -->
-      <div class="col-lg-6">
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>Nationality</mat-label>
-          <input matInput name="nationality" placeholder="Type nationality" [(ngModel)]="personalForm.nationality">
-        </mat-form-field>
-      </div>
-  
-      <!-- Home Phone -->
-      <!-- <div class="col-lg-6">
+
+    <!-- Country -->
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Country</mat-label>
+        <mat-select [(ngModel)]="personalForm.countryId" name="countryId">
+          <mat-option *ngFor="let location of locations" [value]="location.id">{{ location.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Nationality -->
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Nationality</mat-label>
+        <input matInput name="nationality" placeholder="Type nationality" [(ngModel)]="personalForm.nationality">
+      </mat-form-field>
+    </div>
+
+    <!-- Home Phone -->
+    <!-- <div class="col-lg-6">
         <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Home Phone</mat-label>
           <input matInput name="homePhone" placeholder="Type home phone" [(ngModel)]="personalForm.homePhone">
         </mat-form-field>
       </div> -->
-  
-      <!-- Mobile Phone -->
-      <div class="col-lg-6">
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>Mobile Phone</mat-label>
-          <input matInput name="mobilePhone" placeholder="Type mobile phone" [(ngModel)]="personalForm.mobilePhone">
-        </mat-form-field>
-      </div>
-  
-      <!-- Personal Email -->
-      <div class="col-lg-6">
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>Personal Email</mat-label>
-          <input matInput type="email" name="personalEmail" placeholder="Type personal email" [(ngModel)]="personalForm.personalEmail">
-        </mat-form-field>
-      </div>
-  
-      <!-- Gender -->
-      <div class="col-lg-6">
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>Gender</mat-label>
-          <mat-select placeholder="Select gender" name="gender" [(ngModel)]="personalForm.gender">
-            <mat-option value="MALE">Male</mat-option>
-            <mat-option value="FEMALE">Female</mat-option>
-            <mat-option value="OTHER">Other</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-  
-      <!-- Marital Status -->
-      <div class="col-lg-6">
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>Marital Status</mat-label>
-          <mat-select placeholder="Select marital status" name="maritalStatus" [(ngModel)]="personalForm.maritalStatus">
-            <mat-option value="MARRIED">Married</mat-option>
-            <mat-option value="SINGLE">Single</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-  
-      <!-- Personal Identification Number -->
-      <div class="col-lg-6">
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>Personal Identification Number</mat-label>
-          <input matInput name="personalIdentificationNumber" placeholder="Type personal ID number" [(ngModel)]="personalForm.personalIdentificationNumber">
-        </mat-form-field>
-      </div>
-  
-      <!-- Tax Reference Number -->
-      <div class="col-lg-6">
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>Tax Reference Number</mat-label>
-          <input matInput name="taxReferenceNumber" placeholder="Type tax reference number" [(ngModel)]="personalForm.taxReferenceNumber">
-        </mat-form-field>
-      </div>
 
-      <!-- Children List -->
-      <div>
+    <!-- Mobile Phone -->
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Mobile Phone</mat-label>
+        <input matInput name="mobilePhone" placeholder="Type mobile phone" [(ngModel)]="personalForm.mobilePhone">
+      </mat-form-field>
+    </div>
+
+    <!-- Personal Email -->
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Personal Email</mat-label>
+        <input matInput type="email" name="personalEmail" placeholder="Type personal email"
+          [(ngModel)]="personalForm.personalEmail">
+      </mat-form-field>
+    </div>
+
+    <!-- Gender -->
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Gender</mat-label>
+        <mat-select placeholder="Select gender" name="gender" [(ngModel)]="personalForm.gender">
+          <mat-option value="MALE">Male</mat-option>
+          <mat-option value="FEMALE">Female</mat-option>
+          <mat-option value="OTHER">Other</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Marital Status -->
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Marital Status</mat-label>
+        <mat-select placeholder="Select marital status" name="maritalStatus" [(ngModel)]="personalForm.maritalStatus">
+          <mat-option value="MARRIED">Married</mat-option>
+          <mat-option value="SINGLE">Single</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Personal Identification Number -->
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Personal Identification Number</mat-label>
+        <input matInput name="personalIdentificationNumber" placeholder="Type personal ID number"
+          [(ngModel)]="personalForm.personalIdentificationNumber">
+      </mat-form-field>
+    </div>
+
+    <!-- Tax Reference Number -->
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Tax Reference Number</mat-label>
+        <input matInput name="taxReferenceNumber" placeholder="Type tax reference number"
+          [(ngModel)]="personalForm.taxReferenceNumber">
+      </mat-form-field>
+    </div>
+
+    <!-- Children List -->
+    <div>
+      <div class="mb-3">
         <h2 class="mb-1" style="font-weight: 500; font-size: 16px;">Childrens:</h2>
-        <div class="row px-3">
-          <div *ngFor="let pos of childrens.slice().reverse()" class="position-card mb-3 col-lg-6">
-            <mat-card class="card">
-              <mat-card-content>
-                <mat-card-title class="text-sm"> {{ pos.name }} ({{pos.gender}})</mat-card-title>
-                <mat-card-subtitle class="text-sm">Birthdate: {{ pos.birthDate | date: 'longDate' }}</mat-card-subtitle>
-              </mat-card-content>
-            </mat-card>
-          </div>
+        <p class="text-sm text-gray-500" *ngIf="childrens.length === 0">If you have any children, please add them below.
+          If not, you can skip this
+          section.</p>
+        <p class="text-sm text-gray-500" *ngIf="childrens.length > 0">
+          Here are the details of your children. You can add more children if needed.
+        </p>
+      </div>
+      <div class="row px-3">
+        <div *ngFor="let pos of childrens.slice().reverse()" class="position-card mb-3 col-lg-6">
+          <mat-card class="card">
+            <mat-card-content>
+              <mat-card-title class="text-sm"> {{ pos.name }} ({{pos.gender}})</mat-card-title>
+              <mat-card-subtitle class="text-sm">Birthdate: {{ pos.birthDate | date: 'longDate' }}</mat-card-subtitle>
+            </mat-card-content>
+          </mat-card>
         </div>
       </div>
+    </div>
 
-      <!-- Add Position Button -->
-      <div class="mb-2">
-        <button mat-raised-button color="primary" (click)="openChildrenModal()" [disabled]="isButtonClicked">
-          <mat-icon class="ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 icon-sm" svgIcon="mat:add"></mat-icon>
-          <span>New Children</span>
-        </button>
-      </div> 
+    <!-- Add Position Button -->
+    <div class="mb-2">
+      <button mat-raised-button color="primary" (click)="openChildrenModal()" [disabled]="isButtonClicked">
+        <mat-icon class="ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 icon-sm" svgIcon="mat:add"></mat-icon>
+        <span>New Children</span>
+      </button>
+    </div>
 
-      <!-- Buttons -->
-      <div class="actions flex items-center justify-end gap-3">
-        <!-- <button mat-raised-button>Back</button> -->
-        <button mat-raised-button color="primary" (click)="onSave()" [disabled]="isLoading">
-          <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
-          <span *ngIf="!isLoading">Save</span>
-        </button>
-      </div>     
-    </form>
+    <!-- Buttons -->
+    <div class="actions flex items-center justify-end gap-3">
+      <!-- <button mat-raised-button>Back</button> -->
+      <button mat-raised-button color="primary" (click)="onSave()" [disabled]="isLoading">
+        <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+        <span *ngIf="!isLoading">Save</span>
+      </button>
+    </div>
+  </form>
 </div>
-  

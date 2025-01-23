@@ -74,6 +74,11 @@
 
                 <!-- Data Rows -->
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                <tr *matNoDataRow>
+                    <td colspan="6" class="text-center py-2 text-gray-500">No data found. Click the above
+                        button to add compensation.</td>
+                </tr>
             </table>
         </div>
     </form>
