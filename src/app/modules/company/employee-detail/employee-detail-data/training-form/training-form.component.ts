@@ -58,7 +58,7 @@ export class TrainingFormComponent implements OnInit {
   delete(row: any) {
     // Handle the deletion of the row data
     const trainingId = JSON.stringify(row);
-    console.log('Deleting row:', trainingId);
+    // console.log('Deleting row:', trainingId);
     // Add your deletion logic here
     const subscription = this.api.deleteTraining(trainingId).subscribe({
       next: (res) => {
