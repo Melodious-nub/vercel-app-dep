@@ -1,7 +1,6 @@
 import { Routes } from "@angular/router";
 import { DashboardAnalyticsComponent } from "../pages/dashboards/dashboard-analytics/dashboard-analytics.component";
 import { CompanyComponent } from "./company/company.component";
-import { EmployeeDetailComponent } from "./company/employee-detail/employee-detail.component";
 import { MyProfileComponent } from "./my-profile/my-profile.component";
 import { CalendarComponent } from "../pages/apps/calendar/calendar.component";
 import { AccountSettingsComponent } from "./account-settings/account-settings.component";
