@@ -9,7 +9,11 @@ import { AccountSettingsComponent } from "./account-settings/account-settings.co
 export const dashboardRoutes: Routes = [
     { path: 'analytics', component: DashboardAnalyticsComponent },
     { path: 'company', component: CompanyComponent },
-    { path: 'company/:id', component: EmployeeDetailComponent }, // Route with ID parameter
+    {
+        path: 'company/:id',
+        loadComponent: () => import('./company/employee-detail/employee-detail.component').then((m) => m.EmployeeDetailComponent),
+        // component: EmployeeDetailComponent
+    }, // Route with ID parameter
     { path: 'calender', component: CalendarComponent },
     { path: 'my-profile', component: MyProfileComponent },
     { path: 'account-settings', component: AccountSettingsComponent },

@@ -6,7 +6,6 @@ import { authGuard } from './services/auth/auth.guard';
 import { ForgotPasswordComponent } from './pages/pages/auth/forgot-password/forgot-password.component';
 import { Error404Component } from './pages/pages/errors/error-404/error-404.component';
 import { ComingSoonComponent } from './pages/pages/coming-soon/coming-soon.component';
-import { dashboardRoutes } from './modules/dashboard.routes';
 
 export const appRoutes: VexRoutes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -18,7 +17,8 @@ export const appRoutes: VexRoutes = [
     path: 'dashboard',
     component: LayoutComponent,
     canActivate: [authGuard],
-    children: dashboardRoutes
+    loadChildren: () => import('./modules/dashboard.routes').then((m) => m.dashboardRoutes),
+    // children: dashboardRoutes
   },
   { path: '**', component: Error404Component }
 ];
