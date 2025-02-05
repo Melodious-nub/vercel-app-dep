@@ -39,7 +39,7 @@ export class AddEmergencyConatctModalComponent implements OnInit {
   ngOnInit() {
     // Initialize form with the received data
     this.contact = this.data ? { ...this.data } : {};
-    this.isEditMode = !!this.data; // Determine if editing
+    this.isEditMode = !!this.contact?.id;
 
     this.fetchCountries();
   }

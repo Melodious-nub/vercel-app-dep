@@ -1,10 +1,10 @@
-import { Component, DestroyRef, OnInit } from '@angular/core';
+import { Component, DestroyRef, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { stagger60ms } from '@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
 import { fadeInRight400ms } from '@vex/animations/fade-in-right.animation';
 import { MATERIAL_IMPORTS } from 'src/app/material-imports';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -61,7 +61,7 @@ export class AddNewTrainingModalComponent implements OnInit {
     }
   }
 
-  constructor(public dialogRef: MatDialogRef<AddNewTrainingModalComponent>, private destroyRef: DestroyRef, private api: DataService, private snackbar: MatSnackBar) { }
+  constructor(public dialogRef: MatDialogRef<AddNewTrainingModalComponent>, private destroyRef: DestroyRef, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public parrentData: { employeeName: string }) { }
 
   ngOnInit(): void {
     this.fetchAlEmployee();

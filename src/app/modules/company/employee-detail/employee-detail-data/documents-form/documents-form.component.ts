@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MATERIAL_IMPORTS } from 'src/app/material-imports';
 import { stagger60ms } from '@vex/animations/stagger.animation';
@@ -23,6 +23,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DocumentsFormComponent implements OnInit {
   employeeId: any;
+  @Input({ required: true }) selectedEmployeeName: string = '';
 
   constructor(private dialog: MatDialog, private api: DataService, private snackbar: MatSnackBar, private route: ActivatedRoute) { }
 
@@ -37,7 +38,7 @@ export class DocumentsFormComponent implements OnInit {
     const dialogRef = this.dialog.open(AddDocumentModalComponent, {
       width: '600px',
       disableClose: true,
-      data: { employeeId: this.employeeId }
+      data: { employeeId: this.employeeId, employeeName: this.selectedEmployeeName }
     });
 
     dialogRef.afterClosed().subscribe(result => {

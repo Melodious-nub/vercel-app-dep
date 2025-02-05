@@ -1,4 +1,4 @@
-import { Component, OnInit, DestroyRef } from '@angular/core';
+import { Component, OnInit, DestroyRef, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { stagger60ms } from '@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
@@ -22,6 +22,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class TrainingFormComponent implements OnInit {
   dataSource: any[] = []; // Ensure dataSource is an array
+  @Input({ required: true }) selectedEmployeeName: string = '';
 
   constructor(private dialog: MatDialog, private destroyRef: DestroyRef, private api: DataService, private snackbar: MatSnackBar) { }
 
@@ -44,6 +45,7 @@ export class TrainingFormComponent implements OnInit {
     const dialogRef = this.dialog.open(AddNewTrainingModalComponent, {
       width: '600px',
       disableClose: true,
+      data: { employeeName: this.selectedEmployeeName }
     });
 
     dialogRef.afterClosed().subscribe(result => {

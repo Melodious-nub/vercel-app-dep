@@ -1,48 +1,44 @@
-<h2 mat-dialog-title>Add document</h2>
+<h2 mat-dialog-title>Add document to {{data.employeeName}}</h2>
 
 <mat-dialog-content @fadeInUp class="pt-4 border-b">
   <form>
     <!-- Add Attachment -->
     <div class="mb-4 flex items-center">
-        <input type="file" 
-            #fileInput 
-            accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" 
-            style="display: none;" 
-            (change)="onFileSelected($event)">
-        
-        <button mat-raised-button 
-                color="primary" 
-                (click)="fileInput.click()" 
-                class="mr-3">
+      <input type="file" #fileInput
+        accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        style="display: none;" (change)="onFileSelected($event)">
+
+      <button mat-raised-button color="primary" (click)="fileInput.click()" class="mr-3">
         <mat-icon svgIcon="mat:attach_file"></mat-icon>
         Add document
-        </button>
-    
-        <!-- Attachment Info -->
-        <div *ngIf="attachmentName" class="flex items-center overflow-hidden">
-            <span class="text-sm mr-2 truncate max-w-xs">{{ attachmentName }}</span>
-            <button mat-icon-button color="warn" (click)="removeAttachment()">
-                <mat-icon svgIcon="mat:delete"></mat-icon>
-            </button>
-        </div>
+      </button>
 
-        <div *ngIf="!attachmentName" class="flex items-center overflow-hidden">
-            <span class="text-sm mr-2 truncate max-w-xs">(Max file size: 25mb)</span>
-        </div>
+      <!-- Attachment Info -->
+      <div *ngIf="attachmentName" class="flex items-center overflow-hidden">
+        <span class="text-sm mr-2 truncate max-w-xs">{{ attachmentName }}</span>
+        <button mat-icon-button color="warn" (click)="removeAttachment()">
+          <mat-icon svgIcon="mat:delete"></mat-icon>
+        </button>
+      </div>
+
+      <div *ngIf="!attachmentName" class="flex items-center overflow-hidden">
+        <span class="text-sm mr-2 truncate max-w-xs">(Max file size: 25mb)</span>
+      </div>
     </div>
 
     <!-- description -->
     <mat-form-field appearance="outline" style="width: 100%;" class="mb-2">
-        <mat-label>Description</mat-label>
-        <textarea matInput name="description" rows="3" placeholder="Type description here" [(ngModel)]="description"></textarea>
+      <mat-label>Description</mat-label>
+      <textarea matInput name="description" rows="3" placeholder="Type description here"
+        [(ngModel)]="description"></textarea>
     </mat-form-field>
 
     <!-- Category -->
     <mat-form-field appearance="outline" style="width: 100%;" class="mb-2" color="primary">
-        <mat-label>Category</mat-label>
-        <mat-select [(ngModel)]="categoryId" name="category">
-          <mat-option *ngFor="let cat of categoryData" [value]="cat.documentCategoryId">{{cat.name}}</mat-option>
-        </mat-select>
+      <mat-label>Category</mat-label>
+      <mat-select [(ngModel)]="categoryId" name="category">
+        <mat-option *ngFor="let cat of categoryData" [value]="cat.documentCategoryId">{{cat.name}}</mat-option>
+      </mat-select>
     </mat-form-field>
 
     <!-- Share Document -->
@@ -63,7 +59,7 @@
     <!-- <div class="flex items-center">
         <mat-checkbox [(ngModel)]="sendEmailNotification" name="sendEmailNotification" class="mr-2" color="primary"><span class="font-bold text-sm" style="color: rgba(0, 0, 0, 0.6);">Send email notification</span></mat-checkbox>
     </div> -->
-  
+
   </form>
 </mat-dialog-content>
 

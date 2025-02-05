@@ -31,7 +31,8 @@
           class="hidden sm:block ltr:mr-6 rtl:ml-6"></vex-employee-detail-menu>
 
         <div class="card h-full overflow-hidden flex-auto">
-          <vex-employee-detail-data [selectedForm]="selectedMenu"></vex-employee-detail-data>
+          <vex-employee-detail-data [selectedForm]="selectedMenu"
+            [selectedEmployeeName]="employeeDetails.name"></vex-employee-detail-data>
         </div>
       </mat-drawer-content>
     </mat-drawer-container>

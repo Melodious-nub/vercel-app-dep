@@ -35,7 +35,7 @@ export class AddDocumentModalComponent {
     { documentCategoryId: 3, name: 'On Boarding' },
   ]
 
-  constructor(public dialogRef: MatDialogRef<AddDocumentModalComponent>, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: { employeeId: any }) { }
+  constructor(public dialogRef: MatDialogRef<AddDocumentModalComponent>, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: { employeeId: any, employeeName: string }) { }
 
   onCancel(): void {
     this.dialogRef.close();

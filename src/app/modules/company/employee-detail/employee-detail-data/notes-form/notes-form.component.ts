@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { stagger60ms } from '@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
@@ -31,6 +31,7 @@ interface DataRow {
   styleUrls: ['./notes-form.component.scss']
 })
 export class NotesFormComponent implements OnInit {
+  @Input({ required: true }) selectedEmployeeName: string = '';
   // for table data
   dataSource: any[] = [];
   // selection = new SelectionModel<DataRow>(true, []);
@@ -43,13 +44,14 @@ export class NotesFormComponent implements OnInit {
       this.employeeId = params.get('id')!;
       this.fetchAllNotes();
     });
+    // console.log(this.selectedEmployeeName);
   }
 
   openAddNoteDialog(): void {
     const dialogRef = this.dialog.open(AddNotesModalComponent, {
       width: '600px',
       disableClose: true,
-      data: { employeeId: this.employeeId }
+      data: { employeeId: this.employeeId, employeeName: this.selectedEmployeeName }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -81,7 +83,7 @@ export class NotesFormComponent implements OnInit {
     this.api.getAllNotes(this.employeeId).subscribe({
       next: (res) => {
         this.dataSource = res.content;
-        console.log(res);
+        // console.log(res);
       },
       error: () => {
         this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });

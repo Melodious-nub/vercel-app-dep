@@ -1,4 +1,5 @@
-<h2 mat-dialog-title>Add Emergency Contact</h2>
+<h2 mat-dialog-title *ngIf="!isEditMode">Add Emergency Contact to {{data.employeeName}}</h2>
+<h2 mat-dialog-title *ngIf="isEditMode">Update Emergency Contact of {{data.employeeName}}</h2>
 
 <mat-dialog-content @fadeInUp class="pt-4 border-b">
   <form #emergencyContactForm="ngForm">

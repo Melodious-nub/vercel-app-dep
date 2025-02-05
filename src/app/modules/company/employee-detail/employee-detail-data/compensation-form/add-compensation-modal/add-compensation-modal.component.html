@@ -1,4 +1,5 @@
-<h2 mat-dialog-title>Add compensation</h2>
+<h2 mat-dialog-title *ngIf="!isEditMode">Add compensation to {{data.employeeName}}</h2>
+<h2 mat-dialog-title *ngIf="isEditMode">Update compensation of {{data.employeeName}}</h2>
 
 <mat-dialog-content @fadeInUp class="pt-4 border-b">
   <form #compensationForm="ngForm">

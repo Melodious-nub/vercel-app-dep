@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { stagger60ms } from '@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
@@ -24,6 +24,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AssetsFormComponent implements OnInit {
   employeeId: any;
+  @Input({ required: true }) selectedEmployeeName: string = '';
 
   constructor(private dialog: MatDialog, private api: DataService, private route: ActivatedRoute, private snackbar: MatSnackBar) { }
 
@@ -38,7 +39,7 @@ export class AssetsFormComponent implements OnInit {
     const dialogRef = this.dialog.open(AddAssetModalComponent, {
       width: '600px',
       disableClose: true,
-      data: { employeeId: this.employeeId } // Pass the data here
+      data: { employeeId: this.employeeId, employeeName: this.selectedEmployeeName } // Pass the data here
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -54,7 +55,7 @@ export class AssetsFormComponent implements OnInit {
     const dialogRef = this.dialog.open(ReturnAssetModalComponent, {
       width: '600px',
       disableClose: true,
-      data: { assetName: asset.name, assetId: asset.id }
+      data: { assetName: asset.name, assetId: asset.id, employeeName: this.selectedEmployeeName }
     });
 
     dialogRef.afterClosed().subscribe(result => {

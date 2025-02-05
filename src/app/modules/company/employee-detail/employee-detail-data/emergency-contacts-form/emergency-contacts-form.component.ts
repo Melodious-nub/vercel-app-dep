@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { stagger60ms } from '@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
@@ -21,6 +21,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./emergency-contacts-form.component.scss']
 })
 export class EmergencyContactsFormComponent implements OnInit {
+  @Input({ required: true }) selectedEmployeeName: string = '';
 
   constructor(private dialog: MatDialog, private api: DataService, private destroyRef: DestroyRef, private snackbar: MatSnackBar) { }
 
@@ -32,6 +33,7 @@ export class EmergencyContactsFormComponent implements OnInit {
     const dialogRef = this.dialog.open(AddEmergencyConatctModalComponent, {
       width: '600px',
       disableClose: true,
+      data: { employeeName: this.selectedEmployeeName }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -61,7 +63,7 @@ export class EmergencyContactsFormComponent implements OnInit {
   editEmergencyContact(contact: any): void {
     const dialogRef = this.dialog.open(AddEmergencyConatctModalComponent, {
       width: '600px', // Adjust the width as needed
-      data: { ...contact }
+      data: { ...contact, employeeName: this.selectedEmployeeName }
     });
 
     dialogRef.afterClosed().subscribe(result => {

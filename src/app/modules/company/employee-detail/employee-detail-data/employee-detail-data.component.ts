@@ -70,6 +70,7 @@ import { MatInputModule } from '@angular/material/input';
   styleUrls: ['./employee-detail-data.component.scss']
 })
 export class EmployeeDetailDataComponent implements OnInit, OnChanges, AfterViewInit {
+  @Input({ required: true }) selectedEmployeeName: string = '';
   onFileSelected($event: Event) {
     throw new Error('Method not implemented.');
   }
@@ -90,7 +91,9 @@ export class EmployeeDetailDataComponent implements OnInit, OnChanges, AfterView
 
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    // console.log(this.selectedEmployeeName);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     // if (changes['columns']) {

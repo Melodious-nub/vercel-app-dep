@@ -25,7 +25,7 @@ export class AddAssetModalComponent implements OnInit {
   assetategory: any[] = [];
   assetAllocateForm: any = {};
 
-  constructor(public dialogRef: MatDialogRef<AddAssetModalComponent>, private api: DataService, @Inject(MAT_DIALOG_DATA) public data: { employeeId: any }, private snackbar: MatSnackBar) { }
+  constructor(public dialogRef: MatDialogRef<AddAssetModalComponent>, private api: DataService, @Inject(MAT_DIALOG_DATA) public data: { employeeId: any, employeeName: string }, private snackbar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.fetchAssetCategory();

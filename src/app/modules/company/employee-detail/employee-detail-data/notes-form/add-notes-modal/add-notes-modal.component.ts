@@ -28,7 +28,7 @@ export class AddNotesModalComponent {
   attachmentName: string | null = null;
   attachmentFile: File | null = null;
 
-  constructor(public dialogRef: MatDialogRef<AddNotesModalComponent>, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public parrentData: { employeeId: any }) { }
+  constructor(public dialogRef: MatDialogRef<AddNotesModalComponent>, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public parrentData: { employeeId: any, employeeName: string }) { }
 
   onCancel(): void {
     this.dialogRef.close();

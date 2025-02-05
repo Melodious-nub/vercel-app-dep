@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { stagger60ms } from '@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
@@ -28,6 +28,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class CompensationFormComponent implements OnInit {
   employeeId!: string;
   employeeDetails!: any; // Define the type for employee details
+  @Input({ required: true }) selectedEmployeeName: string = '';
 
   // for table
   dataSource: any[] = [];
@@ -91,7 +92,7 @@ export class CompensationFormComponent implements OnInit {
     const dialogRef = this.dialog.open(AddCompensationModalComponent, {
       width: '600px',
       disableClose: true,
-      data: { employeeId: this.employeeId }
+      data: { employeeId: this.employeeId, employeeName: this.selectedEmployeeName }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -129,7 +130,7 @@ export class CompensationFormComponent implements OnInit {
     const dialogRef = this.dialog.open(AddCompensationModalComponent, {
       width: '600px',
       disableClose: true,
-      data: { ...data, employeeId: this.employeeId }
+      data: { ...data, employeeId: this.employeeId, employeeName: this.selectedEmployeeName }
     });
 
     dialogRef.afterClosed().subscribe(result => {

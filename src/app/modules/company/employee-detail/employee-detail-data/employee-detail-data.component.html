@@ -7,27 +7,27 @@
 </div>
 
 <div *ngIf="selectedForm === 'notes'">
-  <vex-notes-form></vex-notes-form>
+  <vex-notes-form [selectedEmployeeName]="selectedEmployeeName"></vex-notes-form>
 </div>
 
 <div *ngIf="selectedForm === 'documents'">
-  <vex-documents-form></vex-documents-form>
+  <vex-documents-form [selectedEmployeeName]="selectedEmployeeName"></vex-documents-form>
 </div>
 
 <div *ngIf="selectedForm === 'assets'">
-  <vex-assets-form></vex-assets-form>
+  <vex-assets-form [selectedEmployeeName]="selectedEmployeeName"></vex-assets-form>
 </div>
 
 <div *ngIf="selectedForm === 'training'">
-  <vex-training-form></vex-training-form>
+  <vex-training-form [selectedEmployeeName]="selectedEmployeeName"></vex-training-form>
 </div>
 
 <div *ngIf="selectedForm === 'emergencyContacts'">
-  <vex-emergency-contacts-form></vex-emergency-contacts-form>
+  <vex-emergency-contacts-form [selectedEmployeeName]="selectedEmployeeName"></vex-emergency-contacts-form>
 </div>
 
 <div *ngIf="selectedForm === 'tasks'">
-  <vex-tasks-form></vex-tasks-form>
+  <vex-tasks-form [selectedEmployeeName]="selectedEmployeeName"></vex-tasks-form>
 </div>
 
 <div *ngIf="selectedForm === 'onboarding'">
@@ -43,5 +43,5 @@
 </div>
 
 <div *ngIf="selectedForm === 'compensation'">
-  <vex-compensation-form></vex-compensation-form>
+  <vex-compensation-form [selectedEmployeeName]="selectedEmployeeName"></vex-compensation-form>
 </div>

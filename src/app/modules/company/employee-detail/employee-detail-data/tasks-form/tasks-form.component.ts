@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MATERIAL_IMPORTS } from 'src/app/material-imports';
 import { stagger60ms } from '@vex/animations/stagger.animation';
@@ -31,6 +31,7 @@ interface Task {
   styleUrls: ['./tasks-form.component.scss']
 })
 export class TasksFormComponent implements OnInit {
+  @Input({ required: true }) selectedEmployeeName: string = '';
   // Columns displayed in the table
   displayedColumns: string[] = ['title', 'createdby', 'description', 'attachment', 'deadline', 'actions'];
 

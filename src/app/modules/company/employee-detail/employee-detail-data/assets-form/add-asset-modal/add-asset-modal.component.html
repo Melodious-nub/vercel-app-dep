@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Add new asset to employee</h2>
+<h2 mat-dialog-title>Add new asset to {{data.employeeName}}</h2>
 
 <mat-dialog-content @fadeInUp class="pt-4 border-b">
   <form>
@@ -6,7 +6,8 @@
       <!-- Asset Name -->
       <mat-form-field appearance="outline" class="w-full mb-2">
         <mat-label>Asset Name</mat-label>
-        <input matInput type="text" name="assetName" placeholder="Enter asset name" [(ngModel)]="assetAllocateForm.assetName">
+        <input matInput type="text" name="assetName" placeholder="Enter asset name"
+          [(ngModel)]="assetAllocateForm.assetName">
       </mat-form-field>
 
       <!-- Category -->
@@ -21,21 +22,25 @@
     <!-- Description -->
     <mat-form-field appearance="outline" class="w-full mb-2">
       <mat-label>Description</mat-label>
-      <textarea matInput name="remarks" rows="2" placeholder="Type description here" [(ngModel)]="assetAllocateForm.remarks"></textarea>
+      <textarea matInput name="remarks" rows="2" placeholder="Type description here"
+        [(ngModel)]="assetAllocateForm.remarks"></textarea>
     </mat-form-field>
 
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
       <!-- Asset Number -->
       <mat-form-field appearance="outline" class="w-full mb-2">
         <mat-label>Asset Number</mat-label>
-        <input matInput type="text" name="serialNumber" placeholder="Enter asset number" [(ngModel)]="assetAllocateForm.serialNumber">
-        <mat-icon matSuffix svgIcon="mat:help_outline" matTooltip="This is usually a unique number which is used internally to reference this asset"></mat-icon>
+        <input matInput type="text" name="serialNumber" placeholder="Enter asset number"
+          [(ngModel)]="assetAllocateForm.serialNumber">
+        <mat-icon matSuffix svgIcon="mat:help_outline"
+          matTooltip="This is usually a unique number which is used internally to reference this asset"></mat-icon>
       </mat-form-field>
 
       <!-- Date -->
       <mat-form-field appearance="outline" class="w-full mb-2">
         <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="picker" placeholder="Select a date" name="allocationDate" [(ngModel)]="assetAllocateForm.allocationDate">
+        <input matInput [matDatepicker]="picker" placeholder="Select a date" name="allocationDate"
+          [(ngModel)]="assetAllocateForm.allocationDate">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
