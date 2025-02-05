@@ -21,7 +21,8 @@
     <!-- Department -->
     <mat-form-field appearance="outline" class="col-lg-6">
       <mat-label style="color: black;">Department</mat-label>
-      <mat-select name="departmentid" [(ngModel)]="employeeDetails.departmentid" [disabled]="true" style="color:black;">
+      <mat-select name="departmentid" [(ngModel)]="employeeDetails.departmentid"
+        (selectionChange)="onDepartmentChange()">
         <mat-option *ngFor="let dept of allDepartments" [value]="dept.id">{{ dept.name }}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -29,11 +30,13 @@
     <!-- Designation -->
     <mat-form-field appearance="outline" class="col-lg-6">
       <mat-label>Designation</mat-label>
-      <mat-select name="designationid" [(ngModel)]="employeeDetails.designationid">
+      <mat-select name="designationid" [(ngModel)]="employeeDetails.designationid"
+        (selectionChange)="fetchDesignationByDept(employeeDetails.departmentid)">
         <mat-option *ngFor="let degi of designationByDept" [value]="degi.id">{{ degi.name }}</mat-option>
       </mat-select>
     </mat-form-field>
 
+    <!-- position -->
     <div class="col-lg-6">
       <mat-form-field appearance="outline" style="width: 100%;">
         <mat-label>Position</mat-label>
@@ -90,6 +93,26 @@
           placeholder="Choose a date" name="startDate">
         <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
         <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <!-- probation end date -->
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Employee Probation End Date</mat-label>
+        <input matInput [matDatepicker]="probationEndDate" [(ngModel)]="employeeDetails.probationEndDate"
+          placeholder="Choose a date" name="probationEndDate">
+        <mat-datepicker-toggle matSuffix [for]="probationEndDate"></mat-datepicker-toggle>
+        <mat-datepicker #probationEndDate></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <!-- Bank account number input -->
+    <div class="col-lg-6">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Bank Account Number</mat-label>
+        <input type="text" matInput name="bankAccountNumber" [(ngModel)]="employeeDetails.bankAccountNumber"
+          placeholder="Type bank account number">
       </mat-form-field>
     </div>
 

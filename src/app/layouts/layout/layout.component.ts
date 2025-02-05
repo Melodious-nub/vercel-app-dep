@@ -4,15 +4,10 @@ import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RouterOutlet } from '@angular/router';
 import { VexConfigService } from '@vex/config/vex-config.service';
-import { VexSidebarComponent } from '@vex/components/vex-sidebar/vex-sidebar.component';
 
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { SidenavComponent } from '../components/sidenav/sidenav.component';
 import { ToolbarComponent } from '../components/toolbar/toolbar.component';
-import { FooterComponent } from '../components/footer/footer.component';
-import { QuickpanelComponent } from '../components/quickpanel/quickpanel.component';
-import { ConfigPanelToggleComponent } from '../components/config-panel/config-panel-toggle/config-panel-toggle.component';
-import { ConfigPanelComponent } from '../components/config-panel/config-panel.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BaseLayoutComponent } from '../base-layout/base-layout.component';
 import { MatDrawerMode, MatSidenavModule } from '@angular/material/sidenav';
@@ -30,14 +25,14 @@ import { VexConfig } from '@vex/config/vex-config.interface';
     AsyncPipe,
     SidenavComponent,
     ToolbarComponent,
-    FooterComponent,
-    QuickpanelComponent,
-    ConfigPanelToggleComponent,
-    VexSidebarComponent,
-    ConfigPanelComponent,
+    // FooterComponent,
+    // QuickpanelComponent,
+    // ConfigPanelToggleComponent,
+    // VexSidebarComponent,
+    // ConfigPanelComponent,
     MatDialogModule,
     MatSidenavModule,
-    NgTemplateOutlet,
+    // NgTemplateOutlet,
     RouterOutlet,
     SearchComponent,
     VexProgressBarComponent
@@ -65,7 +60,7 @@ export class LayoutComponent {
   constructor(
     private readonly layoutService: VexLayoutService,
     private readonly configService: VexConfigService
-  ) {}
+  ) { }
 
   onSidenavClosed(): void {
     this.layoutService.closeSidenav();

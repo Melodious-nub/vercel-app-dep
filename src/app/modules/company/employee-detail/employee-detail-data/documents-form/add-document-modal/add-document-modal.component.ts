@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, DestroyRef, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { stagger60ms } from '@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
@@ -7,6 +7,7 @@ import { MATERIAL_IMPORTS } from 'src/app/material-imports';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataService } from 'src/app/services/data.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'vex-add-document-modal',
@@ -19,7 +20,7 @@ import { DataService } from 'src/app/services/data.service';
   templateUrl: './add-document-modal.component.html',
   styleUrls: ['./add-document-modal.component.scss']
 })
-export class AddDocumentModalComponent {
+export class AddDocumentModalComponent implements OnInit {
   // variables
   attachmentName: string | null = null;
   attachmentFile: File | null = null;
@@ -28,6 +29,9 @@ export class AddDocumentModalComponent {
   requireAccept = false;
   sendEmailNotification = true;
   description: string = '';
+  assignTo = 'specific';
+  selectedValue: string = '';
+  employees: any = [];
 
   categoryData = [
     { documentCategoryId: 1, name: 'General' },
@@ -35,10 +39,40 @@ export class AddDocumentModalComponent {
     { documentCategoryId: 3, name: 'On Boarding' },
   ]
 
-  constructor(public dialogRef: MatDialogRef<AddDocumentModalComponent>, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: { employeeId: any, employeeName: string }) { }
+  constructor(public dialogRef: MatDialogRef<AddDocumentModalComponent>, private destroyRef: DestroyRef, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: { employeeId: any, employeeName: string, isGlobalDoc: boolean }) { }
+
+  ngOnInit(): void {
+    this.fetchAlEmployee();
+  }
 
   onCancel(): void {
     this.dialogRef.close();
+  }
+
+  selectedValueMultiple = new FormControl('');
+  assignedValue: string = ''; // This will hold the final string value
+  updateAssignedValue() {
+    if (this.assignTo === 'specific') {
+      this.assignedValue = JSON.stringify(this.selectedValue) || ''; // Single ID
+    } else if (this.assignTo === 'multiple') {
+      const multipleIds: any = this.selectedValueMultiple.value || [];
+      this.assignedValue = multipleIds.join(','); // Comma-separated string of IDs
+    }
+  }
+
+  fetchAlEmployee() {
+    const subscription = this.api.getAllEmployeeList().subscribe({
+      next: (res) => {
+        this.employees = res;
+        // console.log(this.employees);
+      },
+      // complete: () => console.log('Completed call'),
+      error: (err) => console.log(err)
+    })
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    })
   }
 
   onFileSelected(event: Event): void {

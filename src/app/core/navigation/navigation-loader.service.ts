@@ -61,6 +61,13 @@ export class NavigationLoaderService {
         icon: 'mat:groups',
         routerLinkActiveOptions: { exact: true }
       },
+      {
+        type: 'link',
+        label: 'Document',
+        route: '/dashboard/document',
+        icon: 'mat:folder_open',
+        routerLinkActiveOptions: { exact: true }
+      },
       // {
       //   type: 'dropdown',
       //   label: 'Employee',

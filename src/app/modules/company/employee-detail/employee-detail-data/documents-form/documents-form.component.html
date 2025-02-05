@@ -1,8 +1,9 @@
-<div class="p-6">
+<div class="p-6" [ngClass]="{ 'p-6': !isGlobalDoc, 'p-0': isGlobalDoc }">
     <form @fadeInRight class="container px-3">
         <!-- heading only -->
         <div @stagger class="mb-4">
             <h2 class="mb-1 text-lg font-bold">Documents</h2>
+            <ng-content *ngIf="isGlobalDoc"></ng-content>
         </div>
 
         <!-- note add button -->

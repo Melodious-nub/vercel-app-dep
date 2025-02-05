@@ -12,7 +12,7 @@ export const appRoutes: VexRoutes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'welcome-page', component: ComingSoonComponent },
+  { path: 'welcome-page', loadComponent: () => import('./pages/pages/coming-soon/coming-soon.component').then((m) => m.ComingSoonComponent) },
   {
     path: 'dashboard',
     component: LayoutComponent,

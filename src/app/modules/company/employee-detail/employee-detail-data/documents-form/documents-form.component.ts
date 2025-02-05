@@ -23,6 +23,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DocumentsFormComponent implements OnInit {
   employeeId: any;
+  @Input() isGlobalDoc: boolean = false;
   @Input({ required: true }) selectedEmployeeName: string = '';
 
   constructor(private dialog: MatDialog, private api: DataService, private snackbar: MatSnackBar, private route: ActivatedRoute) { }
@@ -38,7 +39,7 @@ export class DocumentsFormComponent implements OnInit {
     const dialogRef = this.dialog.open(AddDocumentModalComponent, {
       width: '600px',
       disableClose: true,
-      data: { employeeId: this.employeeId, employeeName: this.selectedEmployeeName }
+      data: { employeeId: this.employeeId, employeeName: this.selectedEmployeeName, isGlobalDoc: this.isGlobalDoc }
     });
 
     dialogRef.afterClosed().subscribe(result => {
