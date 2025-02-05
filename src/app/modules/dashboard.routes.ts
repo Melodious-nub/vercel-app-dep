@@ -1,19 +1,14 @@
 import { Routes } from "@angular/router";
-import { DashboardAnalyticsComponent } from "../pages/dashboards/dashboard-analytics/dashboard-analytics.component";
-import { MyProfileComponent } from "./my-profile/my-profile.component";
-import { CalendarComponent } from "../pages/apps/calendar/calendar.component";
-import { AccountSettingsComponent } from "./account-settings/account-settings.component";
 
 export const dashboardRoutes: Routes = [
-    { path: 'analytics', component: DashboardAnalyticsComponent },
-    { path: 'company', loadComponent: () => import('./company/company.component').then((m) => m.CompanyComponent) },
+    { path: 'analytics', loadComponent: () => import('../pages/dashboards/dashboard-analytics/dashboard-analytics.component').then(m => m.DashboardAnalyticsComponent) },
+    { path: 'company', loadComponent: () => import('./company/company.component').then(m => m.CompanyComponent) },
     {
         path: 'company/:id',
-        loadComponent: () => import('./company/employee-detail/employee-detail.component').then((m) => m.EmployeeDetailComponent),
-        // component: EmployeeDetailComponent
-    }, // Route with ID parameter
-    { path: 'calender', component: CalendarComponent },
-    { path: 'document', loadComponent: () => import('./documents/documents.component').then((m) => m.DocumentsComponent) },
-    { path: 'my-profile', component: MyProfileComponent },
-    { path: 'account-settings', component: AccountSettingsComponent },
-]
+        loadComponent: () => import('./company/employee-detail/employee-detail.component').then(m => m.EmployeeDetailComponent)
+    },
+    { path: 'calender', loadComponent: () => import('../pages/apps/calendar/calendar.component').then(m => m.CalendarComponent) },
+    { path: 'document', loadComponent: () => import('./documents/documents.component').then(m => m.DocumentsComponent) },
+    { path: 'my-profile', loadComponent: () => import('./my-profile/my-profile.component').then(m => m.MyProfileComponent) },
+    { path: 'account-settings', loadComponent: () => import('./account-settings/account-settings.component').then(m => m.AccountSettingsComponent) }
+];

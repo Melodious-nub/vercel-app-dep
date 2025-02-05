@@ -1,24 +1,18 @@
-import { LayoutComponent } from './layouts/layout/layout.component';
 import { VexRoutes } from '@vex/interfaces/vex-route.interface';
-import { LoginComponent } from './pages/pages/auth/login/login.component';
-import { RegisterComponent } from './pages/pages/auth/register/register.component';
 import { authGuard } from './services/auth/auth.guard';
-import { ForgotPasswordComponent } from './pages/pages/auth/forgot-password/forgot-password.component';
-import { Error404Component } from './pages/pages/errors/error-404/error-404.component';
-import { ComingSoonComponent } from './pages/pages/coming-soon/coming-soon.component';
 
 export const appRoutes: VexRoutes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'login', loadComponent: () => import('./pages/pages/auth/login/login.component').then((m) => m.LoginComponent) },
+  { path: 'register', loadComponent: () => import('./pages/pages/auth/register/register.component').then((m) => m.RegisterComponent) },
+  { path: 'forgot-password', loadComponent: () => import('./pages/pages/auth/forgot-password/forgot-password.component').then((m) => m.ForgotPasswordComponent) },
   { path: 'welcome-page', loadComponent: () => import('./pages/pages/coming-soon/coming-soon.component').then((m) => m.ComingSoonComponent) },
   {
     path: 'dashboard',
-    component: LayoutComponent,
+    loadComponent: () => import('./layouts/layout/layout.component').then((m) => m.LayoutComponent),
     canActivate: [authGuard],
     loadChildren: () => import('./modules/dashboard.routes').then((m) => m.dashboardRoutes),
     // children: dashboardRoutes
   },
-  { path: '**', component: Error404Component }
+  { path: '**', loadComponent: () => import('./pages/pages/errors/error-404/error-404.component').then((m) => m.Error404Component) }
 ];

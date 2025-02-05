@@ -7,7 +7,7 @@ import {
   provideHttpClient,
   withInterceptorsFromDi
 } from '@angular/common/http';
-import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withInMemoryScrolling, PreloadAllModules, withPreloading } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -29,57 +29,35 @@ export const appConfig: ApplicationConfig = {
     ),
     provideRouter(
       appRoutes,
-      // TODO: Add preloading withPreloading(),
+      withPreloading(PreloadAllModules), // ✅ Preloads lazy-loaded routes to improve navigation speed
       withInMemoryScrolling({
         anchorScrolling: 'enabled',
         scrollPositionRestoration: 'enabled'
       }),
       withComponentInputBinding(),
     ),
-    provideAnimations(),
+    provideAnimations(), // ✅ Enable animations only if necessary
     provideHttpClient(withInterceptorsFromDi()),
+
+    // ✅ Ensure Interceptors are correctly configured
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
 
     provideVex({
-      /**
-       * The config that will be used by default.
-       * This can be changed at runtime via the config panel or using the VexConfigService.
-       */
       config: vexConfigs.poseidon,
-      /**
-       * Only themes that are available in the config in tailwind.config.ts should be listed here.
-       * Any theme not listed here will not be available in the config panel.
-       */
       availableThemes: [
-        {
-          name: 'Default',
-          className: 'vex-theme-default'
-        },
-        {
-          name: 'Teal',
-          className: 'vex-theme-teal'
-        },
-        {
-          name: 'Green',
-          className: 'vex-theme-green'
-        },
-        {
-          name: 'Purple',
-          className: 'vex-theme-purple'
-        },
-        {
-          name: 'Red',
-          className: 'vex-theme-red'
-        },
-        {
-          name: 'Orange',
-          className: 'vex-theme-orange'
-        }
+        { name: 'Default', className: 'vex-theme-default' },
+        { name: 'Teal', className: 'vex-theme-teal' },
+        { name: 'Green', className: 'vex-theme-green' },
+        { name: 'Purple', className: 'vex-theme-purple' },
+        { name: 'Red', className: 'vex-theme-red' },
+        { name: 'Orange', className: 'vex-theme-orange' }
       ]
     }),
+
     provideNavigation(),
     provideIcons(),
     provideLuxon(),
+
     provideQuillConfig({
       modules: {
         toolbar: [
