@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -86,7 +86,8 @@ export class EmployeeFormComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     private api: DataService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private destroyRef: DestroyRef
   ) { }
 
   ngOnInit(): void {
@@ -98,7 +99,7 @@ export class EmployeeFormComponent implements OnInit {
 
   // Fetch all departments
   fetchDepartment() {
-    this.api.getAllDepartments().subscribe({
+    const subscription = this.api.getAllDepartments().subscribe({
       next: (res) => {
         this.allDepartments = res;
         this.onDepartmentChange();
@@ -107,6 +108,10 @@ export class EmployeeFormComponent implements OnInit {
         this.snackbar.open('Failed to load departments. Please try again.', 'Close', { duration: 3000 });
       }
     });
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    })
   }
 
   // Handle department selection
@@ -166,18 +171,27 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   fetchEmployeeDetails() {
-    this.api.getEmployeeDetails(this.employeeId).subscribe(res => {
+    const subscription = this.api.getEmployeeDetails(this.employeeId).subscribe(res => {
       this.employeeDetails = res;
+      // console.log(res);
+    })
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
     })
   }
 
   fetchEmployeeImage() {
-    this.api.getEmployeeImage(this.employeeId).subscribe(res => {
+    const subscription = this.api.getEmployeeImage(this.employeeId).subscribe(res => {
       if (res && res.image) {
         // Prefix the base64 string with the appropriate data URL
         this.imageSrc = 'data:image/jpeg;base64,' + res.image;
         // console.log(res);
       }
+    })
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
     })
   }
 
@@ -216,6 +230,10 @@ export class EmployeeFormComponent implements OnInit {
     this.router.navigate(['dashboard/company']);
   }
 
+  private formatDate(date: any): string {
+    return date ? new Date(date).toLocaleDateString('en-CA') : ''; // Format as 'YYYY-MM-DD'
+  }
+
   isLoading: boolean = false;
   submit() {
     this.isLoading = true;
@@ -235,6 +253,8 @@ export class EmployeeFormComponent implements OnInit {
       linkedInUrl: this.employeeDetails.linkedinurl,
       skypeUrl: this.employeeDetails.skypeurl,
       drivingLicence: this.employeeDetails.drivinglicense,
+      bankAccountNumber: this.employeeDetails.bankAccountNumber,
+      probationEndDate: this.formatDate(this.employeeDetails.probationEndDate)
       // eId: JSON.parse(this.employeeId)
     };
     // console.log(reqestBody, 'request body');
@@ -258,8 +278,10 @@ export class EmployeeFormComponent implements OnInit {
     formData.append('skypeUrl', reqestBody.skypeUrl);
     formData.append('drivingLicence', reqestBody.drivingLicence);
     formData.append('eId', JSON.parse(this.employeeId));
+    formData.append('bankAccountNumber', reqestBody.bankAccountNumber);
+    formData.append('probationEndDate', reqestBody.probationEndDate);
 
-    this.api.updateEmployeeDetails(formData).subscribe({
+    const subscription = this.api.updateEmployeeDetails(formData).subscribe({
       next: (res) => {
         // console.log('success', res);
         this.isLoading = false;
@@ -279,7 +301,12 @@ export class EmployeeFormComponent implements OnInit {
           verticalPosition: 'bottom'
         });
         // console.log(error, 'error');
-      }
+      },
+      // complete: () => this.fetchEmployeeDetails()
     });
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    })
   }
 }

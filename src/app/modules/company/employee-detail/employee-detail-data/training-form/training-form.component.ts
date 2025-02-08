@@ -26,6 +26,7 @@ export class TrainingFormComponent implements OnInit {
   employeeId: any;
   dataSource: any[] = []; // Ensure dataSource is an array
   @Input({ required: true }) selectedEmployeeName: string = '';
+  @Input() isGlobalTraining: boolean = false;
 
   constructor(private dialog: MatDialog, private destroyRef: DestroyRef, private api: DataService, private snackbar: MatSnackBar, private route: ActivatedRoute) { }
 
@@ -40,8 +41,8 @@ export class TrainingFormComponent implements OnInit {
     const subscription = this.api.getAllTraining().pipe(
       map(res => {
         const data: any[] = res.content;
-        // console.log(data);
-        return data.filter(res => Number(this.employeeId) === res.employeeid)
+        console.log(data);
+        return this.isGlobalTraining ? data : data.filter(res => res.employeeIds?.some((id: any) => id === Number(this.employeeId)));
       })
     ).subscribe({
       next: (res) => this.dataSource = res,
@@ -57,7 +58,7 @@ export class TrainingFormComponent implements OnInit {
     const dialogRef = this.dialog.open(AddNewTrainingModalComponent, {
       width: '600px',
       disableClose: true,
-      data: { employeeName: this.selectedEmployeeName, employeeId: this.employeeId }
+      data: { employeeName: this.selectedEmployeeName, employeeId: this.employeeId, isGlobalTraining: this.isGlobalTraining }
     });
 
     dialogRef.afterClosed().subscribe(result => {

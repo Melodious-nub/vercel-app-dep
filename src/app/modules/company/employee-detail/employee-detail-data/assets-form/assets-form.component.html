@@ -56,7 +56,8 @@
                     <ng-container matColumnDef="actions">
                         <th mat-header-cell *matHeaderCellDef> Actions </th>
                         <td mat-cell *matCellDef="let row">
-                            <button mat-stroked-button type="button" (click)="returnAssetModal(row)">
+                            <button mat-stroked-button type="button" (click)="returnAssetModal(row)"
+                                [disabled]="row.status === 'RETURNED'">
                                 <mat-icon class="ltr:mr-2 rtl:ml-2 ltr:-ml-1 rtl:-mr-1 icon-sm"
                                     svgIcon="mat:keyboard_return"></mat-icon>
                                 <span>return</span>

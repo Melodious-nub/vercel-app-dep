@@ -29,6 +29,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { QuillEditorComponent } from 'ngx-quill';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 // Export the material modules as an array
 export const MATERIAL_IMPORTS = [
@@ -65,5 +66,6 @@ export const MATERIAL_IMPORTS = [
     MatTabsModule,
     QuillEditorComponent,
     MatBadgeModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
 ];

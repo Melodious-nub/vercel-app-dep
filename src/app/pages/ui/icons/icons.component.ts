@@ -51,7 +51,7 @@ export class IconsComponent implements OnInit {
 
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   ngOnInit() {
     this.searchCtrl.valueChanges

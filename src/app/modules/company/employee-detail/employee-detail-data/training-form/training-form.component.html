@@ -1,4 +1,4 @@
-<div class="p-6">
+<div class="p-6" [ngClass]="{ 'p-6': !isGlobalTraining, 'p-0': isGlobalTraining }">
     <form @fadeInRight class="container px-3">
         <!-- heading & subheading -->
         <div @stagger class="mb-4">

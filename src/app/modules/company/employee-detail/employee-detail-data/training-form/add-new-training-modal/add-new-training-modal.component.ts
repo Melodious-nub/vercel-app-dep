@@ -61,7 +61,7 @@ export class AddNewTrainingModalComponent implements OnInit {
     }
   }
 
-  constructor(public dialogRef: MatDialogRef<AddNewTrainingModalComponent>, private destroyRef: DestroyRef, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public parrentData: { employeeName: string, employeeId: string }) { }
+  constructor(public dialogRef: MatDialogRef<AddNewTrainingModalComponent>, private destroyRef: DestroyRef, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public parrentData: { employeeName: string, employeeId: string, isGlobalTraining: boolean }) { }
 
   ngOnInit(): void {
     this.fetchAlEmployee();

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
 import { scaleIn400ms } from '@vex/animations/scale-in.animation';
 import { fadeInRight400ms } from '@vex/animations/fade-in-right.animation';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,6 +20,11 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeCardComponent } from "./employee-card/employee-card.component";
 import { CreateEmployeeComponent } from './create-employee/create-employee.component';
 import { DataService } from 'src/app/services/data.service';
+import { debounceTime, takeUntil } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatInputModule } from '@angular/material/input';
+import { MATERIAL_IMPORTS } from 'src/app/material-imports';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -35,48 +40,77 @@ import { DataService } from 'src/app/services/data.service';
   ],
   standalone: true,
   imports: [
-    MatIconModule,
-    MatTabsModule,
     NgFor,
-    MatButtonModule,
-    MatTooltipModule,
     NgIf,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatCheckboxModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-    EmployeeCardComponent
+    EmployeeCardComponent,
+    MATERIAL_IMPORTS
   ]
 })
 export class CompanyComponent implements OnInit {
-  employeesList: any = [];
-
-  // links: Link[] = [
-  //   {
-  //     label: 'All Contacts',
-  //     route: '../all'
-  //   },
-  //   {
-  //     label: 'Frequently Contacted',
-  //     route: '../frequent'
-  //   },
-  //   {
-  //     label: 'Starred',
-  //     route: '../starred'
-  //   }
-  // ];
+  employeesList: any[] = [];
+  allDepartments: any[] = [];
+  designationByDept: any[] = [];
+  searchCtrl = new FormControl('');
+  filteredEmployees: any[] = [];
+  departmentId = new FormControl('');
 
   trackById = trackById;
 
   constructor(
     private dialog: MatDialog,
     private api: DataService,
+    private destroyRef: DestroyRef,
+    private snackbar: MatSnackBar
   ) { }
 
   ngOnInit() {
     this.fetchAllEmployee();
+    this.fetchDepartment();
+
+    this.searchCtrl.valueChanges.pipe(
+      debounceTime(300),
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe((res) => {
+      if (!res) {
+        this.filteredEmployees = [...this.employeesList]; // Reset when empty
+      } else {
+        this.filteredEmployees = this.employeesList.filter((data) =>
+          data.name.toLowerCase().includes(res.toLowerCase())
+        );
+      }
+    });
+  }
+
+  // Fetch all departments
+  fetchDepartment() {
+    const subscription = this.api.getAllDepartments().subscribe({
+      next: (res) => {
+        this.allDepartments = res;
+        // this.onDepartmentChange();
+      },
+      error: () => {
+        this.snackbar.open('Failed to load departments. Please try again.', 'Close', { duration: 3000 });
+      }
+    });
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    })
+  }
+
+  // Fetch designations by department
+  fetchDesignationByDept(departmentId: number) {
+    this.api.getDesignationByDepartment(departmentId).subscribe({
+      next: (res) => {
+        this.designationByDept = res;
+      },
+      error: () => {
+        this.snackbar.open('Failed to load designations. Please try again.', 'Close', { duration: 3000 });
+      }
+    });
   }
 
   // @ViewChild('openDialogButton') openDialogButton!: ElementRef
@@ -110,17 +144,44 @@ export class CompanyComponent implements OnInit {
   fetchAllEmployee() {
     this.api.getAllEmployee().subscribe({
       next: (response) => {
-        // Add cache-busting query parameter to the image URL
-        this.employeesList = response.content.map((employee: any) => {
-          return {
-            ...employee,
-            image: `${employee.image}&timestamp=${new Date().getTime()}` // Add timestamp
-          };
-        });
+        this.employeesList = response.content.map((employee: any) => ({
+          ...employee,
+          image: `${employee.image}&timestamp=${new Date().getTime()}`
+        }));
+        this.filteredEmployees = [...this.employeesList]; // Initialize with all employees
       },
       error: (error) => {
         console.log(error, 'error log');
       }
     });
+  }
+
+  onDepartmentChange(department: { id: number; name: string }) {
+    if (!department) {
+      this.filteredEmployees = [...this.employeesList]; // Reset employee list
+      this.designationByDept = []; // Clear designations
+      return;
+    }
+
+    // console.log('Selected Department:', department);
+
+    // 🔹 Filter employees by department name (same as before)
+    this.filteredEmployees = this.employeesList.filter((data) => data.department === department.name);
+
+    // 🔹 Fetch designations by department ID
+    this.fetchDesignationByDept(department.id);
+  }
+
+  onDesignationChange(designation: string) {
+    if (!designation) {
+      this.filteredEmployees = [...this.employeesList]; // Reset employee list
+      this.designationByDept = []; // Clear designations
+      return;
+    }
+
+    // console.log('Selected Department:', department);
+
+    // 🔹 Filter employees by department name (same as before)
+    this.filteredEmployees = this.employeesList.filter((data) => data.designation === designation);
   }
 }
