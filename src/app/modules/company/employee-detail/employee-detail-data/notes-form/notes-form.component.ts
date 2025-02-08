@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { stagger60ms } from '@vex/animations/stagger.animation';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
@@ -11,6 +11,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface DataRow {
   date: Date;
@@ -37,7 +38,7 @@ export class NotesFormComponent implements OnInit {
   // selection = new SelectionModel<DataRow>(true, []);
   employeeId: any;
 
-  constructor(private dialog: MatDialog, private route: ActivatedRoute, private api: DataService, private snackbar: MatSnackBar) { }
+  constructor(private dialog: MatDialog, private route: ActivatedRoute, private api: DataService, private snackbar: MatSnackBar, private destroyRef: DestroyRef) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -75,12 +76,10 @@ export class NotesFormComponent implements OnInit {
     console.log('Update Customer:', row);
   }
 
-  deleteCustomer(row: DataRow) {
-    console.log('Delete Customer:', row);
-  }
-
   fetchAllNotes() {
-    this.api.getAllNotes(this.employeeId).subscribe({
+    this.api.getAllNotes(this.employeeId).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
       next: (res) => {
         this.dataSource = res.content;
         // console.log(res);
@@ -89,6 +88,26 @@ export class NotesFormComponent implements OnInit {
         this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
       }
     });
+  }
+
+  deleteNote(id: number) {
+    this.api.deleteNote(id).subscribe({
+      next: () => {
+        this.snackbar.open('Note deleted', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom'
+        });
+      },
+      error: () => {
+        this.snackbar.open('Server error. Please try again.', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom'
+        });
+      },
+      complete: () => this.fetchAllNotes()
+    })
   }
 
 }

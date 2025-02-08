@@ -8,6 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddEmergencyConatctModalComponent } from './add-emergency-conatct-modal/add-emergency-conatct-modal.component';
 import { DataService } from 'src/app/services/data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { map } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'vex-emergency-contacts-form',
@@ -22,11 +24,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class EmergencyContactsFormComponent implements OnInit {
   @Input({ required: true }) selectedEmployeeName: string = '';
+  employeeId: any;
 
-  constructor(private dialog: MatDialog, private api: DataService, private destroyRef: DestroyRef, private snackbar: MatSnackBar) { }
+  constructor(private dialog: MatDialog, private api: DataService, private destroyRef: DestroyRef, private snackbar: MatSnackBar, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.fetchEmergencyContact();
+    this.route.paramMap.subscribe((params) => {
+      this.employeeId = params.get('id')!;
+      this.fetchEmergencyContact();
+    });
   }
 
   openEmergencyContactModal() {
@@ -48,8 +54,18 @@ export class EmergencyContactsFormComponent implements OnInit {
   // for table
   dataSource: any[] = [];
   fetchEmergencyContact() {
-    const subscription = this.api.getAllEmergencyContact().subscribe({
-      next: (res) => this.dataSource = res.content,
+    const subscription = this.api.getAllEmergencyContact().pipe(
+      map((res) => {
+        const data: any[] = res.content;
+        return data.filter(emp => {
+          this.employeeId === emp.employeeId;
+          // console.log(emp);
+        });
+      }),
+    ).subscribe({
+      next: (res) => {
+        this.dataSource = res;
+      },
       error: err => console.log(err)
     })
 

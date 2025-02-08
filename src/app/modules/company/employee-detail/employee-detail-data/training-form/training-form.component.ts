@@ -8,6 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddNewTrainingModalComponent } from './add-new-training-modal/add-new-training-modal.component';
 import { DataService } from 'src/app/services/data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'vex-training-form',
@@ -21,18 +23,28 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./training-form.component.scss']
 })
 export class TrainingFormComponent implements OnInit {
+  employeeId: any;
   dataSource: any[] = []; // Ensure dataSource is an array
   @Input({ required: true }) selectedEmployeeName: string = '';
 
-  constructor(private dialog: MatDialog, private destroyRef: DestroyRef, private api: DataService, private snackbar: MatSnackBar) { }
+  constructor(private dialog: MatDialog, private destroyRef: DestroyRef, private api: DataService, private snackbar: MatSnackBar, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.fetchTrainingData();
+    this.route.paramMap.subscribe((params) => {
+      this.employeeId = params.get('id')!;
+      this.fetchTrainingData();
+    });
   }
 
   fetchTrainingData(): void {
-    const subscription = this.api.getAllTraining().subscribe({
-      next: (res) => this.dataSource = res.content,
+    const subscription = this.api.getAllTraining().pipe(
+      map(res => {
+        const data: any[] = res.content;
+        // console.log(data);
+        return data.filter(res => Number(this.employeeId) === res.employeeid)
+      })
+    ).subscribe({
+      next: (res) => this.dataSource = res,
       error: err => console.log(err)
     })
 
@@ -45,7 +57,7 @@ export class TrainingFormComponent implements OnInit {
     const dialogRef = this.dialog.open(AddNewTrainingModalComponent, {
       width: '600px',
       disableClose: true,
-      data: { employeeName: this.selectedEmployeeName }
+      data: { employeeName: this.selectedEmployeeName, employeeId: this.employeeId }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -76,7 +88,7 @@ export class TrainingFormComponent implements OnInit {
           horizontalPosition: 'end',
           verticalPosition: 'bottom'
         });
-        console.log(err);
+        // console.log(err);
 
       },
       complete: () => {

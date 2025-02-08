@@ -35,7 +35,7 @@ export class AddTasksModalComponent {
   employees: any = [];
 
   selectedValueMultiple = new FormControl('');
-  assignedValue: string = ''; // This will hold the final string value
+  assignedValue: string = this.parrentData.employeeId; // This will hold the final string value
   updateAssignedValue() {
     if (this.assignTo === 'specific') {
       this.assignedValue = JSON.stringify(this.selectedValue) || ''; // Single ID
@@ -45,7 +45,7 @@ export class AddTasksModalComponent {
     }
   }
 
-  constructor(public dialogRef: MatDialogRef<AddTasksModalComponent>, private api: DataService, private destroyRef: DestroyRef, private snackbar: MatSnackBar) { }
+  constructor(public dialogRef: MatDialogRef<AddTasksModalComponent>, private api: DataService, private destroyRef: DestroyRef, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public parrentData: { employeeId: string }) { }
   ngOnInit(): void {
     this.fetchAlEmployee();
   }

@@ -10,6 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DataService } from 'src/app/services/data.service';
 import { map } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 
 interface Task {
   title: string;
@@ -31,20 +32,25 @@ interface Task {
   styleUrls: ['./tasks-form.component.scss']
 })
 export class TasksFormComponent implements OnInit {
+  employeeId: any;
   @Input({ required: true }) selectedEmployeeName: string = '';
   // Columns displayed in the table
   displayedColumns: string[] = ['title', 'createdby', 'description', 'attachment', 'deadline', 'actions'];
 
-  constructor(private dialog: MatDialog, private api: DataService, private destroyRef: DestroyRef, private snackbar: MatSnackBar) { }
+  constructor(private dialog: MatDialog, private api: DataService, private destroyRef: DestroyRef, private snackbar: MatSnackBar, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.fetchTasks();
+    this.route.paramMap.subscribe((params) => {
+      this.employeeId = params.get('id')!;
+      this.fetchTasks();
+    });
   }
 
   openTaskAddModal() {
     const dialogRef = this.dialog.open(AddTasksModalComponent, {
       width: '600px',
       disableClose: true,
+      data: { employeeId: this.employeeId }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -65,8 +71,12 @@ export class TasksFormComponent implements OnInit {
       map((res) => {
         // Map the response to separate tasks
         return {
-          inProgressTasks: res.content.filter((task: any) => task.status === 'PENDING'),
-          completedTasks: res.content.filter((task: any) => task.status === 'COMPLETED')
+          inProgressTasks: res.content.filter((task: any) =>
+            task.status === 'PENDING' && Number(this.employeeId) === task.employeeid
+          ),
+          completedTasks: res.content.filter((task: any) =>
+            task.status === 'COMPLETED' && Number(this.employeeId) === task.employeeid
+          )
         };
       })
     ).subscribe({

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MATERIAL_IMPORTS } from 'src/app/material-imports';
 import { stagger60ms } from '@vex/animations/stagger.animation';
@@ -9,6 +9,8 @@ import { AddDocumentModalComponent } from './add-document-modal/add-document-mod
 import { DataService } from 'src/app/services/data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'vex-documents-form',
@@ -25,8 +27,9 @@ export class DocumentsFormComponent implements OnInit {
   employeeId: any;
   @Input() isGlobalDoc: boolean = false;
   @Input({ required: true }) selectedEmployeeName: string = '';
+  companyEmail: string | null = localStorage.getItem('companyEmail');
 
-  constructor(private dialog: MatDialog, private api: DataService, private snackbar: MatSnackBar, private route: ActivatedRoute) { }
+  constructor(private dialog: MatDialog, private api: DataService, private snackbar: MatSnackBar, private route: ActivatedRoute, private destroyRef: DestroyRef) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -58,15 +61,48 @@ export class DocumentsFormComponent implements OnInit {
   // dataSource = this.ELEMENT_DATA;
 
   fetchAllDocuments() {
-    this.api.getAllDocuments().subscribe({
-      next: (res) => {
-        this.ELEMENT_DATA = res.content;
-        console.log(res.content);
+    this.api.getAllDocuments().pipe(
+      map((res) => {
+        const data: any[] = res.content; // Ensure correct type
+        return this.isGlobalDoc ? data.filter(emp => this.companyEmail === emp.createdby) : data.filter(emp => Number(this.employeeId) === emp.employeeid);
+      }),
+      takeUntilDestroyed(this.destroyRef) // Auto unsubscribe
+    ).subscribe({
+      next: (filteredData) => {
+        this.ELEMENT_DATA = filteredData;
+        // console.log(this.ELEMENT_DATA, 'for in employee');
       },
       error: () => {
-        this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
+        this.snackbar.open('Server error. Please try again.', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom'
+        });
       }
     });
+  }
+
+  deleteDoc(id: number) {
+    this.api.deleteDocument(id).pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe({
+      next: () => {
+        // console.log(val);
+        this.snackbar.open('Document deleted', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom'
+        });
+      },
+      error: () => {
+        this.snackbar.open('Server error. Please try again.', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom'
+        });
+      },
+      complete: () => this.fetchAllDocuments()
+    })
   }
 
 }

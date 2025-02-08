@@ -40,7 +40,7 @@ export class AddNewTrainingModalComponent implements OnInit {
   employees: any = [];
 
   // New fields for expiry date
-  hasExpiryDate: boolean = false; // Slide toggle for expiry date
+  hasExpiryDate: boolean = true; // Slide toggle for expiry date
   expiryOption: string = 'specificDate'; // Default option for expiry date
   expiryYears: number[] = [1, 2, 3, 4, 5, 6, 7]; // Expiry period options
   expiryDatePickerControl: FormControl = new FormControl(''); // Specific expiry date control
@@ -51,7 +51,7 @@ export class AddNewTrainingModalComponent implements OnInit {
   attachmentFile: File | null = null;
 
   selectedValueMultiple = new FormControl('');
-  assignedValue: string = ''; // This will hold the final string value
+  assignedValue: string = this.parrentData.employeeId; // This will hold the final string value
   updateAssignedValue() {
     if (this.assignTo === 'specific') {
       this.assignedValue = JSON.stringify(this.selectedValue) || ''; // Single ID
@@ -61,7 +61,7 @@ export class AddNewTrainingModalComponent implements OnInit {
     }
   }
 
-  constructor(public dialogRef: MatDialogRef<AddNewTrainingModalComponent>, private destroyRef: DestroyRef, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public parrentData: { employeeName: string }) { }
+  constructor(public dialogRef: MatDialogRef<AddNewTrainingModalComponent>, private destroyRef: DestroyRef, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public parrentData: { employeeName: string, employeeId: string }) { }
 
   ngOnInit(): void {
     this.fetchAlEmployee();

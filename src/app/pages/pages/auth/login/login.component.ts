@@ -76,6 +76,7 @@ export class LoginComponent {
       const subscription = this.authService.login(formData).subscribe({
         next: (response) => {
           if (response) {
+            localStorage.setItem('companyEmail', email);
             this.snackbar.open('Login successful!', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
             this.router.navigate(['dashboard/analytics']);
           } else {

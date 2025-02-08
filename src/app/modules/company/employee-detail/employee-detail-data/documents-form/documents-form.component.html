@@ -79,8 +79,8 @@
                             </button>
                             <mat-menu #actionsMenu="matMenu">
                                 <!-- <button mat-menu-item>Edit <mat-icon svgIcon="mat:edit"></mat-icon></button> -->
-                                <button type="button" mat-menu-item>Delete <mat-icon
-                                        svgIcon="mat:delete"></mat-icon></button>
+                                <button type="button" mat-menu-item (click)="deleteDoc(row.employeedocumentid)">Delete
+                                    <mat-icon svgIcon="mat:delete"></mat-icon></button>
                             </mat-menu>
                         </td>
                     </ng-container>

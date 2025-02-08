@@ -100,17 +100,21 @@ export class DataService {
     return this.http.get<any>(this.apiUrl + '/api/employee/note/all-by-employee?empId=' + empId);
   }
 
-  // document section
-  addDocument(data: any) {
-    return this.http.post<any>(this.apiUrl + '/api/employee/create-document', data);
+  deleteNote(noteId: any) {
+    return this.http.delete<any>(`${this.apiUrl}/api/employee/delete-employee-note?noteId=${noteId}`);
   }
 
+  // document section
   getAllDocuments() {
     return this.http.get<any>(this.apiUrl + '/api/employee/document/all-by-employee');
   }
 
   createDocuments(data: any) {
     return this.http.post<any>(this.apiUrl + '/api/employee/create-document', data);
+  }
+
+  deleteDocument(documentId: any) {
+    return this.http.delete<any>(`${this.apiUrl}/api/employee/delete-employee-document?documentId=${documentId}`);
   }
 
   // this is shared employee list for show employees dropdown
