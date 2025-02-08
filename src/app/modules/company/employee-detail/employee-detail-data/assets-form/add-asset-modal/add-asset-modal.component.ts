@@ -24,11 +24,36 @@ export class AddAssetModalComponent implements OnInit {
   sendEmailNotification = false;
   assetategory: any[] = [];
   assetAllocateForm: any = {};
+  attachmentName: string | null = null;
+  attachmentFile: File | null = null;
 
   constructor(public dialogRef: MatDialogRef<AddAssetModalComponent>, private api: DataService, @Inject(MAT_DIALOG_DATA) public data: { employeeId: any, employeeName: string }, private snackbar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.fetchAssetCategory();
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+
+      // Check file size (limit: 25 MB)
+      if (file.size > 25 * 1024 * 1024) {
+        alert('File size exceeds the limit of 25MB. Please select a smaller file.');
+        this.attachmentFile = null;
+        this.attachmentName = null;
+        return;
+      }
+
+      this.attachmentFile = file;
+      this.attachmentName = file.name;
+    }
+  }
+
+  removeAttachment(): void {
+    this.attachmentName = null;
+    this.attachmentFile = null;
   }
 
   fetchAssetCategory() {
@@ -43,15 +68,33 @@ export class AddAssetModalComponent implements OnInit {
     });
   }
 
+  private formatDate(date: any): string {
+    return date ? new Date(date).toLocaleDateString('en-CA') : ''; // Format as 'YYYY-MM-DD'
+  }
+
   onSave(): void {
     // assetName will add soon
     let body = {
-      employeeId: this.data.employeeId, assetId: this.assetAllocateForm.assetId, allocationDate: this.assetAllocateForm.allocationDate, conditionOnAllocation: 'BRAND_NEW', status: 'ALLOCATED', serialNumber: this.assetAllocateForm.serialNumber, remarks: this.assetAllocateForm.remarks, assetName: this.assetAllocateForm.assetName
+      employeeId: JSON.parse(this.data.employeeId), assetId: this.assetAllocateForm.assetId, allocationDate: this.formatDate(this.assetAllocateForm.allocationDate), conditionOnAllocation: 'BRAND_NEW', status: 'ALLOCATED', serialNumber: this.assetAllocateForm.serialNumber, remarks: this.assetAllocateForm.remarks, assetName: this.assetAllocateForm.assetName, file: this.attachmentFile
     }
 
-    // console.log(body);
+    const formData = new FormData();
 
-    this.api.allocateAsset(body).subscribe({
+    formData.append('employeeId', body.employeeId);
+    formData.append('assetId', body.assetId);
+    formData.append('allocationDate', body.allocationDate);
+    formData.append('conditionOnAllocation', body.conditionOnAllocation);
+    formData.append('status', body.status);
+    formData.append('serialNumber', body.serialNumber);
+    formData.append('remarks', body.remarks);
+    formData.append('assetName', body.assetName);
+    if (body.file) {
+      formData.append('file', body.file);
+    }
+
+    console.log(body);
+
+    this.api.allocateAsset(formData).subscribe({
       next: () => {
         this.snackbar.open('Asset allocated successfully', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
         this.dialogRef.close(true);
