@@ -48,9 +48,7 @@
 
     <!-- Add Attachment -->
     <div class="mb-3 flex items-center">
-      <input type="file" #fileInput
-        accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        style="display: none;" (change)="onFileSelected($event)">
+      <input type="file" #fileInput accept="image/*" style="display: none;" (change)="onFileSelected($event)">
 
       <button mat-raised-button color="primary" (click)="fileInput.click()" class="mr-3">
         <mat-icon svgIcon="mat:attach_file"></mat-icon>

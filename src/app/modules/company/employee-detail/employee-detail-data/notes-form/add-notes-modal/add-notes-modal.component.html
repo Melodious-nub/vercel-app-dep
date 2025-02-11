@@ -1,15 +1,15 @@
 <h2 mat-dialog-title>Add New Note to {{parrentData.employeeName}}</h2>
 
 <mat-dialog-content @fadeInUp class="pt-4 border-b">
-  <form>
+  <form [formGroup]="form">
     <!-- Note Textarea -->
     <mat-form-field appearance="outline" style="width: 100%;">
       <mat-label>Enter a note</mat-label>
-      <textarea matInput [(ngModel)]="data.note" name="note" rows="3" placeholder="Type your note here"></textarea>
+      <textarea matInput formControlName="note" rows="3" placeholder="Type your note here"></textarea>
     </mat-form-field>
 
     <!-- Checkbox for Visibility -->
-    <mat-checkbox [(ngModel)]="data.visibleToOthers" name="visibleToOthers" class="mb-2" color="primary">
+    <mat-checkbox formControlName="visibleToOthers" class="mb-2" color="primary">
       <span class="font-bold">This note should not be visible to other users</span>
     </mat-checkbox>
 
@@ -54,5 +54,9 @@
 
 <mat-dialog-actions align="end">
   <button mat-button type="button" (click)="onCancel()">Cancel</button>
-  <button mat-raised-button type="button" color="primary" (click)="addNewNote()">Save</button>
+  <button mat-raised-button type="button" color="primary" (click)="addNewNote()"
+    [disabled]="form.invalid || isLoading || !attachmentName">
+    <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+    <span *ngIf="!isLoading">Save</span>
+  </button>
 </mat-dialog-actions>

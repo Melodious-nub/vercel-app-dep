@@ -83,7 +83,7 @@ export class AssetsFormComponent implements OnInit {
   }
 
   // Columns displayed in the table
-  displayedColumns: string[] = ['name', 'category', 'description', 'assetNumber', 'status', 'actions'];
+  displayedColumns: string[] = ['name', 'category', 'description', 'assetNumber', 'assetImage', 'status', 'actions'];
   // dataSource = this.ELEMENT_DATA;
 
 }

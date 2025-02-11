@@ -7,6 +7,7 @@ import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
 import { fadeInRight400ms } from '@vex/animations/fade-in-right.animation';
 import { DataService } from 'src/app/services/data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'vex-add-notes-modal',
@@ -20,15 +21,24 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./add-notes-modal.component.scss']
 })
 export class AddNotesModalComponent {
-  data = {
-    note: '',
-    visibleToOthers: true,
-  };
+  form: FormGroup;
   showAlert = true;
   attachmentName: string | null = null;
   attachmentFile: File | null = null;
+  isLoading = false;
 
-  constructor(public dialogRef: MatDialogRef<AddNotesModalComponent>, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public parrentData: { employeeId: any, employeeName: string }) { }
+  constructor(
+    public dialogRef: MatDialogRef<AddNotesModalComponent>,
+    private api: DataService,
+    private snackbar: MatSnackBar,
+    private fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public parrentData: { employeeId: any, employeeName: string }
+  ) {
+    this.form = this.fb.group({
+      note: ['', Validators.required],
+      visibleToOthers: [true]
+    });
+  }
 
   onCancel(): void {
     this.dialogRef.close();
@@ -62,29 +72,32 @@ export class AddNotesModalComponent {
   }
 
   addNewNote() {
+    if (this.form.invalid || !this.attachmentFile) {
+      return;
+    }
+
+    this.isLoading = true;
     const formData = new FormData();
 
     if (this.attachmentFile) {
       formData.append('file', this.attachmentFile);
     }
-    formData.append('content', this.data.note);
+    formData.append('content', this.form.value.note);
     formData.append('employeeId', this.parrentData.employeeId);
-    formData.append('visibleToOthers', JSON.stringify(this.data.visibleToOthers));
-
-    console.log(this.attachmentFile, this.data.note, this.parrentData.employeeId, this.data.visibleToOthers);
-
+    formData.append('visibleToOthers', JSON.stringify(this.form.value.visibleToOthers));
 
     this.api.addNotes(formData).subscribe({
       next: (res) => {
-        console.log(res);
         this.snackbar.open('Note has been created', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
         this.dialogRef.close(true);
       },
       error: (error) => {
         this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });
         console.log(error);
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
   }
-
 }

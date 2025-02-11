@@ -32,6 +32,7 @@ export class AddDocumentModalComponent implements OnInit {
   assignTo = 'specific';
   selectedValue: string = '';
   employees: any = [];
+  isLoading = false;
 
   categoryData = [
     { documentCategoryId: 1, name: 'General' },
@@ -39,7 +40,10 @@ export class AddDocumentModalComponent implements OnInit {
     { documentCategoryId: 3, name: 'On Boarding' },
   ]
 
-  constructor(public dialogRef: MatDialogRef<AddDocumentModalComponent>, private destroyRef: DestroyRef, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: { employeeId: any, employeeName: string, isGlobalDoc: boolean }) { }
+  constructor(public dialogRef: MatDialogRef<AddDocumentModalComponent>, private destroyRef: DestroyRef, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: { employeeId: any, employeeName: string, isGlobalDoc: boolean }) {
+    console.log(data.employeeId);
+
+  }
 
   ngOnInit(): void {
     this.fetchAlEmployee();
@@ -98,10 +102,19 @@ export class AddDocumentModalComponent implements OnInit {
     this.attachmentFile = null;
   }
 
+  isFormValid(): boolean {
+    return this.description.trim() !== '' && this.categoryId !== null && this.attachmentFile !== null;
+  }
+
   onAddDocument(): void {
+    if (!this.isFormValid()) {
+      return;
+    }
+
+    this.isLoading = true;
     const formData = new FormData();
     const body = {
-      employeeId: this.data.employeeId,
+      employeeId: this.data?.employeeId || this.assignedValue,
       description: this.description,
       shareType: 'CURRENT_USER',
       documentCategoryId: this.categoryId
@@ -127,6 +140,9 @@ export class AddDocumentModalComponent implements OnInit {
         this.snackbar.open('An error occurred while creating the document. Please try again later.', 'Close', {
           duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom'
         });
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
   }

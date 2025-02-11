@@ -258,12 +258,30 @@ export class CreateEmployeeComponent implements OnInit {
       const startDateObj = this.firstFormGroup.value.startDate;
       // Format the date to 'YYYY-MM-DD'
       const formattedDate = startDateObj ? new Date(startDateObj).toLocaleDateString('en-CA') : '';
+
+      // Calculate probation end date (3 months from start date)
+      const startDate = new Date(formattedDate);
+      const probationEndDate = new Date(startDate.setMonth(startDate.getMonth() + 3));
+      const formattedProbationEndDate = probationEndDate.toLocaleDateString('en-CA'); // Format to '15-05-2025'
+
       // Simulate API call for employee creation
       const body: any = {
-        name: this.firstFormGroup.value.name, phone: this.firstFormGroup.value.phone, email: this.firstFormGroup.value.email, designationId: this.firstFormGroup.value.designation, departmentId: this.firstFormGroup.value.department, startDate: formattedDate, policyIds: this.selectedPolicyIds.join(','), positionId: this.secondFormGroup.value.position, teamId: this.secondFormGroup.value.team, countryId: this.secondFormGroup.value.location, employmentStatus: this.secondFormGroup.value.workingPattern
-      }
+        name: this.firstFormGroup.value.name,
+        phone: this.firstFormGroup.value.phone,
+        email: this.firstFormGroup.value.email,
+        designationId: this.firstFormGroup.value.designation,
+        departmentId: this.firstFormGroup.value.department,
+        startDate: formattedDate,
+        policyIds: this.selectedPolicyIds.join(','),
+        positionId: this.secondFormGroup.value.position,
+        teamId: this.secondFormGroup.value.team,
+        countryId: this.secondFormGroup.value.location,
+        employmentStatus: this.secondFormGroup.value.workingPattern,
+        probationEndDate: formattedProbationEndDate,
+        bankAccountNumber: ''
+      };
 
-      console.log(body, this.profilePicFile);
+      // console.log(body, this.profilePicFile);
       const formData = new FormData();
 
       // Ensure profilePic is valid before appending
@@ -282,6 +300,8 @@ export class CreateEmployeeComponent implements OnInit {
       formData.append('teamId', body.teamId);
       formData.append('countryId', body.countryId);
       formData.append('employmentStatus', body.employmentStatus);
+      formData.append('probationEndDate', body.probationEndDate);
+      formData.append('bankAccountNumber', body.bankAccountNumber);
 
       this.api.createEmployee(formData).subscribe({
         next: (response) => {
