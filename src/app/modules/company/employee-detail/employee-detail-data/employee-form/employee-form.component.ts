@@ -245,7 +245,7 @@ export class EmployeeFormComponent implements OnInit {
       email: this.employeeDetails.email,
       departmentId: this.employeeDetails.departmentid,
       designationId: this.employeeDetails.designationid,
-      startDate: this.employeeDetails.startdate,
+      startDate: this.formatDate(this.employeeDetails.startdate),
       positionId: this.employeeDetails.positionid,
       teamId: this.employeeDetails.teamid,
       employmentStatus: this.employeeDetails.employmentstatus,
@@ -253,8 +253,8 @@ export class EmployeeFormComponent implements OnInit {
       linkedInUrl: this.employeeDetails.linkedinurl,
       skypeUrl: this.employeeDetails.skypeurl,
       drivingLicence: this.employeeDetails.drivinglicense,
-      bankAccountNumber: this.employeeDetails.bankAccountNumber,
-      probationEndDate: this.formatDate(this.employeeDetails.probationEndDate)
+      bankAccountNumber: this.employeeDetails.bankaccountnumber,
+      probationEndDate: this.formatDate(this.employeeDetails.probationenddate)
       // eId: JSON.parse(this.employeeId)
     };
     // console.log(reqestBody, 'request body');

@@ -74,7 +74,7 @@ export class AssetsFormComponent implements OnInit {
     this.api.getAllocatedAssedOfEmp(this.employeeId).subscribe({
       next: (res) => {
         this.ELEMENT_DATA = res;
-        console.log(res);
+        // console.log(res);
       },
       error: () => {
         this.snackbar.open('Server error. Please try again.', 'Close', { duration: 3000, horizontalPosition: 'end', verticalPosition: 'bottom' });

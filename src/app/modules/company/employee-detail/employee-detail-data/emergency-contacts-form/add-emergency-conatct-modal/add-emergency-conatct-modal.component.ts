@@ -56,7 +56,17 @@ export class AddEmergencyConatctModalComponent implements OnInit {
 
   onSave(form: any): void {
     if (form.valid) {
-      const contactData = form.value;
+      const contactData = {
+        name: form.value.name,
+        relationship: form.value.relationship,
+        phone: form.value.phone,
+        workPhone: form.value.workPhone,
+        email: form.value.email,
+        country: form.value.country,
+        address: form.value.address,
+        postalCode: form.value.postalCode,
+        employeeId: this.data.employeeId
+      }
 
       // Call the appropriate API based on the mode
       const apiCall = this.isEditMode
@@ -71,7 +81,8 @@ export class AddEmergencyConatctModalComponent implements OnInit {
             { duration: 2000, horizontalPosition: 'end', verticalPosition: 'bottom' }
           );
         },
-        error: () => {
+        error: (err) => {
+          console.log(err, 'error');
           this.snackbar.open('Server error...', 'Close', {
             duration: 2000,
             horizontalPosition: 'end',

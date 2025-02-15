@@ -64,6 +64,8 @@ export class DocumentsFormComponent implements OnInit {
     this.api.getAllDocuments().pipe(
       map((res) => {
         const data: any[] = res.content; // Ensure correct type
+        // console.log('empID:', this.employeeId, 'total data:', data);
+
         return this.isGlobalDoc ? data.filter(emp => this.companyEmail === emp.createdby) : data.filter(emp => Number(this.employeeId) === emp.employeeid);
       }),
       takeUntilDestroyed(this.destroyRef) // Auto unsubscribe

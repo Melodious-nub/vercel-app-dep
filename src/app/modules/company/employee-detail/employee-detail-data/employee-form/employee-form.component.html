@@ -100,10 +100,10 @@
     <div class="col-lg-6">
       <mat-form-field appearance="outline" style="width: 100%;">
         <mat-label>Employee Probation End Date</mat-label>
-        <input matInput [matDatepicker]="probationEndDate" [(ngModel)]="employeeDetails.probationEndDate"
-          placeholder="Choose a date" name="probationEndDate">
-        <mat-datepicker-toggle matSuffix [for]="probationEndDate"></mat-datepicker-toggle>
-        <mat-datepicker #probationEndDate></mat-datepicker>
+        <input matInput [matDatepicker]="probationenddatePicker" [(ngModel)]="employeeDetails.probationenddate"
+          placeholder="Choose a date" name="probationenddate">
+        <mat-datepicker-toggle matSuffix [for]="probationenddatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #probationenddatePicker></mat-datepicker>
       </mat-form-field>
     </div>
 
@@ -111,7 +111,7 @@
     <div class="col-lg-6">
       <mat-form-field appearance="outline" style="width: 100%;">
         <mat-label>Bank Account Number</mat-label>
-        <input type="text" matInput name="bankAccountNumber" [(ngModel)]="employeeDetails.bankAccountNumber"
+        <input type="text" matInput name="bankaccountnumber" [(ngModel)]="employeeDetails.bankaccountnumber"
           placeholder="Type bank account number">
       </mat-form-field>
     </div>

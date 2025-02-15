@@ -41,7 +41,7 @@ export class TrainingFormComponent implements OnInit {
     const subscription = this.api.getAllTraining().pipe(
       map(res => {
         const data: any[] = res.content;
-        console.log(data);
+        // console.log(data);
         return this.isGlobalTraining ? data : data.filter(res => res.employeeIds?.some((id: any) => id === Number(this.employeeId)));
       })
     ).subscribe({

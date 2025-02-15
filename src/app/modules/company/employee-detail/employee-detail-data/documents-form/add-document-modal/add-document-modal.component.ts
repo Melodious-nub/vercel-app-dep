@@ -114,18 +114,18 @@ export class AddDocumentModalComponent implements OnInit {
     this.isLoading = true;
     const formData = new FormData();
     const body = {
-      employeeId: this.data?.employeeId || this.assignedValue,
+      employeeId: this.assignedValue,
       description: this.description,
-      shareType: 'CURRENT_USER',
+      shareType: 'SELECTED_USERS',
       documentCategoryId: this.categoryId
     }
 
     if (this.attachmentFile) {
       formData.append('file', this.attachmentFile);
-      console.log(this.attachmentFile, body);
+      // console.log('data of documents', body);
     }
     formData.append('description', body.description);
-    formData.append('employeeId', body.employeeId);
+    formData.append('sharedEmployeeIds', body.employeeId);
     formData.append('shareType', body.shareType);
     formData.append('documentCategoryId', JSON.stringify(body.documentCategoryId));
 

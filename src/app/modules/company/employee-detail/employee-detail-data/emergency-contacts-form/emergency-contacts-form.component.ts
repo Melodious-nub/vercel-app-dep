@@ -39,7 +39,7 @@ export class EmergencyContactsFormComponent implements OnInit {
     const dialogRef = this.dialog.open(AddEmergencyConatctModalComponent, {
       width: '600px',
       disableClose: true,
-      data: { employeeName: this.selectedEmployeeName }
+      data: { employeeName: this.selectedEmployeeName, employeeId: this.employeeId }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -57,10 +57,7 @@ export class EmergencyContactsFormComponent implements OnInit {
     const subscription = this.api.getAllEmergencyContact().pipe(
       map((res) => {
         const data: any[] = res.content;
-        return data.filter(emp => {
-          this.employeeId === emp.employeeId;
-          // console.log(emp);
-        });
+        return data.filter(emp => Number(this.employeeId) === emp.employeeId);
       }),
     ).subscribe({
       next: (res) => {

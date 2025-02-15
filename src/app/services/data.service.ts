@@ -25,7 +25,7 @@ export class DataService {
   }
 
   getAllEmployee() {
-    return this.http.get<any>(this.apiUrl + '/api/employee/all-employee');
+    return this.http.get<any>(this.apiUrl + '/api/employee/all-employee?page=0&size=99999');
   }
 
   getAllDepartments() {
@@ -106,7 +106,7 @@ export class DataService {
 
   // document section
   getAllDocuments() {
-    return this.http.get<any>(this.apiUrl + '/api/employee/document/all-by-employee');
+    return this.http.get<any>(this.apiUrl + '/api/employee/document/all-by-employee?page=0&size=99999');
   }
 
   createDocuments(data: any) {
@@ -170,7 +170,7 @@ export class DataService {
   }
 
   getAllEmergencyContact() {
-    return this.http.get<any>(`${this.apiUrl}/api/emergency-contact`);
+    return this.http.get<any>(`${this.apiUrl}/api/emergency-contact?page=0&size=99999`);
   }
 
   deleteEmergencyContact(id: any) {
