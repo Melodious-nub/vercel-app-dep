@@ -92,7 +92,7 @@ export class AddAssetModalComponent implements OnInit {
       formData.append('file', body.file);
     }
 
-    console.log(body);
+    // console.log(body);
 
     this.api.allocateAsset(formData).subscribe({
       next: () => {

@@ -151,7 +151,7 @@ export class DataService {
   }
 
   getAllTasks() {
-    return this.http.get<any>(`${this.apiUrl}/api/task`);
+    return this.http.get<any>(`${this.apiUrl}/api/task?page=0&size=99999`);
   }
 
   deleteTask(taskId: any) {
@@ -187,7 +187,7 @@ export class DataService {
   }
 
   getCompensation() {
-    return this.http.get<any>(`${this.apiUrl}/api/compensation`);
+    return this.http.get<any>(`${this.apiUrl}/api/compensation?page=0&size=99999`);
   }
 
   createCompensation(data: any) {
