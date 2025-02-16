@@ -112,7 +112,7 @@ export class AddNewTrainingModalComponent implements OnInit {
       file: this.attachmentFile,
       employeeIds: this.assignedValue
     }
-    console.log(reqBody);
+    // console.log(reqBody);
 
     const formData = new FormData();
 

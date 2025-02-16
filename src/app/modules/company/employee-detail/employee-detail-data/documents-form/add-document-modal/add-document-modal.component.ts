@@ -41,7 +41,7 @@ export class AddDocumentModalComponent implements OnInit {
   ]
 
   constructor(public dialogRef: MatDialogRef<AddDocumentModalComponent>, private destroyRef: DestroyRef, private api: DataService, private snackbar: MatSnackBar, @Inject(MAT_DIALOG_DATA) public data: { employeeId: any, employeeName: string, isGlobalDoc: boolean }) {
-    console.log(data.employeeId);
+    // console.log(data.employeeId);
 
   }
 
@@ -54,7 +54,7 @@ export class AddDocumentModalComponent implements OnInit {
   }
 
   selectedValueMultiple = new FormControl('');
-  assignedValue: string = ''; // This will hold the final string value
+  assignedValue: string = this.data.employeeId; // This will hold the final string value
   updateAssignedValue() {
     if (this.assignTo === 'specific') {
       this.assignedValue = JSON.stringify(this.selectedValue) || ''; // Single ID
@@ -122,7 +122,7 @@ export class AddDocumentModalComponent implements OnInit {
 
     if (this.attachmentFile) {
       formData.append('file', this.attachmentFile);
-      // console.log('data of documents', body);
+      console.log('data of documents', body);
     }
     formData.append('description', body.description);
     formData.append('sharedEmployeeIds', body.employeeId);
