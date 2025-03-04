@@ -39,6 +39,8 @@ import { VexScrollbarComponent } from '@vex/components/vex-scrollbar/vex-scrollb
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { VexSecondaryToolbarComponent } from "../../../../@vex/components/vex-secondary-toolbar/vex-secondary-toolbar.component";
+import { VexBreadcrumbsComponent } from "../../../../@vex/components/vex-breadcrumbs/vex-breadcrumbs.component";
 
 const colors: any = {
   blue: {
@@ -72,7 +74,9 @@ const colors: any = {
     CalendarWeekModule,
     CalendarDayModule,
     CalendarModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    VexSecondaryToolbarComponent,
+    VexBreadcrumbsComponent
   ],
   providers: [
     {
@@ -156,7 +160,7 @@ export class CalendarComponent {
   constructor(
     private dialog: MatDialog,
     private snackbar: MatSnackBar
-  ) {}
+  ) { }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {

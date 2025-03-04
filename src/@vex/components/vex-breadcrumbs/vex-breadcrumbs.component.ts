@@ -10,8 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
   template: `
     <div class="flex items-center gap-2">
       <vex-breadcrumb>
-        <a [routerLink]="['/']">
-          <mat-icon svgIcon="mat:home" class="icon-sm"></mat-icon>
+        <a [routerLink]="['/dashboard/analytics']">
+          <mat-icon svgIcon="mat:home" class="icon-sm ms-2"></mat-icon>
         </a>
       </vex-breadcrumb>
       <ng-container *ngFor="let crumb of crumbs; trackBy: trackByValue">

@@ -18,6 +18,7 @@ import { provideNavigation } from './core/navigation/navigation.provider';
 import { vexConfigs } from '@vex/config/vex-configs';
 import { provideQuillConfig } from 'ngx-quill';
 import { AuthInterceptor } from './auth.interceptor';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -41,6 +42,7 @@ export const appConfig: ApplicationConfig = {
 
     // ✅ Ensure Interceptors are correctly configured
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: LocationStrategy, useClass: PathLocationStrategy },
 
     provideVex({
       config: vexConfigs.poseidon,

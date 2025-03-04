@@ -13,6 +13,8 @@ import { WidgetQuickLineChartComponent } from '../components/widgets/widget-quic
 import { WidgetAssistantComponent } from '../components/widgets/widget-assistant/widget-assistant.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { VexSecondaryToolbarComponent } from "../../../../@vex/components/vex-secondary-toolbar/vex-secondary-toolbar.component";
+import { VexBreadcrumbsComponent } from "../../../../@vex/components/vex-breadcrumbs/vex-breadcrumbs.component";
 
 @Component({
   selector: 'vex-dashboard-analytics',
@@ -27,7 +29,9 @@ import { MatButtonModule } from '@angular/material/button';
     WidgetLargeGoalChartComponent,
     WidgetQuickValueCenterComponent,
     WidgetLargeChartComponent,
-    WidgetTableComponent
+    WidgetTableComponent,
+    VexSecondaryToolbarComponent,
+    VexBreadcrumbsComponent
   ]
 })
 export class DashboardAnalyticsComponent {
