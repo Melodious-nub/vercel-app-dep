@@ -105,7 +105,7 @@ export class EmployeeDetailMenuComponent implements OnInit {
       type: 'link',
       id: 'emergencyContacts',
       icon: 'mat:contact_phone',
-      label: 'Emergency contacts',
+      label: 'Emergency_contacts',
       // classes: {
       //   icon: 'text-primary-600'
       // }
@@ -128,24 +128,24 @@ export class EmployeeDetailMenuComponent implements OnInit {
     //   //   icon: 'text-primary-600'
     //   // }
     // },
-    // {
-    //   type: 'link',
-    //   id: 'reports',
-    //   icon: 'mat:pie_chart',
-    //   label: 'Reports',
-    //   // classes: {
-    //   //   icon: 'text-primary-600'
-    //   // }
-    // },
-    // {
-    //   type: 'link',
-    //   id: 'timeOff',
-    //   icon: 'mat:access_time',
-    //   label: 'Time off',
-    //   // classes: {
-    //   //   icon: 'text-primary-600'
-    //   // }
-    // },
+    {
+      type: 'link',
+      id: 'reports',
+      icon: 'mat:pie_chart',
+      label: 'Reports',
+      // classes: {
+      //   icon: 'text-primary-600'
+      // }
+    },
+    {
+      type: 'link',
+      id: 'timeOff',
+      icon: 'mat:access_time',
+      label: 'Time off',
+      // classes: {
+      //   icon: 'text-primary-600'
+      // }
+    },
     {
       type: 'link',
       id: 'compensation',
